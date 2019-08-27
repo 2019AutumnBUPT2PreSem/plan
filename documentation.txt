@@ -1,0 +1,40 @@
+#include<stdio.h>
+
+typedef struct
+{
+    int year;
+    int mon;
+    int day;
+    int h;
+    int min;
+    int sec;
+} time;
+
+"%02d/%02d/%02d %02d:%02d:%02d - %02d/%02d/%02d %02d:%02d:%02d ; %s - %s %02d %-6d\n", 
+fyear, fmon, fday, fh, fmin, fsec, tyear, tmon, tday, th, tmin, tsec, ftele, ttele, type, money
+
+struct
+{
+    time ftime;
+    time ttime;
+    char* ftele;
+    char* ttele;
+    int genre;
+    int money;
+}telelog;
+
+"%02d/%02d/%02d %02d:%02d:%02d %s %-6d %-6d\n",
+year, mon, day, h, min, sec, tele, data, money
+
+struct
+{  
+    time dtime;
+    char* tele;
+    int flow;
+    int money;
+}datalog;
+
+struct
+{
+    
+}
