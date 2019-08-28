@@ -20,9 +20,9 @@ int vdb_free_resource(tbl* resource)
 
 tbl* vdb_creat_table(tbl *resource)
 {
-    if(resource->rowNum < resource->locatedRowNum)
+    if(resource->info.rowNum < resource->locatedRowNum)
     {
-        resource->rowNum++;
+        resource->info.rowNum++;
         resource->prow[resource->rowNum] = ()
     }
     else

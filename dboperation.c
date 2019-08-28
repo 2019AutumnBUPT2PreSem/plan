@@ -5,7 +5,7 @@
 #include<stdlib.h>
 
 #define ROWLIMIT 100
-#define MANAGEDB 8
+#define COLUMNLIMIT 20
 
 typedef struct yymmddhhmmss
 {
@@ -17,36 +17,47 @@ typedef struct yymmddhhmmss
     int sec;
 } time;
 
-typedef struct tablerow
+typedef struct tableinfo
 {
-    int *pint;
-    char **pstr;
-    time *ptim;
-    float *pflo;
-    tbl *ptbl;
-    int key; //in this programe, key must be a int number.
-} tblrow;
-
-typedef struct tablecolumn
-{
-    int **phint;
-} tblclm;
-
-typedef struct table
-{
-    int recordMode; // -1 : abandon; 0 : anyway; 1 : row; 2 : column
-    char *name;
-    int keyIDColumn;
     int intNum;
     int strNum;
     int timNum;
     int floNum;
     int tblNum;
-    int locatedRowNum;
     int rowNum;
+    
+} tblinfo; // 
+
+typedef struct tablerow
+{
+    int *pint; // by default, pint[0] is internal ID, pint[1] is valid tag.
+    char **pstr;
+    time *ptim;
+    float *pflo;
+    tbl *ptbl;
+    int *keyID; //in this programe, key must be a int number.
+} tblrow;
+
+typedef struct tablecolumn
+{
+    int **phint; // pointer to the head of a list of int, all the same.
+    char ***phstr;
+    time **phtim;
+    float **phflo;
+    tbl **phtbl;
+    int **phkeyID;// note the correspondence of tbl and keyID is complicated in column mode
+} tblclm;
+
+typedef struct table
+{
+    int recordMode; // -1 : abandon; 0 : empty; 1 : row; 2 : column
+    char *name;
+    // int keyIDColumn; as key must be a int, the key will always be stored in front of the record. 1st
+    tblinfo info; 
     int *defaultMap;
+    int locatedRowNum;
     tblrow *prow;
-    tblclm *pclm;
+    //tblclm clm;
 } tbl;
 
 tblrow *loca_row(int n)
@@ -58,50 +69,80 @@ tbl *loca_table(int n)
     return (tbl *)malloc(n * sizeof(tbl));
 }
 
-void free_row()
+void free_row(tblrow *rowHead)
 {
-
-}
-void free_table()
-{
-
-}
-
-
-void init_row(tblrow *dirty_row)
-{
-    dirty_row -> pint = NULL;
-    dirty_row -> pstr = NULL;
-    dirty_row -> ptim = NULL;
-    dirty_row -> pflo = NULL;
-    dirty_row -> ptbl = NULL;
-    dirty_row -> key = -1;
-}
-void init_table(tbl *dirty_table)
-{
-    dirty_table->recordMode = 1;
-    dirty_table->name = NULL;
-    dirty_table->keyIDColumn = -1;
-    dirty_table->intNum = 0;
-    dirty_table->strNum = 0;
-    dirty_table->timNum = 0;
-    dirty_table->floNum = 0;
-    dirty_table->tblNum = 0;
-    dirty_table->prow = loca_row(ROWLIMIT);
-    if(dirty_table->prow == NULL)
+    if(rowHead != NULL)
     {
-        dirty_table->locatedRowNum = 0;
+        free(rowHead);
+    }
+}
+void free_table(tbl *tblHead)
+{
+
+}
+
+void read_table(FILE *pfile, tbl *target)
+{
+    if(checkhead(readhead(pfile), ))
+    {
+        for()
+        {
+            readrow();
+        }
     }
     else
     {
-        dirty_table->locatedRowNum = ROWLIMIT;
+        printf("fatal error, storage wrong.\n");
+    }
+    
+}
+void write_table(FILE *pfile, tbl source)
+{
+    writehead();
+    for()
+    {
+        writerow(); 
+    }
+}
+
+
+void init_row(tblrow *pdirty_row)
+{
+    pdirty_row -> pint = NULL;
+    pdirty_row -> pstr = NULL;
+    pdirty_row -> ptim = NULL;
+    pdirty_row -> pflo = NULL;
+    pdirty_row -> ptbl = NULL;
+    pdirty_row -> key = -1;
+}
+void init_info(tblinfo *pinfo)
+{
+    pinfo -> intNum = 0;
+    pinfo -> strNum = 0;
+    pinfo -> timNum = 0;
+    pinfo -> floNum = 0;
+    pinfo -> tblNum = 0;
+    pinfo -> rowNum = 0;
+}
+void init_table(tbl *pdirty_table)
+{
+    pdirty_table->recordMode = 0;
+    pdirty_table->name = NULL;
+    init_info(&pdirty_table->info);
+    pdirty_table->prow = loca_row(ROWLIMIT);
+    if(pdirty_table->prow == NULL)
+    {
+        pdirty_table->locatedRowNum = 0;
+    }
+    else
+    {
+        pdirty_table->locatedRowNum = ROWLIMIT;
         for(int i = 0; i < ROWLIMIT; i++)
         {
-            init_row(&dirty_table->prow[i]); 
+            init_row(&pdirty_table->prow[i]); 
         }
     }
-    dirty_table->rowNum = 0;
-    dirty_table->defaultMap = NULL;
+    pdirty_table->defaultMap = NULL;
 }
 
 tbl *expand_table(tbl * )
