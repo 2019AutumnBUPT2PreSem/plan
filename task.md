@@ -78,14 +78,15 @@ test
 ```
 存储方式为同一列的内容按顺序存在一个一维动态数组中。(提示，建立一个tblclm,存储这样的指针：申请来存储随时变动的内存写入指针的动态指针数组，而我们的指针指向该数组头)
 
+1.4.1 设计二维`int`数组的建立与回收函数。
+1.4.2 仿造(用编译预处理，宏)产生2维`float,time`数组的建立与回收函数。
+1.4.3 设计三维的字符串数组的建立与回收函数。
+
 1.4.1 设计纯粹表格读取函数，此函数定义为`void read_chart(FILE *pfile, tblinfo info, tblclm *targetclm)`。  
 1.4.2 设计上一个函数的反函数`void write_chart(FILE *pfile, tblinfo info, tblclm sourceclm)`。  
 1.4.3 设计文件整体读取并建立`table`的函数`void read_table(FILE *pfile, tbl *targettbl)`。  
 1.4.4 设计上一个函数的反函数`void write_table(FILE *pfile, tbl sourcetbl)`。  
 ***
-1.5 解决收尾问题，释放动态数组的内存，在一个table中我们至少有：各类2维数组，
-
-
-
-3 void read_row(FILE *pfile, tblinfo info, int rowNum, tblrow *inMem)
-4 void write_row(FILE *pfile, tblinfo info, int rowNum, tblrow row)
+1.5 解决收尾问题，释放`table`中的动态数组的内存，在一个`table`中我们至少有：各类2维数组(`int,char*,time,float`,暂不考虑tbl)，这些2维数组的列指针(都是动态申请而来。在表格读取时我们还用到了临时指针。
+***
+## 题目集2
