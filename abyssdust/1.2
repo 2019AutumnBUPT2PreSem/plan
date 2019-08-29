@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define STRLENLIMIT 16
+#define DEFAULTROWNUM 64
+typedef struct tableinfo  
+{  
+    int intNum;  
+    int strNum;  
+    int timNum;  
+    int floNum;  
+    int tblNum;  
+    int rowNum;   
+} tblinfo; 
+typedef struct table  
+{  
+    char name[STRLENLIMIT]; // max 16 char
+    int recordMode; // -1 : abandon; 0 : empty; 1 : column; 2 : row  
+    tblinfo info;
+} tbl ;
+void read_head(FILE *pfile, tbl table);
+void write_head(FILE *pfile, tbl inMem);
+int main()
+{
+    
+    FILE *pfile=fopen("test.rec","r");
+    tbl table;
+    
+    read_head(pfile,table);
+    fclose(pfile);
+    
+    pfile=fopen("test.rec","w");
+    
+    tbl inMem;
+    /*tblinfo info = {4,2,2,1,0,20};
+    inMem.name[0] = 't';
+    inMem.name[1] = 'e';
+    inMem.name[2] = 's';
+    inMem.name[3] = 't';
+    inMem.recordMode = 1;
+    inMem.info = info;
+    */
+    write_head(pfile,inMem);
+    printf("%s\n%d\n%d %d %d %d %d %d\n",inMem.name,inMem.recordMode,inMem.info.intNum,inMem.info.strNum,inMem.info.timNum,inMem.info.floNum,inMem.info.tblNum,inMem.info.rowNum);
+    fclose(pfile);
+    return 0;
+}
+void read_head(FILE *pfile, tbl table)
+{
+    while(fscanf(pfile,"%s\n%d\n%d %d %d %d %d %d\n",&table.name,&table.recordMode,&table.info.intNum,&table.info.strNum,&table.info.timNum,&table.info.floNum,&table.info.tblNum,&table.info.rowNum)!=EOF)
+    {
+        fscanf(pfile,"%s\n%d\n%d %d %d %d %d %d\n",&table.name,&table.recordMode,&table.info.intNum,&table.info.strNum,&table.info.timNum,&table.info.floNum,&table.info.tblNum,&table.info.rowNum);
+    }
+}
+void write_head(FILE *pfile, tbl inMem)
+{
+    fprintf(pfile,"%s\n%d\n%d %d %d %d %d %d\n",inMem.name,inMem.recordMode,inMem.info.intNum,inMem.info.strNum,inMem.info.timNum,inMem.info.floNum,inMem.info.tblNum,inMem.info.rowNum);
+}
