@@ -32,7 +32,7 @@ typedef struct tablerow
     char **pstr;
     time *ptim;
     float *pflo;
-    tbl *ptbl;
+    struct table *ptbl;
     int *keyID; //in this programe, key must be a int number.
 } tblrow;
 
@@ -42,7 +42,7 @@ typedef struct tablecolumn
     char ***phstr;
     time **phtim;
     float **phflo;
-    tbl **phtbl;
+    struct tbale **phtbl;
     int **phkeyID;// note the correspondence of tbl and keyID is complicated in column mode
 } tblclmh; // column head
 
