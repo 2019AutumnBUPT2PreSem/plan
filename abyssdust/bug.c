@@ -4,18 +4,18 @@
 
 #define constructD1(_db_type, n, init) (constructD1##_db_type((n),(init)))
 #define constructD2(_db_type, m, n, init) (constructD2##_db_type ((m),(n),(init)))
-#define destroyD1(_db_type, p ) (destoryD1##_db_type (*p))
-#define destroyD2(_db_type, p, m) (destoryD2##_db_type ((**p),(m)))
+#define destroyD1(_db_type, p ) (destoryD1##_db_type (p))
+#define destroyD2(_db_type, p, m) (destoryD2##_db_type ((p),(m)))
 
-// 创建类型为int的实例函数
+// 鍒涘缓绫诲瀷涓篿nt鐨勫疄渚嬪嚱鏁?
 #define _db_type int
 #include "construct.c"
 
-// 创建类型为char的实例函数
+// 鍒涘缓绫诲瀷涓篶har鐨勫疄渚嬪嚱鏁?
 #define _db_type char
 #include "construct.c"
 
-// 创建类型为float的实例函数
+// 鍒涘缓绫诲瀷涓篺loat鐨勫疄渚嬪嚱鏁?
 #define _db_type float
 #include "construct.c"
 
