@@ -1,4 +1,4 @@
-# Design of database
+   # Design of database
 data in storage:
 provider(<u>IDp</u>, validp, provName) [2 int, 1 char*]
 user(<u>IDu</u>, validu, gender, accType, *provider(IDp)*, userName, userID, teleNum, userPW, userEmail) [5 int, 5 char*]
@@ -40,10 +40,3 @@ user(<u>IDu</u>, validu, gender, accType, *provider(IDp)*, userName, userID, tel
       2            1                                                    c
       3            1                                                    b
 
-      (IDu, userID)
-
-1 void write_head(FILE *pfile, tbl inMem)
-2 void read_head(FILE *pfile, tblinfo info)
-
-3 void read_row(FILE *pfile, tblinfo info, int rowNum, tblrow *inMem)
-4 void write_row(FILE *pfile, tblinfo info, int rowNum, tblrow row)
