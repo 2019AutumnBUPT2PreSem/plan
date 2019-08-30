@@ -2,10 +2,10 @@
 #include<stdlib.h>
 
 
-#define constructD1(_db_type, init) (_db_type (init))
-#define constructD2(_db_type, init) (_db_type (init))
-#define destroyD1(_db_type) (_db_type () )
-#define destroyD2(_db_type) (_db_type () )
+#define constructD1(_db_type, n, init) (constructD1##_db_type((n),(init)))
+#define constructD2(_db_type, m, n, init) (constructD2##_db_type ((m),(n),(init)))
+#define destroyD1(_db_type, p ) (destoryD1##_db_type (*p))
+#define destroyD2(_db_type, p, m) (destoryD2##_db_type ((**p),(m)))
 
 // 创建类型为int的实例函数
 #define _db_type int
@@ -19,12 +19,12 @@
 #define _db_type float
 #include "construct.c"
 
-#include <stdio.h>
+
 
 int main()
 {
   int n;
-  n = constructD2(int,'/0');
+  n = constructD2(int,2,3,'/0');
   printf("hello");
  
 
