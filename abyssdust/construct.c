@@ -1,7 +1,7 @@
-#define constructD1 constructD1_##_db_type 
-#define constructD2 constructD2_##_db_type 
-#define destoryD1 destoryD1_##_db_type 
-#define destoryD2 destoryD2_##_db_type 
+#define constructD1 constructD1_ ## _db_type
+#define constructD2 constructD2_ ## _db_type 
+#define destoryD1 destoryD1_ ## _db_type
+#define destoryD2 destoryD2_ ## _db_type
 _db_type* constructD1(int n,_db_type init);
 _db_type** constructD2(int m, int n,_db_type init);
 
@@ -61,3 +61,9 @@ void destroyD2(_db_type **p, int m)
 }
 
 #undef _db_type
+
+#undef constructD1
+#undef constructD2 
+#undef destoryD1
+#undef destoryD2
+
