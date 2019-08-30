@@ -2,11 +2,13 @@
 #include<stdlib.h>
 
 
-#define construct(_db_type, init) (_db_type (init))
+#define constructD1(_db_type, init) (_db_type (init))
+#define constructD2(_db_type, init) (_db_type (init))
+#define destroyD1(_db_type) (_db_type () )
+#define destroyD2(_db_type) (_db_type () )
 
 // 创建类型为int的实例函数
 #define _db_type int
-
 #include "construct.c"
 
 // 创建类型为char的实例函数
@@ -22,10 +24,11 @@
 int main()
 {
   int n;
-  n = construct(int,'/0');
+  n = constructD2(int,'/0');
   printf("hello");
  
 
   return 0;
 }
+
 
