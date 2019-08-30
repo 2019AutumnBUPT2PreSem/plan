@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define _db_type char
+
 _db_type *_constructColumnD2(int n, _db_type init)
 {
     _db_type *newlist = (_db_type*)malloc(n * sizeof(_db_type));
@@ -40,6 +42,9 @@ _db_type *_access(_db_type *head, int rowlen, int m, int n)
 {
     return &head[_searchID(rowlen, m, n)];
 }
+
+
+
 
 #undef _db_type
 
