@@ -1,7 +1,6 @@
 #include<STDIO.H>
 #include<string.h>
 #include<stdlib.h>
-#define N 8
 typedef struct
 {
 	int cj;//数值
@@ -16,9 +15,13 @@ int compare(const void *p, const void *q)
 }
 	int main()
 {
+	int N=0;
+	printf("共要输入几个数"); 
+	scanf("%d",&N);
 	PAIR a[N]={};
 	int cj[N]={};
 	int px[N]={};
+	
 	printf("请输入%d个整数：", N);
 	for (int i=0;i<N;i++)
 	{
