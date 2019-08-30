@@ -1,0 +1,30 @@
+int characcess(char* tablerow  tblrow tableinfo  int m  int n)//搜索位置 
+{
+	int totlen=tableinfo.intNum+tableinfo.strNum+tableinfo.timNum+tableinfo.tblNum+tableinfo.floNum;//一整个分配的总长度 
+	int certer=0//指定项目 
+    certer=n+m*totlen;
+	return certer;
+}//char型的下标
+
+int intaccess(int * tablerow  tblrow tableinfo int m int n)//搜索位置 
+{
+	int totlen=tableinfo.intNum+tableinfo.strNum+tableinfo.timNum+tableinfo.tblNum+tableinfo.floNum;//一整个分配的总长度 
+	int certer=0//指定项目 
+    certer=n+m*totlen;
+	return certer;
+}//int型的下标
+int straccess(char* tablerow  tblrow tableinfo  int m  int n)//搜索位置 
+{
+	int totlen=tableinfo.intNum+tableinfo.strNum+tableinfo.timNum+tableinfo.tblNum+tableinfo.floNum;//一整个分配的总长度 
+	int certer=0//指定项目 
+    certer=n+m*totlen;
+	return certer;
+}//str型的下标
+
+int floaccess(int * tablerow  tblrow tableinfo int m int n)//搜索位置 
+{
+	int totlen=tableinfo.intNum+tableinfo.strNum+tableinfo.timNum+tableinfo.tblNum+tableinfo.floNum;//一整个分配的总长度 
+	int certer=0//指定项目 
+    certer=n+m*totlen;
+	return certer;
+}//float型的下标
