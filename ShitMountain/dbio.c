@@ -23,7 +23,8 @@ void write_head(FILE *pfile, tblinfo info);
 void display_info(tblinfo info);
 void set_info(tblinfo *info, const char* name, int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum);
 
-void 
+void read_chart();
+void write_chart();
 
 void read_head(FILE *pfile, tblinfo *info)
 {

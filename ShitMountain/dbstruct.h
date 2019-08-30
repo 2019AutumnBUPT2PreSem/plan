@@ -32,8 +32,6 @@ typedef struct tablerow
     char **pstr;
     time *ptim;
     float *pflo;
-    struct table *ptbl;
-    int *keyID; //in this programe, key must be a int number.
 } tblrow;
 
 typedef struct tablecolumn
@@ -42,8 +40,6 @@ typedef struct tablecolumn
     char ***phstr;
     time **phtim;
     float **phflo;
-    struct tbale **phtbl;
-    int **phkeyID;// note the correspondence of tbl and keyID is complicated in column mode
 } tblclmh; // column head
 
 typedef struct table
@@ -52,6 +48,7 @@ typedef struct table
     int recordMode; // -1 : abandon; 0 : empty; 1 : row; 2 : column
     tblrow *prow;
     tblclmh clm;
+    //struct tbale **phtbl;
 } tbl;
 
 #endif
