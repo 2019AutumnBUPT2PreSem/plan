@@ -4,6 +4,8 @@
 #include<stdio.h>
 #include"dbstruct.h"
 
+
+
 /*
 in 1 file ther will be 16 char and 8 int to describe the chart follows.
 16 char is for name,
@@ -18,15 +20,20 @@ the ints are:
 8 0
 */
 
-void read_head(FILE *pfile, tblinfo *info);
-void write_head(FILE *pfile, tblinfo info);
-void display_info(tblinfo info);
-void set_info(tblinfo *info, const char* name, int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum);
+void readHead(FILE *pfile, tblinfo *info);
+void writeHead(FILE *pfile, tblinfo info);
+void displayInfo(tblinfo info);
+void setInfo(tblinfo *info, const char* name, int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum);
 
-void read_chart();
-void write_chart();
+void readItem(FILE *pfile, tblinfo *info, char **);
+void writeItem();
+void displayItem();
+void setItem();
 
-void read_head(FILE *pfile, tblinfo *info)
+void readChart();
+void writeChart();
+
+void readHead(FILE *pfile, tblinfo *info)
 {
     int temp;
     fread(info->name, sizeof(char), STRLENLIMIT, pfile);
@@ -39,7 +46,7 @@ void read_head(FILE *pfile, tblinfo *info)
     fread(&temp, sizeof(int), 1, pfile);
     fread(&temp, sizeof(int), 1, pfile);
 }
-void write_head(FILE *pfile, tblinfo info)
+void writeHead(FILE *pfile, tblinfo info)
 {
     int temp = 0;
     fwrite(info.name, sizeof(char), STRLENLIMIT, pfile);
@@ -52,7 +59,7 @@ void write_head(FILE *pfile, tblinfo info)
     fwrite(&temp, sizeof(int), 1, pfile);
     fwrite(&temp, sizeof(int), 1, pfile);
 }
-void display_info(tblinfo info)
+void displayInfo(tblinfo info)
 {
     printf("name : ");
     for(int i = 0; i < STRLENLIMIT; i++)
@@ -62,7 +69,7 @@ void display_info(tblinfo info)
     printf("\nintNum : %d\nstrNum : %d\ntimNum : %d\nfloNum : %d\ntblNum : %d\nrowNum : %d\n", 
            info.intNum, info.strNum, info.timNum, info.floNum, info.tblNum, info.rowNum);
 }
-void set_info(tblinfo *info, const char* name, 
+void setInfo(tblinfo *info, const char* name, 
               int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum)
 {
     int i;

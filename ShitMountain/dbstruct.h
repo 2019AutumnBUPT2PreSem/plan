@@ -13,7 +13,10 @@ typedef struct yymmddhhmmss
     int min;
     int sec;
 } time;
-
+typedef struct char16
+{
+    char c[STRLENLIMIT];
+} nam;
 typedef struct tableinfo
 {
     char name[16];
@@ -23,9 +26,8 @@ typedef struct tableinfo
     int floNum;
     int tblNum;
     int rowNum;
-    
 } tblinfo;
-
+/*
 typedef struct tablerow
 {
     int *pint; // by default, pint[0] is internal ID, pint[1] is valid tag.
@@ -33,7 +35,7 @@ typedef struct tablerow
     time *ptim;
     float *pflo;
 } tblrow;
-
+*/
 typedef struct tablecolumn
 {
     int **phint; // pointer to the head of a list of int, all the same.
@@ -45,8 +47,9 @@ typedef struct tablecolumn
 typedef struct table
 {
     tblinfo info;
+    nam *item;
     int recordMode; // -1 : abandon; 0 : empty; 1 : row; 2 : column
-    tblrow *prow;
+    //tblrow *prow;
     tblclmh clm;
     //struct tbale **phtbl;
 } tbl;
