@@ -4,11 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define _db_type_ char
-
-_db_type_ *construct_column_D2(int n, _db_type_ init)
+_db_type *_constructColumnD2(int n, _db_type init)
 {
-    _db_type_ *newlist = (_db_type_*)malloc(n * sizeof(_db_type_));
+    _db_type *newlist = (_db_type*)malloc(n * sizeof(_db_type));
     if(newlist != NULL)
     {
         for(int i = 0; i < n; i++)
@@ -19,7 +17,7 @@ _db_type_ *construct_column_D2(int n, _db_type_ init)
     return newlist;
 }
 
-void destroy_column_D2(_db_type_ *poi)
+void _destroyColumnD2(_db_type *poi)
 {
     if(poi == NULL)
     {
@@ -31,8 +29,18 @@ void destroy_column_D2(_db_type_ *poi)
     }
 }
 
+int _searchID(int rowlen, int m, int n)//搜索位置 
+{
+	int certer=0;
+    certer = n + m * rowlen;
+	return certer;
+}
 
+_db_type *_access(_db_type *head, int rowlen, int m, int n)
+{
+    return &head[_searchID(rowlen, m, n)];
+}
 
-
+#undef _db_type
 
 #endif
