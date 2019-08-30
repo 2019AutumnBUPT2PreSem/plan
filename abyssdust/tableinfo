@@ -1,0 +1,31 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+#define construct(_db_type, init) (_db_type (init))
+
+// 创建类型为int的实例函数
+#define _db_type int
+
+#include "construct.c"
+
+// 创建类型为char的实例函数
+#define _db_type char
+#include "construct.c"
+
+// 创建类型为float的实例函数
+#define _db_type float
+#include "construct.c"
+
+#include <stdio.h>
+
+int main()
+{
+  int n;
+  n = construct(int,'/0');
+  printf("hello");
+ 
+
+  return 0;
+}
+
