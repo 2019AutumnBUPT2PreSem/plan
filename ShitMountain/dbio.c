@@ -3,7 +3,7 @@
 
 #include<stdio.h>
 #include"dbstruct.h"
-#include"DBOPERATION.C"
+#include"dboperation.c"
 
 /*
 in 1 file ther will be 16 char and 8 int to describe the chart follows.
@@ -27,6 +27,9 @@ void writeItem(FILE *pfile, tblinfo info, nam *pitem);
 
 void readChart(FILE *pfile, tblinfo info, tblclmh *clm);
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
+
+void readTable();
+void writeTable();
 
 void readHead(FILE *pfile, tblinfo *pinfo)
 {
@@ -72,7 +75,7 @@ void writeItem(FILE *pfile, tblinfo info, nam *pitem)
 
 void readChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
-    tblclmh temp = newTblclmh(info);
+    tblclmh temp = creatTblclmh(info);
     cpyTblclmh(info, clm, temp);
     for(int i = 0; i < info.rowNum; i++)
     {
@@ -100,8 +103,33 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm)
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
-    
+    tblclmh temp = creatTblclmh(info);
+    cpyTblclmh(info, clm, temp);
+    for(int i = 0; i < info.rowNum; i++)
+    {
+        for (int j = 0; j < info.intNum; j++)
+        {
+            fwrite(temp.phint[i],sizeof(int), 1, pfile);
+            temp.phint[i]++;
+        }
+        for (int j = 0; j < info.namNum; j++)
+        {
+            fwrite(temp.phnam[i],sizeof(nam), 1, pfile);
+            temp.phnam[i]++;
+        }
+        for (int j = 0; j < info.timNum; j++)
+        {
+            fwrite(temp.phtim[i],sizeof(time), 1, pfile);
+            temp.phtim[i]++;
+        }
+        for (int j = 0; j < info.floNum; j++)
+        {
+            fwrite(temp.phflo[i],sizeof(float), 1, pfile);
+            temp.phflo[i]++;
+        }
+    }
 }
+
 
 
 #endif

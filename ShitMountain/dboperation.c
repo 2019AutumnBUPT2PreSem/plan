@@ -1,14 +1,17 @@
 #ifndef DBOPERATION_C
 #define DBOPERATION_C
+
+#include"arraysupport.c"
 #include"dbstruct.h"
-
-
 
 void displayInfo(tblinfo info);
 void setInfo(tblinfo *pinfo, const char* name, int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum);
 
 void displayItem(tblinfo info, nam *pitem);
-void setItem(tblinfo info, nam **ppitem);
+//void setItem(tblinfo info, nam **ppitem);
+
+tblclmh creatTblclmh(tblinfo info);
+void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2);
 
 void displayInfo(tblinfo info)
 {
@@ -57,33 +60,21 @@ void displayItem(tblinfo info, nam *pitem)
         printf("|");
     }
 }
+/*
 void setItem(tblinfo info, nam **ppitem)
 {
 
 }
+*/
 
-tblclmh newTblclmh(tblinfo info)
+tblclmh creatTblclmh(tblinfo info)
 {
     tblclmh newclmh;
-    nam blankNam;
-    for(int i = 0; i < STRLENLIMIT )
-    {
-        blankNam.c[i] = '\0';
-    }
-    time blankTime;
-    blankTime.yea = 0;
-    blankTime.mon = 0;
-    blankTime.day = 0;
-    blankTime.hou = 0;
-    blankTime.min = 0;
-    blankTime.sec = 0;
-
-    newclmh.phint = constructD1(intp, info.intNum, 0);
-    newclmh.phnam = constructD1(namp, info.namNum, blankNam);
-    newclmh.phtim = constructD1(timp, info.timNum, blankTime);
-    newclmh.phflo = constructD1(flop, info.floNum, 0.0);
+    newclmh.phint = constructD1(intp, info.intNum, NULL);
+    newclmh.phnam = constructD1(namp, info.namNum, NULL);
+    newclmh.phtim = constructD1(timp, info.timNum, NULL);
+    newclmh.phflo = constructD1(flop, info.floNum, NULL);
 }
-
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
 {
     for(int i = 0; i < info.intNum; i ++)
@@ -104,4 +95,25 @@ void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
     }
 }
 
+nam giveBlankNam(void)
+{
+    nam blankNam;
+    for(int i = 0; i < STRLENLIMIT; i++)
+    {
+        blankNam.c[i] = '\0';
+    }
+    return blankNam;
+}
+time giveBlankTime(void)
+{
+    time blankTime;
+    blankTime.yea = 0;
+    blankTime.mon = 0;
+    blankTime.day = 0;
+    blankTime.hou = 0;
+    blankTime.min = 0;
+    blankTime.sec = 0;
+    return blankTime;
+}
+    
 #endif
