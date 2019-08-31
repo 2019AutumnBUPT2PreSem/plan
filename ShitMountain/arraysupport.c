@@ -26,6 +26,18 @@ typedef int* intp;
 #define _db_type intp
 #include "multitype.c"
 
+typedef nam* intp;
+#define _db_type intp
+#include "multitype.c"
+
+typedef time* intp;
+#define _db_type intp
+#include "multitype.c"
+
+typedef float* intp;
+#define _db_type intp
+#include "multitype.c"
+
 // constructD1  constructs a one-dimensional array
 #define constructD1(_db_type, n, init) (constructD1_##_db_type((n),(init)))
 
