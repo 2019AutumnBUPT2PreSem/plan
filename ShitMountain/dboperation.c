@@ -81,7 +81,7 @@ tblclmh assignTblclmh(tblinfo info)
     newclmh.phint = constructD1(intp, info.intNum, NULL);
     if(newclmh.phint == NULL)
     {
-        destroyD1(info.intNum,newclmh.phint);
+        destroyD1(intp,newclmh.phint);
         return giveBlankClmh();
     }
     else
@@ -89,8 +89,8 @@ tblclmh assignTblclmh(tblinfo info)
         newclmh.phnam = constructD1(namp, info.namNum, NULL);
         if(newclmh.phnam == NULL)
         {
-            destroyD1(info.intNum,newclmh.phint);
-            destroyD1(info.namNum,newclmh.phnam);
+            destroyD1(intp,newclmh.phint);
+            destroyD1(namp,newclmh.phnam);
             return giveBlankClmh();
         }
         else
@@ -98,9 +98,9 @@ tblclmh assignTblclmh(tblinfo info)
             newclmh.phtim = constructD1(timp, info.timNum, NULL);
             if(newclmh.phtim == NULL)
             {
-                destroyD1(info.intNum,newclmh.phint);
-                destroyD1(info.namNum,newclmh.phnam);
-                destroyD1(info.timNum,newclmh.phtim);
+                destroyD1(intp,newclmh.phint);
+                destroyD1(namp,newclmh.phnam);
+                destroyD1(timp,newclmh.phtim);
                 return giveBlankClmh();
             }
             else
@@ -108,10 +108,10 @@ tblclmh assignTblclmh(tblinfo info)
                 newclmh.phflo = constructD1(flop, info.floNum, NULL);
                 if(newclmh.phflo = NULL)
                 {
-                    destroyD1(info.intNum,newclmh.phint);
-                    destroyD1(info.namNum,newclmh.phnam);
-                    destroyD1(info.timNum,newclmh.phtim);
-                    destroyD1(info.floNum,newclmh.phflo);
+                    destroyD1(intp,newclmh.phint);
+                    destroyD1(namp,newclmh.phnam);
+                    destroyD1(timp,newclmh.phtim);
+                    destroyD1(flop,newclmh.phflo);
                     return giveBlankClmh();
                 }
             }
