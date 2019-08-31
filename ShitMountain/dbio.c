@@ -58,7 +58,7 @@ void writeHead(FILE *pfile, tblinfo info);
 void readItem(FILE *pfile, tblinfo info, nam *pitem);
 void writeItem(FILE *pfile, tblinfo info, nam *pitem);
 
-void readChart(FILE *pfile, tblinfo info, tblclmh *clm);
+void readChart(FILE *pfile, tblinfo info, tblclmh clm);
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
 
 void readHead(FILE *pfile, tblinfo *pinfo)
@@ -103,10 +103,21 @@ void writeItem(FILE *pfile, tblinfo info, nam *pitem)
     }
 }
 
-void readChart(FILE *pfile, tblinfo info, tblclmh *clm)
+void readChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
-    tblclmh temp = cons
-    for(int i = 0; i < )
+    tblclmh temp = newTblclmh(info);
+    cpyTblclmh(info, clm, temp);
+    for(int i = 0; i < info.rowNum; i++)
+    {
+        for (int j = 0; j < info.intNum; j++)
+        {
+            fread(temp.phint[i],sizeof(int), 1, pfile);
+            temp.phint[i]++;
+        }
+        //
+        //
+        //
+    }
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
