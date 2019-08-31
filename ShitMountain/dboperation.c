@@ -63,7 +63,6 @@ void displayItem(tblinfo info, nam *pitem)
 /*
 void setItem(tblinfo info, nam **ppitem)
 {
-
 }
 */
 
@@ -82,24 +81,42 @@ tblclmh assignTblclmh(tblinfo info)
     newclmh.phint = constructD1(intp, info.intNum, NULL);
     if(newclmh.phint == NULL)
     {
+        destroyD1(info.intNum,newclmh.phint);
         return giveBlankClmh();
     }
     else
     {
         newclmh.phnam = constructD1(namp, info.namNum, NULL);
-        if()
+        if(newclmh.phnam == NULL)
         {
-
+            destroyD1(info.intNum,newclmh.phint);
+            destroyD1(info.namNum,newclmh.phnam);
+            return giveBlankClmh();
         }
         else
         {
-            
+            newclmh.phtim = constructD1(timp, info.timNum, NULL);
+            if(newclmh.phtim == NULL)
+            {
+                destroyD1(info.intNum,newclmh.phint);
+                destroyD1(info.namNum,newclmh.phnam);
+                destroyD1(info.timNum,newclmh.phtim);
+                return giveBlankClmh();
+            }
+            else
+            {
+                newclmh.phflo = constructD1(flop, info.floNum, NULL);
+                if(newclmh.phflo = NULL)
+                {
+                    destroyD1(info.intNum,newclmh.phint);
+                    destroyD1(info.namNum,newclmh.phnam);
+                    destroyD1(info.timNum,newclmh.phtim);
+                    destroyD1(info.floNum,newclmh.phflo);
+                    return giveBlankClmh();
+                }
+            }
         }
-        
     }
-    
-    newclmh.phtim = constructD1(timp, info.timNum, NULL);
-    newclmh.phflo = constructD1(flop, info.floNum, NULL);
 }
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
 {
