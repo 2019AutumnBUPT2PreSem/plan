@@ -4,14 +4,12 @@
 #include<stdio.h>
 #include"dbstruct.h"
 
-
-
 /*
 in 1 file ther will be 16 char and 8 int to describe the chart follows.
 16 char is for name,
 the ints are:
 1 intNum
-2 strNum
+2 namNum
 3 timNum
 4 floNum
 5 tblNum
@@ -20,38 +18,34 @@ the ints are:
 8 0
 */
 
-void readHead(FILE *pfile, tblinfo *info);
+void readHead(FILE *pfile, tblinfo *pinfo);
 void writeHead(FILE *pfile, tblinfo info);
-void displayInfo(tblinfo info);
-void setInfo(tblinfo *info, const char* name, int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum);
 
-void readItem(FILE *pfile, tblinfo *info, char **);
-void writeItem();
-void displayItem();
-void setItem();
+void readItem(FILE *pfile, tblinfo info, nam *pitem);
+void writeItem(FILE *pfile, tblinfo info, nam *pitem);
 
-void readChart();
-void writeChart();
+void readChart(FILE *pfile, tblinfo info, tblclmh *clm);
+void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
 
-void readHead(FILE *pfile, tblinfo *info)
+void readHead(FILE *pfile, tblinfo *pinfo)
 {
     int temp;
-    fread(info->name, sizeof(char), STRLENLIMIT, pfile);
-    fread(&info->intNum, sizeof(int), 1, pfile);
-    fread(&info->strNum, sizeof(int), 1, pfile);
-    fread(&info->timNum, sizeof(int), 1, pfile);
-    fread(&info->floNum, sizeof(int), 1, pfile);
-    fread(&info->tblNum, sizeof(int), 1, pfile);
-    fread(&info->rowNum, sizeof(int), 1, pfile);
+    fread(pinfo->name.c, sizeof(char), STRLENLIMIT, pfile);
+    fread(&pinfo->intNum, sizeof(int), 1, pfile);
+    fread(&pinfo->namNum, sizeof(int), 1, pfile);
+    fread(&pinfo->timNum, sizeof(int), 1, pfile);
+    fread(&pinfo->floNum, sizeof(int), 1, pfile);
+    fread(&pinfo->tblNum, sizeof(int), 1, pfile);
+    fread(&pinfo->rowNum, sizeof(int), 1, pfile);
     fread(&temp, sizeof(int), 1, pfile);
     fread(&temp, sizeof(int), 1, pfile);
 }
 void writeHead(FILE *pfile, tblinfo info)
 {
     int temp = 0;
-    fwrite(info.name, sizeof(char), STRLENLIMIT, pfile);
+    fwrite(info.name.c, sizeof(char), STRLENLIMIT, pfile);
     fwrite(&info.intNum, sizeof(int), 1, pfile);
-    fwrite(&info.strNum, sizeof(int), 1, pfile);
+    fwrite(&info.namNum, sizeof(int), 1, pfile);
     fwrite(&info.timNum, sizeof(int), 1, pfile);
     fwrite(&info.floNum, sizeof(int), 1, pfile);
     fwrite(&info.tblNum, sizeof(int), 1, pfile);
@@ -59,39 +53,30 @@ void writeHead(FILE *pfile, tblinfo info)
     fwrite(&temp, sizeof(int), 1, pfile);
     fwrite(&temp, sizeof(int), 1, pfile);
 }
-void displayInfo(tblinfo info)
+
+void readItem(FILE *pfile, tblinfo info, nam *pitem)
 {
-    printf("name : ");
-    for(int i = 0; i < STRLENLIMIT; i++)
+    for(int i = 0; i < (info.intNum +  info.namNum + info.timNum + info.floNum); i++)
     {
-        printf("%c", info.name[i]);
+        fread(pitem[i].c, sizeof(char), 16, pfile);
     }
-    printf("\nintNum : %d\nstrNum : %d\ntimNum : %d\nfloNum : %d\ntblNum : %d\nrowNum : %d\n", 
-           info.intNum, info.strNum, info.timNum, info.floNum, info.tblNum, info.rowNum);
 }
-void setInfo(tblinfo *info, const char* name, 
-              int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum)
+void writeItem(FILE *pfile, tblinfo info, nam *pitem)
 {
-    int i;
-    for(i = 0; i < STRLENLIMIT; i++)
+    for(int i = 0; i < (info.intNum +  info.namNum + info.timNum + info.floNum); i++)
     {
-        if(i > 0 && info->name[i - 1] == '\0')
-        {
-            info->name[i] = '\0';
-        }
-        else
-        {
-            info->name[i] = name[i];
-        }
+        fwrite(pitem[i].c, sizeof(char), 16, pfile);
     }
-    info->intNum = intNum;
-    info->strNum = strNum;
-    info->timNum = timNum;
-    info->floNum = floNum;
-    info->tblNum = tblNum;
-    info->rowNum = rowNum;
 }
 
+void readChart(FILE *pfile, tblinfo info, tblclmh *clm)
+{
+
+}
+void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
+{
+    
+}
 
 
 #endif

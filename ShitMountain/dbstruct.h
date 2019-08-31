@@ -19,9 +19,9 @@ typedef struct char16
 } nam;
 typedef struct tableinfo
 {
-    char name[16];
+    nam name;
     int intNum;
-    int strNum;
+    int namNum;
     int timNum;
     int floNum;
     int tblNum;
@@ -31,7 +31,7 @@ typedef struct tableinfo
 typedef struct tablerow
 {
     int *pint; // by default, pint[0] is internal ID, pint[1] is valid tag.
-    char **pstr;
+    nam *pnam;
     time *ptim;
     float *pflo;
 } tblrow;
@@ -39,7 +39,7 @@ typedef struct tablerow
 typedef struct tablecolumn
 {
     int **phint; // pointer to the head of a list of int, all the same.
-    char ***phstr;
+    nam **phnam;
     time **phtim;
     float **phflo;
 } tblclmh; // column head
@@ -47,7 +47,8 @@ typedef struct tablecolumn
 typedef struct table
 {
     tblinfo info;
-    nam *item;
+    nam *pitem;
+    int *defaultmap;
     int recordMode; // -1 : abandon; 0 : empty; 1 : row; 2 : column
     //tblrow *prow;
     tblclmh clm;
