@@ -1,3 +1,6 @@
+//Scarecrow and abyssdust
+
+
 #ifndef ARRAYSUPPORT_C
 #define ARRAYSUPPORT_C
 
