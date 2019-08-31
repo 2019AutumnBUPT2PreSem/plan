@@ -26,16 +26,16 @@ typedef int* intp;
 #define _db_type intp
 #include "multitype.c"
 
-typedef nam* intp;
-#define _db_type intp
+typedef nam* namp;
+#define _db_type namp
 #include "multitype.c"
 
-typedef time* intp;
-#define _db_type intp
+typedef time* timp;
+#define _db_type timp
 #include "multitype.c"
 
-typedef float* intp;
-#define _db_type intp
+typedef float* flop;
+#define _db_type flop
 #include "multitype.c"
 
 // constructD1  constructs a one-dimensional array
