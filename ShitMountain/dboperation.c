@@ -67,11 +67,37 @@ void setItem(tblinfo info, nam **ppitem)
 }
 */
 
-tblclmh creatTblclmh(tblinfo info)
+tblclmh giveBlankClmh(void)
+{
+    tblclmh newclmh;
+    newclmh.phint = NULL;
+    newclmh.phnam = NULL;
+    newclmh.phtim = NULL;
+    newclmh.phflo = NULL;
+}
+
+tblclmh assignTblclmh(tblinfo info)
 {
     tblclmh newclmh;
     newclmh.phint = constructD1(intp, info.intNum, NULL);
-    newclmh.phnam = constructD1(namp, info.namNum, NULL);
+    if(newclmh.phint == NULL)
+    {
+        return giveBlankClmh();
+    }
+    else
+    {
+        newclmh.phnam = constructD1(namp, info.namNum, NULL);
+        if()
+        {
+
+        }
+        else
+        {
+            
+        }
+        
+    }
+    
     newclmh.phtim = constructD1(timp, info.timNum, NULL);
     newclmh.phflo = constructD1(flop, info.floNum, NULL);
 }
