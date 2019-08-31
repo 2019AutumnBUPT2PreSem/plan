@@ -1,6 +1,4 @@
 //Scarecrow and abyssdust
-
-
 #ifndef ARRAYSUPPORT_C
 #define ARRAYSUPPORT_C
 
@@ -22,6 +20,10 @@
 
 // construct supportive function that deals with int
 #define _db_type float
+#include "multitype.c"
+
+typedef int* intp;
+#define _db_type intp
 #include "multitype.c"
 
 // constructD1  constructs a one-dimensional array

@@ -3,6 +3,40 @@
 
 #include<stdio.h>
 #include"dbstruct.h"
+#include"DBOPERATION.C"
+
+tblclmh newTblclmh(tblinfo info)
+{
+    tblclmh newclmh;
+    nam blankNam;
+    for(int i = 0; i < STRLENLIMIT )
+    {
+        blankNam.c[i] = '\0';
+    }
+    time blankTime;
+    blankTime.yea = 0;
+    blankTime.mon = 0;
+    blankTime.day = 0;
+    blankTime.hou = 0;
+    blankTime.min = 0;
+    blankTime.sec = 0;
+
+    newclmh.phint = constructD1(intp, info.intNum, 0);
+    newclmh.phnam = constructD1(namp, info.namNum, blankNam);
+    newclmh.phtim = constructD1(timp, info.timNum, blankTime);
+    newclmh.phflo = constructD1(flop, info.floNum, 0.0);
+}
+
+void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
+{
+    for(int i = 0; i < info.intNum; i ++)
+    {
+        clmh2.phint[i] = clmh1.phint[i];
+    }
+    // add
+    //
+    //
+}
 
 /*
 in 1 file ther will be 16 char and 8 int to describe the chart follows.
@@ -71,7 +105,8 @@ void writeItem(FILE *pfile, tblinfo info, nam *pitem)
 
 void readChart(FILE *pfile, tblinfo info, tblclmh *clm)
 {
-    
+    tblclmh temp = cons
+    for(int i = 0; i < )
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
