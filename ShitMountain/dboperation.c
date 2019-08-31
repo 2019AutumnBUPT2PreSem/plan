@@ -1,12 +1,18 @@
 #ifndef DBOPERATION_C
 #define DBOPERATION_C
+
 #include"dbstruct.h"
+#include"arraysupport.c"
+#include<stdio.h>
 
 void displayInfo(tblinfo info);
-void setInfo(tblinfo *pinfo, const char* name, int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum);
+void setInfo(tblinfo *pinfo, const char* name, int intNum, int namNum, int timNum, int floNum, int tblNum, int rowNum);
 
 void displayItem(tblinfo info, nam *pitem);
-void setItem(tblinfo info, nam **ppitem);
+void setItem(tblinfo info, nam *ppitem);
+
+void displayChart();
+void addRow2Chart();   
 
 void displayInfo(tblinfo info)
 {
