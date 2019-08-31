@@ -1,3 +1,4 @@
+//m and n can't be zero.
 #include<stdio.h>
 #include<stdlib.h>
 #include"dbstruct.h"
@@ -79,7 +80,7 @@ void _initD2(_db_type **p, int m, int n, _db_type init)
 		}
 	}
 }
-void destroyD2(_db_type **p, int m)
+void _destroyD2(_db_type **p, int m)
 {
 	if(p != NULL)
 	{
@@ -159,7 +160,7 @@ _db_type *_access(_db_type *head, int rowlen, int m, int n)
 
 #undef _constructD1
 #undef _constructD2 
-#undef destoryD1
-#undef destoryD2
+#undef _destoryD1
+#undef _destoryD2
 #undef _initD1
 #undef _initD2
