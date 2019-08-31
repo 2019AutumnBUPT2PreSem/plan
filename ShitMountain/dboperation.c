@@ -43,7 +43,7 @@ void setInfo(tblinfo *pinfo, const char* name,
 
 void displayItem(tblinfo info, nam *pitem)
 {
-
+    
 }
 void setItem(tblinfo info, nam **ppitem)
 {

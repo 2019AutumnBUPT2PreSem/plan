@@ -71,7 +71,7 @@ void writeItem(FILE *pfile, tblinfo info, nam *pitem)
 
 void readChart(FILE *pfile, tblinfo info, tblclmh *clm)
 {
-
+    
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
