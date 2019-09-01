@@ -16,8 +16,8 @@ void displayInfo(tblinfo info)
     {
         printf("%c", info.name.c[i]);
     }
-    printf("\nintNum : %d\nstrNum : %d\ntimNum : %d\nfloNum : %d\ntblNum : %d\nrowNum : %d\n", 
-           info.intNum, info.namNum, info.timNum, info.floNum, info.tblNum, info.rowNum);
+    printf("\nintNum : %d\nstrNum : %d\ntimNum : %d\nfloNum : %d\nrowNum : %d\n", 
+           info.intNum, info.namNum, info.timNum, info.floNum, info.rowNum);
 }
 
 void displayItem(tblinfo info, nam *pitem)
