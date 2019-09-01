@@ -107,7 +107,6 @@ void _destroyD2(_db_type **p, int m)
 		}
     	free(p);
 	}
-    
 }
 _db_type** _constructD2(int m, int n, _db_type init)
 {
