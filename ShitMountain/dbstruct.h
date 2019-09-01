@@ -55,4 +55,32 @@ typedef struct table
     //struct tbale **phtbl;
 } tbl;
 
+tblclmh giveBlankClmh(void)
+{
+    tblclmh newclmh;
+    newclmh.phint = NULL;
+    newclmh.phnam = NULL;
+    newclmh.phtim = NULL;
+    newclmh.phflo = NULL;
+}
+nam giveBlankNam(void)
+{
+    nam blankNam;
+    for(int i = 0; i < STRLENLIMIT; i++)
+    {
+        blankNam.c[i] = '\0';
+    }
+    return blankNam;
+}
+time giveBlankTime(void)
+{
+    time blankTime;
+    blankTime.yea = 0;
+    blankTime.mon = 0;
+    blankTime.day = 0;
+    blankTime.hou = 0;
+    blankTime.min = 0;
+    blankTime.sec = 0;
+    return blankTime;
+}
 #endif
