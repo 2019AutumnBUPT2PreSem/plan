@@ -58,7 +58,7 @@ typedef float* flop;
 
 #define extendD1(_db_type,p,n) (extendD1_##_db_type ((p),(n)))
 
-#define extendD2N(_db_type,p,m,n) (extendD2_##_db_type ((p),(m),(n)))
+#define extendD2N(_db_type,p,m,n) (extendD2N_##_db_type ((p),(m),(n)))
 
 
 #endif
