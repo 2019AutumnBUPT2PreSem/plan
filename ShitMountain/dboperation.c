@@ -81,24 +81,25 @@ tblclmh assignTblclmh(tblinfo info)
     }
 }
 
-void extendTblclmh(tblinfo info, tblclmh *tablecolumn, int *locRowNum)
+void extendTblclmh(tblinfo *info, tblclmh *tablecolumn, int *locRowNum)
 {
     *locRowNum = *locRowNum + EXPPT;
-    tablecolumn->phint = extendD2N(int, tablecolumn->phint, info.intNum, *locRowNum);
-    tablecolumn->phnam = extendD2N(nam, tablecolumn->phnam, info.namNum, *locRowNum);
-    tablecolumn->phtim = extendD2N(time, tablecolumn->phtim, info.timNum, *locRowNum);
-    tablecolumn->phflo = extendD2N(float, tablecolumn->phflo, info.floNum, *locRowNum);
-    if((tablecolumn->phint == NULL && info.intNum != 0) ||
-        (tablecolumn->phnam == NULL && info.namNum != 0) ||
-        (tablecolumn->phtim == NULL && info.timNum != 0) ||
-        (tablecolumn->phflo == NULL && info.floNum != 0))
+    tablecolumn->phint = extendD2N(int, tablecolumn->phint, info->intNum, *locRowNum);
+    tablecolumn->phnam = extendD2N(nam, tablecolumn->phnam, info->namNum, *locRowNum);
+    tablecolumn->phtim = extendD2N(time, tablecolumn->phtim, info->timNum, *locRowNum);
+    tablecolumn->phflo = extendD2N(float, tablecolumn->phflo, info->floNum, *locRowNum);
+    if((tablecolumn->phint == NULL && info->intNum != 0) ||
+        (tablecolumn->phnam == NULL && info->namNum != 0) ||
+        (tablecolumn->phtim == NULL && info->timNum != 0) ||
+        (tablecolumn->phflo == NULL && info->floNum != 0))
     {
-        /*
-        destroyD2(int, tablecolumn->phint, info.intNum);
-        destroyD2(nam, tablecolumn->phnam, info.namNum);
-        destroyD2(time, tablecolumn->phtim, info.timNum);
-        destroyD2(float, tablecolumn->phflo, info.floNum);
-        */
+        
+        destroyD2(int, tablecolumn->phint, info->intNum);
+        destroyD2(nam, tablecolumn->phnam, info->namNum);
+        destroyD2(time, tablecolumn->phtim, info->timNum);
+        destroyD2(float, tablecolumn->phflo, info->floNum);
+        *tablecolumn = giveBlankClmh();
+        info->rowNum = 0;
         *locRowNum = *locRowNum - EXPPT;
     }
     //if bug look here.
