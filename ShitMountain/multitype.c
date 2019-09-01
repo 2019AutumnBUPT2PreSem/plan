@@ -63,7 +63,7 @@ _db_type* _constructD1(int n, _db_type init)
 
 
 
-_db_type* _extendD1(_db_type **p,int n);
+_db_type* _extendD1(_db_type **p,int n)
 {
 	_db_type *q = (_db_type*)realloc(*p,sizeof(_db_type)*n);
 
@@ -134,7 +134,7 @@ _db_type** _constructD2(int m, int n, _db_type init)
     return p;
 }
 
-_db_type** _extendD2N(_db_type **p,int m, int n);
+_db_type** _extendD2N(_db_type **p,int m, int n)
 {
 	for(int i=0; i < m; i++)
 		p[i] = _extendD1(&p[i], n);
