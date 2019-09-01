@@ -25,7 +25,6 @@ typedef struct tableinfo
     int namNum;
     int timNum;
     int floNum;
-    int tblNum;
     int rowNum;
 } tblinfo;
 /*
@@ -74,6 +73,25 @@ nam giveBlankNam(void)
     }
     return blankNam;
 }
+tblinfo giveBlankInfo(void)
+{
+    tblinfo info;
+    info.name = giveBlankNam();
+    info.intNum = 0;
+    info.namNum = 0;
+    info.timNum = 0;
+    info.floNum = 0;
+    info.rowNum = 0;
+    return info;
+}
+tbl giveBlankTbl(void)
+{
+    tbl table;
+    table.info = giveBlankInfo();
+    table.pitem = NULL;
+    table.lrn = 0;
+    table.clm = giveBlankClmh(); 
+}
 time giveBlankTime(void)
 {
     time blankTime;
@@ -85,4 +103,5 @@ time giveBlankTime(void)
     blankTime.sec = 0;
     return blankTime;
 }
+
 #endif

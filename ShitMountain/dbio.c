@@ -13,8 +13,8 @@ the ints are:
 2 namNum
 3 timNum
 4 floNum
-5 tblNum
-6 rowNum
+5 rowNum
+6 0
 7 0
 8 0
 */
@@ -39,8 +39,8 @@ void readHead(FILE *pfile, tblinfo *pinfo)
     fread(&pinfo->namNum, sizeof(int), 1, pfile);
     fread(&pinfo->timNum, sizeof(int), 1, pfile);
     fread(&pinfo->floNum, sizeof(int), 1, pfile);
-    fread(&pinfo->tblNum, sizeof(int), 1, pfile);
     fread(&pinfo->rowNum, sizeof(int), 1, pfile);
+    fread(&temp, sizeof(int), 1, pfile);
     fread(&temp, sizeof(int), 1, pfile);
     fread(&temp, sizeof(int), 1, pfile);
 }
@@ -52,8 +52,8 @@ void writeHead(FILE *pfile, tblinfo info)
     fwrite(&info.namNum, sizeof(int), 1, pfile);
     fwrite(&info.timNum, sizeof(int), 1, pfile);
     fwrite(&info.floNum, sizeof(int), 1, pfile);
-    fwrite(&info.tblNum, sizeof(int), 1, pfile);
     fwrite(&info.rowNum, sizeof(int), 1, pfile);
+    fwrite(&temp, sizeof(int), 1, pfile);
     fwrite(&temp, sizeof(int), 1, pfile);
     fwrite(&temp, sizeof(int), 1, pfile);
 }
