@@ -9,15 +9,19 @@
 #define _destroyD2 destroyD2_ ## _db_type
 #define _initD1 initD1_ ## _db_type
 #define _initD2 initD2_ ## _db_type
-
+#define _extendD1 extendD1_ ## _db_type
+#define _extendD2 extendD2_ ## _db_type
 
 void _initD1(_db_type *p, int n, _db_type init);
 void _destroyD1(_db_type *p);
 _db_type* _constructD1(int n,_db_type init);
+_db_type* _extendD1(_db_type *p,int n);
+
 
 void _initD2(_db_type **p, int m, int n, _db_type init);
 void _destroyD2(_db_type **p, int m);
 _db_type** _constructD2(int m, int n,_db_type init);
+_db_type** _extendD2(_db_type **p,int m, int n);
 
 /*
 _db_type *_constructColumnD2(int n, _db_type init); 
@@ -57,6 +61,16 @@ _db_type* _constructD1(int n, _db_type init)
     return p;
 }
 
+_db_type* _extendD1(_db_type *p,int n);
+{
+	_db_type *q = (_db_type*)realloc(p,sizeof(_db_type)*n);
+
+/**
+*如果地址改变，代表内存在另一个地方划分了一个新的内存空间，
+*要释放旧的内存空间*/
+	if(p != q)
+    free(p);
+}
 void _initD2(_db_type **p, int m, int n, _db_type init)
 {
 	int i,j;
@@ -115,6 +129,19 @@ _db_type** _constructD2(int m, int n, _db_type init)
     	_initD2(p, m, n, init);
 	}
     return p;
+}
+
+_db_type** _extendD2(_db_type **p,int m, int n);
+{
+	_db_type **q = (_db_type**)malloc(sizeof(_db_type)*m);
+	for(int i=0; i < m; i++)
+		q[i] = (_db_type*)realloc(p,sizeof(_db_type)*n);
+
+/**
+*如果地址改变，代表内存在另一个地方划分了一个新的内存空间，
+*要释放旧的内存空间*/
+	if(p != q)
+    free(p);
 }
 
 /*
