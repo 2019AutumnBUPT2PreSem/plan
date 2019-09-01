@@ -100,8 +100,19 @@ void addrow(tbl *table, int *introw, nam *namrow, time *timrow, float *florow)
 {
     if(table->lrn <= table->info.rowNum + 1)
     {
-        extendTblclmh(table->info, &table->clm, &table->lrn);
-        if(table->clm != giveBlankClmh)
+        table->clm = extendTblclmh(table->info, table->clm, &table->lrn);
+        if(table->clm.phint == NULL && )
+        {
+            addrow(table, )
+        }
+        else
+        {
+            printf("add row failed, stire all.\n"); // need to be completed
+        }
+    }
+    else
+    {
+        
     }
     
     
