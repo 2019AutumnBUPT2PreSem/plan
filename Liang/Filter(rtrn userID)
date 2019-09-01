@@ -1,0 +1,58 @@
+//这一次是为了做出一个Filter函数，它的输入为一个二列row行数组，一个row，一个函数指针,一个标准，一个输出int指针；
+//返回的是一个由0,1组成的通过列表，满足为1，不满足为0； 
+//这一次返回的是数字IDu 
+
+#include<stdio.h>
+#define DATATYPE int 
+
+void rtrnIdFun4Filter(DATATYPE (*inputArray)[2],int row,int* judgeArray,int* rtrnArray)//返回的判断数列改为USER_ID 
+ {
+ 	int row_counter=0;//设定行定位计数器 
+ 	int success_counter=0;//设定通过计数器 
+ 	while(row_counter<row)
+ 	{
+ 		if(judgeArray[row_counter]==1)
+ 		{
+ 			rtrnArray[success_counter]=inputArray[row_counter][0];
+ 			success_counter++;
+		 }
+		 row_counter++;
+	 }
+ }
+
+void Filter(DATATYPE (*inputArray)[2],int row,int (*JudgeFun)(DATATYPE target,DATATYPE std),DATATYPE std,int *rtrnArray)
+{
+	int trv_counter=0;//遍历指针初始化；
+	DATATYPE temp=0;
+	int judgeArray[row];
+	while(trv_counter<row)
+	{
+		temp=inputArray[trv_counter][1];
+		judgeArray[trv_counter]=JudgeFun(temp,std);
+		trv_counter++;
+	 } 
+	 rtrnIdFun4Filter(inputArray,row,judgeArray,rtrnArray); 
+ } 
+ 
+ int JudgeFun4IntSize(int target,int std)//不包括等于情况 
+ {
+ 	if (target>std)
+ 		return 1;
+ 	else 
+ 		return 0;
+ }
+ 
+ 
+ 
+ int main()
+ {
+ 	int row=5;
+ 	int std=4;
+ 	int TestArray[row][2]={(1,3),(2,5),(3,6),(4,5),(5,2)};
+ 	int rtrnArray[row]={0};
+ 	Filter(TestArray,row,JudgeFun4IntSize,std,rtrnArray);
+ 	int i=0;
+	for(i=0;i<row;i++)
+		printf("%d ",rtrnArray[i]);
+	return 0;
+ }

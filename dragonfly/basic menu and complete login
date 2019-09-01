@@ -1,0 +1,104 @@
+#include <stdio.h>
+
+#include <Windows.h>
+
+void modeset(int w,int h);
+void usermenu();
+void admimenu();
+void judge(char id[9],char pass[16]);
+int main()
+
+{
+	modeset(100,50);
+	int i,sort;
+	for(i=0;i<=99;i++)
+	{
+		printf(" ");
+	}
+	printf("\n");
+	for(i=0;i<=99;i++)
+	{ 
+	    printf("*");
+    }
+    printf("\n\n");
+	for(i=0;i<=47;i++)
+	{ 
+	    printf(" ");
+	} 
+	printf("Login\n\n");
+    for(i=0;i<=99;i++)
+	{ 
+	    printf("*");
+    }
+    printf("\n\n");
+	for(i=0;i<=42;i++)
+	{
+		printf(" ");
+	}
+	printf("1.adminisitrator\n");
+    for(i=0;i<=42;i++)
+	{
+		printf(" ");
+	}
+	printf("2.user\n\n");	
+	printf("Please choose which identity to log in with:");
+	scanf("%d",&sort);
+	for(;sort!=1&sort!=2;)
+	{
+		printf("Option does not exist,please choose again!\n");
+		printf("Please choose which identity to log in with:");
+		scanf("%d",&sort);
+	}
+	for(i=0;i<=99;i++)
+	{ 
+	    printf("*");
+    }
+	if(sort==1)
+	{
+	    admimenu();	
+	}
+	if(sort==2)
+	{
+		usermenu();
+	}
+	return 0;
+}
+void modeset(int w,int h)
+{
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD size = {w, h};
+	SetConsoleScreenBufferSize(hOut,size);
+	SMALL_RECT rc = {1,1, w, h};
+	SetConsoleWindowInfo(hOut ,true ,&rc);
+	system("cls");
+	return;
+}
+
+void usermenu()
+{
+	int i;
+	char id[10];
+	char pass[16];
+	printf("\n\n");
+	printf("Please enter your ID and passwords\n");
+	printf("ID:");
+	scanf("%s",id);
+	printf("Passwords:");
+	scanf("%s",pass);
+
+}	
+
+void admimenu()
+{
+    int i;
+	char id[10];
+	char pass[16];
+	printf("\n\n");
+	printf("Please enter your ID and passwords\n");
+	printf("ID:");
+	scanf("%s",id);
+	printf("Passwords:");
+	scanf("%s",pass);
+
+}
+	
