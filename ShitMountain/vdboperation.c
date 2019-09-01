@@ -2,12 +2,12 @@
 #include"dbstruct.h"
 
 
-typedef struct virtualTable
+typedef struct virtualTableInfo
 {
     int itmNum;
     vch vtbSchm;
     idm vtbMeta;
-} vtb;
+} vtbinfo;
 
 typedef struct vtbschemetic
 {
@@ -21,5 +21,10 @@ typedef struct IDmeta
     tbl* tblList; 
     int *i2t; // the jth column in vtb will  correspond to i2t[j]th tbl element in tblList
     int *iti; // the jth column in vtb will  correspond to i2t[j]th tbl element in tblList's iti[j]th column
-    int **
 } idm;
+
+typedef struct virtualTable
+{
+    vtbinfo vinfo;
+    int **maptbl;
+} vtb;

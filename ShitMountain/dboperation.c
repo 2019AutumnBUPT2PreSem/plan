@@ -13,7 +13,7 @@ void displayItem(tblinfo info, nam *pitem);
 tblclmh creatTblclmh(tblinfo info);
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2);
 
-tblclmh extendTblclmh(tblclmh tablecolumn, m, n)
+tblclmh extendTblclmh(tblinfo info, tblclmh tablecolumn, int *locRowNum);
 
 void setInfo(tblinfo *pinfo, const char* name, 
               int intNum, int namNum, int timNum, int floNum, int tblNum, int rowNum)
@@ -36,11 +36,6 @@ void setInfo(tblinfo *pinfo, const char* name,
     pinfo->floNum = floNum;
     pinfo->tblNum = tblNum;
     pinfo->rowNum = rowNum;
-}
-
-void addrow(tbl table, int *introw, nam *namrow, time *timrow, float *florow)
-{
-    if
 }
 
 tblclmh assignTblclmh(tblinfo info)
@@ -87,18 +82,29 @@ tblclmh assignTblclmh(tblinfo info)
     }
 }
 
-tblclmh extendTblclmh(tblclmh tablecolumn, m, n)
+tblclmh extendTblclmh(tblinfo info, tblclmh tablecolumn, int *locRowNum)
 {
-    n = n+20;
-    phint = extendD2N_(&phint,m,n);
-    phnam = extendD2N_(&phnam,m,n);
-    phtim = extendD2N_(&phtim,m,n);
-    phflo = extendD2N_(&phflo,m,n);
-    if(phint == NULL || phnam == NULL || phtim == NULL || phflo == NULL)
+    *locRowNum = *locRowNum + EXPPT;
+    tablecolumn.phint = extendD2N_(&tablecolumn.phint, info.intNum, *locRowNum);
+    tablecolumn.phnam = extendD2N_(&tablecolumn.phnam, info.namNum, *locRowNum);
+    tablecolumn.phtim = extendD2N_(&tablecolumn.phtim, info.timNum, *locRowNum);
+    tablecolumn.phflo = extendD2N_(&tablecolumn.phflo, info.floNum, *locRowNum);
+    if(tablecolumn.phint == NULL || tablecolumn.phnam == NULL || tablecolumn.phtim == NULL || tablecolumn.phflo == NULL)
     {
         return giveBlankClmh();
     }
     //if bug look here.
+}
+
+void addrow(tbl *table, int *introw, nam *namrow, time *timrow, float *florow)
+{
+    if(table->lrn <= table->info.rowNum + 1)
+    {
+        extendTblclmh(table->info, &table->clm, &table->lrn);
+        if(table->clm != giveBlankClmh)
+    }
+    
+    
 }
 
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)

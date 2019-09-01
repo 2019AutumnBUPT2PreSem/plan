@@ -3,6 +3,7 @@
 
 #define STRLENLIMIT 16
 #define TBLINFONUM 8
+#define EXPPT 20// expand per time
 
 typedef struct yymmddhhmmss
 {
@@ -48,9 +49,10 @@ typedef struct table
 {
     tblinfo info;
     nam *pitem;
-    int *defaultmap;
-    int recordMode; // -1 : abandon; 0 : empty; 1 : row; 2 : column
+    //int *defaultmap;
+    //int recordMode; // -1 : abandon; 0 : empty; 1 : row; 2 : column
     //tblrow *prow;
+    int lrn; // located row number
     tblclmh clm;
     //struct tbale **phtbl;
 } tbl;
