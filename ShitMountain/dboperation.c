@@ -5,7 +5,7 @@
 #include"dbstruct.h"
 
 void displayInfo(tblinfo info);
-void setInfo(tblinfo *pinfo, const char* name, int intNum, int strNum, int timNum, int floNum, int tblNum, int rowNum);
+void setInfo(tblinfo *pinfo, const char* name, int intNum, int strNum, int timNum, int floNum, int rowNum);
 
 void displayItem(tblinfo info, nam *pitem);
 //void setItem(tblinfo info, nam **ppitem);
@@ -13,10 +13,10 @@ void displayItem(tblinfo info, nam *pitem);
 tblclmh creatTblclmh(tblinfo info);
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2);
 
-tblclmh extendTblclmh(tblinfo info, tblclmh tablecolumn, int *locRowNum);
+void extendTblclmh(tblinfo info, tblclmh *tablecolumn, int *locRowNum);
 
 void setInfo(tblinfo *pinfo, const char* name, 
-              int intNum, int namNum, int timNum, int floNum, int tblNum, int rowNum)
+              int intNum, int namNum, int timNum, int floNum, int rowNum)
 {
     int i;
     for(i = 0; i < STRLENLIMIT; i++)
@@ -34,7 +34,6 @@ void setInfo(tblinfo *pinfo, const char* name,
     pinfo->namNum = namNum;
     pinfo->timNum = timNum;
     pinfo->floNum = floNum;
-    pinfo->tblNum = tblNum;
     pinfo->rowNum = rowNum;
 }
 
@@ -82,16 +81,25 @@ tblclmh assignTblclmh(tblinfo info)
     }
 }
 
-tblclmh extendTblclmh(tblinfo info, tblclmh tablecolumn, int *locRowNum)
+void extendTblclmh(tblinfo info, tblclmh *tablecolumn, int *locRowNum)
 {
     *locRowNum = *locRowNum + EXPPT;
-    tablecolumn.phint = extendD2N_(&tablecolumn.phint, info.intNum, *locRowNum);
-    tablecolumn.phnam = extendD2N_(&tablecolumn.phnam, info.namNum, *locRowNum);
-    tablecolumn.phtim = extendD2N_(&tablecolumn.phtim, info.timNum, *locRowNum);
-    tablecolumn.phflo = extendD2N_(&tablecolumn.phflo, info.floNum, *locRowNum);
-    if(tablecolumn.phint == NULL || tablecolumn.phnam == NULL || tablecolumn.phtim == NULL || tablecolumn.phflo == NULL)
+    tablecolumn->phint = extendD2N(int, tablecolumn->phint, info.intNum, *locRowNum);
+    tablecolumn->phnam = extendD2N(nam, tablecolumn->phnam, info.namNum, *locRowNum);
+    tablecolumn->phtim = extendD2N(time, tablecolumn->phtim, info.timNum, *locRowNum);
+    tablecolumn->phflo = extendD2N(float, tablecolumn->phflo, info.floNum, *locRowNum);
+    if((tablecolumn->phint == NULL && info.intNum != 0) ||
+        (tablecolumn->phnam == NULL && info.namNum != 0) ||
+        (tablecolumn->phtim == NULL && info.timNum != 0) ||
+        (tablecolumn->phflo == NULL && info.floNum != 0))
     {
-        return giveBlankClmh();
+        /*
+        destroyD2(int, tablecolumn->phint, info.intNum);
+        destroyD2(nam, tablecolumn->phnam, info.namNum);
+        destroyD2(time, tablecolumn->phtim, info.timNum);
+        destroyD2(float, tablecolumn->phflo, info.floNum);
+        */
+        *locRowNum = *locRowNum - EXPPT;
     }
     //if bug look here.
 }
