@@ -57,5 +57,4 @@ void display_float(float x)
 {
     printf("%16f", x);
 }
-
 #endif

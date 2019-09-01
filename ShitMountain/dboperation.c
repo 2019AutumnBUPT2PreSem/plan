@@ -36,13 +36,10 @@ void setInfo(tblinfo *pinfo, const char* name,
     pinfo->rowNum = rowNum;
 }
 
-/*
-void setItem(tblinfo info, nam **ppitem)
+void addrow(tbl table, int *introw, nam *namrow, time *timrow, float *florow)
 {
+    if
 }
-*/
-
-
 
 tblclmh assignTblclmh(tblinfo info)
 {
