@@ -13,6 +13,8 @@ void displayItem(tblinfo info, nam *pitem);
 tblclmh creatTblclmh(tblinfo info);
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2);
 
+tblclmh extendTblclmh(tblclmh tablecolumn, m, n)
+
 void setInfo(tblinfo *pinfo, const char* name, 
               int intNum, int namNum, int timNum, int floNum, int tblNum, int rowNum)
 {
@@ -84,6 +86,21 @@ tblclmh assignTblclmh(tblinfo info)
         }
     }
 }
+
+tblclmh extendTblclmh(tblclmh tablecolumn, m, n)
+{
+    n = n+20;
+    phint = extendD2N_(&phint,m,n);
+    phnam = extendD2N_(&phnam,m,n);
+    phtim = extendD2N_(&phtim,m,n);
+    phflo = extendD2N_(&phflo,m,n);
+    if(phint == NULL || phnam == NULL || phtim == NULL || phflo == NULL)
+    {
+        return giveBlankClmh();
+    }
+    //if bug look here.
+}
+
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
 {
     for(int i = 0; i < info.intNum; i ++)
