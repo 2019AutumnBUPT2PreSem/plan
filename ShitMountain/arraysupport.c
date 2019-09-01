@@ -56,4 +56,9 @@ typedef float* flop;
 //initD2 init a two-dimensional array
 #define initD2(_db_type, p, m, n, init) (initD2_##_db_type ((p),(m),(n),(init)))
 
+#define extendD1(_db_type,p,n) (extendD1_##_db_type ((p),(n)))
+
+#define extendD2(_db_type,p,m,n) (extendD2_##_db_type ((p),(m),(n)))
+
+
 #endif
