@@ -22,14 +22,14 @@ the ints are:
 void readHead(FILE *pfile, tblinfo *pinfo);
 void writeHead(FILE *pfile, tblinfo info);
 
-void readItem(FILE *pfile, tblinfo info, nam *pitem);
-void writeItem(FILE *pfile, tblinfo info, nam *pitem);
+void readItem(FILE *pfile, int clmNum, nam *pitem);
+void writeItem(FILE *pfile, int clmNum, nam *pitem);
 
-void readChart(FILE *pfile, tblinfo info, tblclmh *clm);
+void readChart(FILE *pfile, tblinfo info, tblclmh clm);
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
 
-void readTable();
-void writeTable();
+void readTable(FILE *pfile, tbl *ptable);
+void writeTable(FILE *pfile, tbl *ptable);
 
 void readHead(FILE *pfile, tblinfo *pinfo)
 {
@@ -58,16 +58,16 @@ void writeHead(FILE *pfile, tblinfo info)
     fwrite(&temp, sizeof(int), 1, pfile);
 }
 
-void readItem(FILE *pfile, tblinfo info, nam *pitem)
+void readItem(FILE *pfile, int clmNum, nam *pitem)
 {
-    for(int i = 0; i < (info.intNum +  info.namNum + info.timNum + info.floNum); i++)
+    for(int i = 0; i < clmNum; i++)
     {
         fread(pitem[i].c, sizeof(char), 16, pfile);
     }
 }
-void writeItem(FILE *pfile, tblinfo info, nam *pitem)
+void writeItem(FILE *pfile, int clmNum, nam *pitem)
 {
-    for(int i = 0; i < (info.intNum +  info.namNum + info.timNum + info.floNum); i++)
+    for(int i = 0; i < clmNum; i++)
     {
         fwrite(pitem[i].c, sizeof(char), 16, pfile);
     }
@@ -75,7 +75,7 @@ void writeItem(FILE *pfile, tblinfo info, nam *pitem)
 
 void readChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
-    tblclmh temp = creatTblclmh(info);
+    tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
     for(int i = 0; i < info.rowNum; i++)
     {
@@ -100,10 +100,11 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm)
             temp.phflo[i]++;
         }
     }
+    resignTblclmh(); //need to be done
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
-    tblclmh temp = creatTblclmh(info);
+    tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
     for(int i = 0; i < info.rowNum; i++)
     {
@@ -128,8 +129,47 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
             temp.phflo[i]++;
         }
     }
+    resignTblclmh(); //need to be done
 }
 
-
+void readTable(FILE *pfile, tbl *ptable)
+{
+    readHead(pfile, &ptable->info);
+    nam *itml = constructD1(nam, getClmNum(ptable->info), giveBlankNam());
+    if(itml == NULL)
+    {
+        *ptable = giveBlankTbl();
+    }
+    else
+    {
+        readItem(pfile, getClmNum(ptable->info), itml);
+        ptable->clm = assignTblChart(ptable->info);
+        if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
+        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
+        (ptable->clm.phtim == NULL && ptable->info.timNum != 0) ||
+        (ptable->clm.phflo == NULL && ptable->info.floNum != 0))
+        {
+            destroyD2(int, ptable->clm.phint, ptable->info.intNum);
+            destroyD2(nam, ptable->clm.phnam, ptable->info.namNum);
+            destroyD2(time, ptable->clm.phtim, ptable->info.timNum);
+            destroyD2(float, ptable->clm.phflo, ptable->info.floNum);
+            ptable->lrn = 0;
+        }
+        else
+        {
+            ptable->lrn = ptable->info.rowNum;
+            readChart(pfile, ptable->info, ptable->clm);
+        }
+    }
+}
+void writeTable(FILE *pfile, tbl *ptable)
+{
+    writeHead(pfile, ptable->info);
+    writeItem(pfile, getClmNum(ptable->info), ptable->pitem);
+    destroyD1(nam, ptable->pitem);
+    writeChart(pfile, ptable->info, ptable->clm);
+    resignTblChart(); //need to be done
+    *ptable = giveBlankTbl();
+}
 
 #endif

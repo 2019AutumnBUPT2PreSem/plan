@@ -1,6 +1,7 @@
 #include<stdarg.h>
 #include"dbstruct.h"
 
+#define DBLIMIT 20
 
 typedef struct virtualTableInfo
 {
@@ -28,3 +29,11 @@ typedef struct virtualTable
     vtbinfo vinfo;
     int **maptbl;
 } vtb;
+
+typedef struct dbcontainer
+{
+    int tbn;
+    vtb tb[DBLIMIT];
+} dbc;
+
+void addtbl(dbc *container, ...);

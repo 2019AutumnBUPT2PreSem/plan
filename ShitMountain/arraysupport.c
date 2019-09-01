@@ -60,5 +60,11 @@ typedef float* flop;
 
 #define extendD2N(_db_type,p,m,n) (extendD2N_##_db_type ((p),(m),(n)))
 
+cmp_int(int a, int b);
+cmp_nam(nam a, nam b);
+cmp_time(time a, time b);
+cmp_float(float a, float b);
+
+
 
 #endif

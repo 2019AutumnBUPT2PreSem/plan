@@ -45,6 +45,7 @@ void _initD1(_db_type *p, int n, _db_type init)
 }
 void _destroyD1(_db_type *p)
 {
+	if(p != NULL)
     free(p);
 }
 _db_type* _constructD1(int n, _db_type init)
@@ -142,6 +143,8 @@ _db_type** _extendD2N(_db_type **p,int m, int n)
 *要释放旧的内存空间*/
 	return p;
 }
+
+int* _sort(_db_type *list, int n,  int *accmap)
 
 /*
 _db_type *_constructColumnD2(int n, _db_type init)

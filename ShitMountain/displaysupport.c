@@ -4,6 +4,9 @@
 #include"arraysupport.c"
 #include"dbstruct.h"
 
+void displayInfo(tblinfo info);
+void displayItem(tblinfo info, nam *pitem);
+
 void displayInt16(int n);
 void displayNam(nam name);
 void displayTime(time tim);
