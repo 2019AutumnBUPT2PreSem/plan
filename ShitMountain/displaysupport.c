@@ -9,7 +9,7 @@ void displayItem(tblinfo info, nam *pitem);
 
 void displayInt16(int n);
 void displayNam(nam name);
-void displayTime(time tim);
+void displayTim(tim time);
 void displayFloat16(float x);
 
 void displayInfo(tblinfo info)
@@ -52,9 +52,9 @@ void display_nam(nam name)
         else
             printf("%c", name.c[j]);
 }
-void display_time(time tim)
+void display_tim(tim time)
 {
-    printf("%02d/%02d/%02d%02d:%02d:%02d", tim.yea, tim.mon, tim.day, tim.hou, tim.min, tim.sec);
+    printf("%02d/%02d/%02d%02d:%02d:%02d", time.yea, time.mon, time.day, time.hou, time.min, time.sec);
 }
 void display_float(float x)
 {
