@@ -43,15 +43,6 @@
 
 #include "multitype.c"
 
-#undef _constructD1
-#undef _constructD2 
-#undef _destoryD1
-#undef _destoryD2
-#undef _initD1
-#undef _initD2
-#undef _extendD1
-#undef _extendD2N
-
 // construct supportive function that deals with int
 #define _db_type tim
 
@@ -65,15 +56,6 @@
 #define _extendD2N extendD2N_tim
 
 #include "multitype.c"
-
-#undef _constructD1
-#undef _constructD2 
-#undef _destoryD1
-#undef _destoryD2
-#undef _initD1
-#undef _initD2
-#undef _extendD1
-#undef _extendD2N
 
 // construct supportive function that deals with int
 #define _db_type float
@@ -89,15 +71,6 @@
 
 #include "multitype.c"
 
-#undef _constructD1
-#undef _constructD2 
-#undef _destoryD1
-#undef _destoryD2
-#undef _initD1
-#undef _initD2
-#undef _extendD1
-#undef _extendD2N
-
 typedef int* intp;
 #define _db_type intp
 
@@ -111,15 +84,6 @@ typedef int* intp;
 #define _extendD2N extendD2N_intp
 
 #include "multitype.c"
-
-#undef _constructD1
-#undef _constructD2 
-#undef _destoryD1
-#undef _destoryD2
-#undef _initD1
-#undef _initD2
-#undef _extendD1
-#undef _extendD2N
 
 typedef nam* namp;
 #define _db_type namp
@@ -135,15 +99,6 @@ typedef nam* namp;
 
 #include "multitype.c"
 
-#undef _constructD1
-#undef _constructD2 
-#undef _destoryD1
-#undef _destoryD2
-#undef _initD1
-#undef _initD2
-#undef _extendD1
-#undef _extendD2N
-
 typedef tim* timp;
 #define _db_type timp
 
@@ -158,15 +113,6 @@ typedef tim* timp;
 
 #include "multitype.c"
 
-#undef _constructD1
-#undef _constructD2 
-#undef _destoryD1
-#undef _destoryD2
-#undef _initD1
-#undef _initD2
-#undef _extendD1
-#undef _extendD2N
-
 typedef float* flop;
 #define _db_type flop
 
@@ -180,15 +126,6 @@ typedef float* flop;
 #define _extendD2N extendD2N_flop
 
 #include "multitype.c"
-
-#undef _constructD1
-#undef _constructD2 
-#undef _destoryD1
-#undef _destoryD2
-#undef _initD1
-#undef _initD2
-#undef _extendD1
-#undef _extendD2N
 
 cmp_int(int a, int b);
 cmp_nam(nam a, nam b);

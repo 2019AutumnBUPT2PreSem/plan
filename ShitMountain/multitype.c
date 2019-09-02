@@ -3,16 +3,6 @@
 #include<stdlib.h>
 #include"dbstruct.h"
 
-
-#define _constructD1 constructD1_ ## _db_type
-#define _constructD2 constructD2_ ## _db_type
-#define _destroyD1 destroyD1_ ## _db_type
-#define _destroyD2 destroyD2_ ## _db_type
-#define _initD1 initD1_ ## _db_type
-#define _initD2 initD2_ ## _db_type
-#define _extendD1 extendD1_ ## _db_type
-#define _extendD2N extendD2N_ ## _db_type
-
 void _initD1(_db_type *p, int n, _db_type init);
 void _destroyD1(_db_type *p);
 _db_type* _constructD1(int n,_db_type init);

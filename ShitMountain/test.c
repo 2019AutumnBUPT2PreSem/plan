@@ -1,8 +1,17 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include"dbio.c"
+
+
+#include"dbstruct.h"
+#include"dboperation.c"
 
 int main()
 {
-    FILE *pfile = fopen("test.bdrec", "wb");
-    fclose();
+    tim ym;
+
+    scanf("%d%d%d%d%d%d",&ym.yea,&ym.mon,&ym.day,&ym.hou,&ym.min,&ym.sec);
+
+    printf("%d%d%d%d%d%d",ym.yea,ym.mon,ym.day,ym.hou,ym.min,ym.sec);
+
+    return 0;
 }
