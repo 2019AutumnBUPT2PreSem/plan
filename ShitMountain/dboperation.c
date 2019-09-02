@@ -133,7 +133,7 @@ tblclmh assignTblChart(tblinfo info)
         }
         else
         {
-            newclmh.phtim = constructD2(time, info.timNum, info.rowNum, giveBlankTime());
+            newclmh.phtim = constructD2(tim, info.timNum, info.rowNum, giveBlankTim());
             if(newclmh.phtim == NULL)
             {
                 destroyD2(int, newclmh.phint, info.intNum);
@@ -159,7 +159,7 @@ tblclmh assignTblChart(tblinfo info)
 void resignTblChart(tblclmh tablecolumn, tblinfo info)
 {
 	destroyD2(int, tablecolumn.phint, info.intNum);
-    destroyD2(nam, tablecolumn.phnam, info.namNum);
+    destroyD2(nam, tablecolumn.phnam, info.namNum)
     destroyD2(tim, tablecolumn.phtim, info.timNum);
     destroyD2(float, tablecolumn.phflo, info.floNum);
 }
@@ -168,7 +168,7 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
     *locRowNum = *locRowNum + EXPPT;
     ptablecolumn->phint = extendD2N(int, ptablecolumn->phint, info.intNum, *locRowNum);
     ptablecolumn->phnam = extendD2N(nam, ptablecolumn->phnam, info.namNum, *locRowNum);
-    ptablecolumn->phtim = extendD2N(time, ptablecolumn->phtim, info.timNum, *locRowNum);
+    ptablecolumn->phtim = extendD2N(tim, ptablecolumn->phtim, info.timNum, *locRowNum);
     ptablecolumn->phflo = extendD2N(float, ptablecolumn->phflo, info.floNum, *locRowNum);
     if((ptablecolumn->phint == NULL && info.intNum != 0) ||
         (ptablecolumn->phnam == NULL && info.namNum != 0) ||
@@ -177,7 +177,7 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
     {
         destroyD2(int, ptablecolumn->phint, info.intNum);
         destroyD2(nam, ptablecolumn->phnam, info.namNum);
-        destroyD2(time, ptablecolumn->phtim, info.timNum);
+        destroyD2(tim, ptablecolumn->phtim, info.timNum);
         destroyD2(float, ptablecolumn->phflo, info.floNum);
         *ptablecolumn = giveBlankClmh();
         *locRowNum = 0;
@@ -185,7 +185,7 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
     //if bug look here.
 }
 
-void addrow(tbl *table, int *introw, nam *namrow, time *timrow, float *florow)
+void addrow(tbl *table, int *introw, nam *namrow, tim *timrow, float *florow)
 {
     if(table->lrn <= table->info.rowNum + 1)
     {
