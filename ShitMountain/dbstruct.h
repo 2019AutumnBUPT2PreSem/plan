@@ -3,7 +3,7 @@
 
 #define STRLENLIMIT 16
 #define TBLINFONUM 8
-#define EXPPT 20// expand per time
+#define EXPPT 20// expand per tim
 
 typedef struct yymmddhhmmss
 {
@@ -13,7 +13,7 @@ typedef struct yymmddhhmmss
     int hou;
     int min;
     int sec;
-} time;
+} tim;
 typedef struct char16
 {
     char c[STRLENLIMIT];
@@ -32,7 +32,7 @@ typedef struct tablerow
 {
     int *pint; // by default, pint[0] is internal ID, pint[1] is valid tag.
     nam *pnam;
-    time *ptim;
+    tim *ptim;
     float *pflo;
 } tblrow;
 */
@@ -40,7 +40,7 @@ typedef struct tablecolumn
 {
     int **phint; // pointer to the head of a list of int, all the same.
     nam **phnam;
-    time **phtim;
+    tim **phtim;
     float **phflo;
 } tblclmh; // column head
 
@@ -92,16 +92,16 @@ tbl giveBlankTbl(void)
     table.lrn = 0;
     table.clm = giveBlankClmh(); 
 }
-time giveBlankTime(void)
+tim giveBlankTim(void)
 {
-    time blankTime;
-    blankTime.yea = 0;
-    blankTime.mon = 0;
-    blankTime.day = 0;
-    blankTime.hou = 0;
-    blankTime.min = 0;
-    blankTime.sec = 0;
-    return blankTime;
+    tim blankTim;
+    blankTim.yea = 0;
+    blankTim.mon = 0;
+    blankTim.day = 0;
+    blankTim.hou = 0;
+    blankTim.min = 0;
+    blankTim.sec = 0;
+    return blankTim;
 }
 
 #endif
