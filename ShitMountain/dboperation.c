@@ -10,10 +10,10 @@ int getClmNum(tblinfo info);
 //void setItem(tblinfo info, nam **ppitem);
 
 tblclmh assignTblclmh(tblinfo info);
-void resignTblclmh(); //need to be done
+void resignTblclmh(tblclmh tablecolumn); //need to be done
 
 tblclmh assignTblChart(tblinfo info);
-void resignTblChart(); //need to be done
+void resignTblChart(tblclmh tablecolumn, tblinfo info); //need to be done
 
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2);
 void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum);
@@ -86,6 +86,14 @@ tblclmh assignTblclmh(tblinfo info) // creat space foe column head
     return newclmh;
 }
 
+void resignTblclmh(tblclmh tablecolumn)
+{
+	destroyD1(intp, tablecolumn.phint);
+    destroyD1(namp, tablecolumn.phnam);
+    destroyD1(timp, tablecolumn.phtim);
+    destroyD1(flop, tablecolumn.phflo);
+}
+
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
 {
     for(int i = 0; i < info.intNum; i ++)
@@ -148,6 +156,13 @@ tblclmh assignTblChart(tblinfo info)
     return newclmh;
 }
 
+void resignTblChart(tblclmh tablecolumn, tblinfo info)
+{
+	destroyD2(int, tablecolumn.phint, info.intNum);
+    destroyD2(nam, tablecolumn.phnam, info.namNum);
+    destroyD2(tim, tablecolumn.phtim, info.timNum);
+    destroyD2(float, tablecolumn.phflo, info.floNum);
+}
 void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
 {
     *locRowNum = *locRowNum + EXPPT;
