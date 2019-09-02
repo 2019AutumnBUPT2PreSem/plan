@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include"dbstruct.h"
 
+
 #define _constructD1 constructD1_ ## _db_type
 #define _constructD2 constructD2_ ## _db_type
 #define _destroyD1 destroyD1_ ## _db_type
