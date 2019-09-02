@@ -91,7 +91,7 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm)
         }
         for (int j = 0; j < info.timNum; j++)
         {
-            fread(temp.phtim[i],sizeof(time), 1, pfile);
+            fread(temp.phtim[i],sizeof(tim), 1, pfile);
             temp.phtim[i]++;
         }
         for (int j = 0; j < info.floNum; j++)
@@ -120,7 +120,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
         }
         for (int j = 0; j < info.timNum; j++)
         {
-            fwrite(temp.phtim[i],sizeof(time), 1, pfile);
+            fwrite(temp.phtim[i],sizeof(tim), 1, pfile);
             temp.phtim[i]++;
         }
         for (int j = 0; j < info.floNum; j++)
@@ -151,7 +151,7 @@ void readTable(FILE *pfile, tbl *ptable)
         {
             destroyD2(int, ptable->clm.phint, ptable->info.intNum);
             destroyD2(nam, ptable->clm.phnam, ptable->info.namNum);
-            destroyD2(time, ptable->clm.phtim, ptable->info.timNum);
+            destroyD2(tim, ptable->clm.phtim, ptable->info.timNum);
             destroyD2(float, ptable->clm.phflo, ptable->info.floNum);
             ptable->lrn = 0;
         }
