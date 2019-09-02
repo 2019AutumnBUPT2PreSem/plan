@@ -15,7 +15,7 @@
 #include "multitype.c"
 
 // construct supportive function that deals with int
-#define _db_type time
+#define _db_type tim
 #include "multitype.c"
 
 // construct supportive function that deals with int
@@ -30,7 +30,7 @@ typedef nam* namp;
 #define _db_type namp
 #include "multitype.c"
 
-typedef time* timp;
+typedef tim* timp;
 #define _db_type timp
 #include "multitype.c"
 
@@ -62,7 +62,7 @@ typedef float* flop;
 
 cmp_int(int a, int b);
 cmp_nam(nam a, nam b);
-cmp_time(time a, time b);
+cmp_tim(tim a, tim b);
 cmp_float(float a, float b);
 
 
