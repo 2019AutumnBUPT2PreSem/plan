@@ -100,7 +100,7 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm)
             temp.phflo[i]++;
         }
     }
-    resignTblclmh(); //need to be done
+    resignTblclmh(clm); //need to be done
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
@@ -129,7 +129,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
             temp.phflo[i]++;
         }
     }
-    resignTblclmh(); //need to be done
+    resignTblclmh(clm); //need to be done
 }
 
 void readTable(FILE *pfile, tbl *ptable)
@@ -168,7 +168,7 @@ void writeTable(FILE *pfile, tbl *ptable)
     writeItem(pfile, getClmNum(ptable->info), ptable->pitem);
     destroyD1(nam, ptable->pitem);
     writeChart(pfile, ptable->info, ptable->clm);
-    resignTblChart(); //need to be done
+    resignTblChart(ptable->clm,ptable->info); //need to be done
     *ptable = giveBlankTbl();
 }
 
