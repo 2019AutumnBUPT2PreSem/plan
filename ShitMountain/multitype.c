@@ -15,7 +15,7 @@
 void _initD1(_db_type *p, int n, _db_type init);
 void _destroyD1(_db_type *p);
 _db_type* _constructD1(int n,_db_type init);
-_db_type* _extendD1(_db_type *p,int n);
+_db_type* _extendD1(_db_type **p,int n);
 
 
 void _initD2(_db_type **p, int m, int n, _db_type init);
