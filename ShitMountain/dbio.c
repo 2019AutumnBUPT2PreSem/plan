@@ -135,7 +135,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 void readTable(FILE *pfile, tbl *ptable)
 {
     readHead(pfile, &ptable->info);
-    nam *itml = constructD1(nam, getClmNum(ptable->info), giveBlankNam());
+    nam *itml = constructD1_nam(getClmNum(ptable->info), giveBlankNam());
     if(itml == NULL)
     {
         *ptable = giveBlankTbl();
@@ -149,10 +149,10 @@ void readTable(FILE *pfile, tbl *ptable)
         (ptable->clm.phtim == NULL && ptable->info.timNum != 0) ||
         (ptable->clm.phflo == NULL && ptable->info.floNum != 0))
         {
-            destroyD2(int, ptable->clm.phint, ptable->info.intNum);
-            destroyD2(nam, ptable->clm.phnam, ptable->info.namNum);
-            destroyD2(tim, ptable->clm.phtim, ptable->info.timNum);
-            destroyD2(float, ptable->clm.phflo, ptable->info.floNum);
+            destroyD2_int(ptable->clm.phint, ptable->info.intNum);
+            destroyD2_nam(ptable->clm.phnam, ptable->info.namNum);
+            destroyD2_tim(ptable->clm.phtim, ptable->info.timNum);
+            destroyD2_float(ptable->clm.phflo, ptable->info.floNum);
             ptable->lrn = 0;
         }
         else
@@ -166,7 +166,7 @@ void writeTable(FILE *pfile, tbl *ptable)
 {
     writeHead(pfile, ptable->info);
     writeItem(pfile, getClmNum(ptable->info), ptable->pitem);
-    destroyD1(nam, ptable->pitem);
+    destroyD1_nam(ptable->pitem);
     writeChart(pfile, ptable->info, ptable->clm);
     resignTblChart(ptable->clm,ptable->info); //need to be done
     *ptable = giveBlankTbl();

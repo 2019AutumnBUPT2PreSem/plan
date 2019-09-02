@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include"dbstruct.h"
 
+
+
 void _initD1(_db_type *p, int n, _db_type init);
 void _destroyD1(_db_type *p);
 _db_type* _constructD1(int n,_db_type init);
@@ -55,13 +57,11 @@ _db_type* _constructD1(int n, _db_type init)
 
 
 
-_db_type* _extendD1(_db_type **p,int n)
+_db_type* _extendD1(_db_type **p, int n)
 {
 	_db_type *q = (_db_type*)realloc(*p,sizeof(_db_type)*n);
 
-/**
-*濡傛灉鍦板潃鏀瑰彉锛屼唬琛ㄥ唴瀛樺湪鍙︿竴涓湴鏂瑰垝鍒嗕簡涓€涓柊鐨勫唴瀛樼┖闂达紝
-*瑕侀噴鏀炬棫鐨勫唴瀛樼┖闂?/
+
 	*p = NULL;
 
 	return q;	
@@ -129,9 +129,7 @@ _db_type** _extendD2N(_db_type **p,int m, int n)
 {
 	for(int i=0; i < m; i++)
 		p[i] = _extendD1(&p[i], n);
-/**
-*濡傛灉鍦板潃鏀瑰彉锛屼唬琛ㄥ唴瀛樺湪鍙︿竴涓湴鏂瑰垝鍒嗕簡涓€涓柊鐨勫唴瀛樼┖闂达紝
-*瑕侀噴鏀炬棫鐨勫唴瀛樼┖闂?/
+
 	return p;
 }
  
@@ -186,3 +184,4 @@ _db_type *_access(_db_type *head, int rowlen, int m, int n)
 #undef _initD2
 #undef _extendD1
 #undef _extendD2N
+

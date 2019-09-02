@@ -4,6 +4,8 @@
 #include"arraysupport.c"
 #include"dbstruct.h"
 
+
+
 void setInfo(tblinfo *pinfo, const char* name, int intNum, int strNum, int timNum, int floNum, int rowNum);
 int getClmNum(tblinfo info);
 
@@ -48,36 +50,36 @@ int getClmNum(tblinfo info)
 tblclmh assignTblclmh(tblinfo info) // creat space foe column head
 {
     tblclmh newclmh;
-    newclmh.phint = constructD1(intp, info.intNum, NULL);
+    newclmh.phint = constructD1_intp(info.intNum, NULL);
     if(newclmh.phint == NULL)
     {
         return giveBlankClmh();
     }
     else
     {
-        newclmh.phnam = constructD1(namp, info.namNum, NULL);
+        newclmh.phnam = constructD1_namp(info.namNum, NULL);
         if(newclmh.phnam == NULL)
         {
-            destroyD1(intp, newclmh.phint);
+            destroyD1_intp(newclmh.phint);
             return giveBlankClmh();
         }
         else
         {
-            newclmh.phtim = constructD1(timp, info.timNum, NULL);
+            newclmh.phtim = constructD1_timp(info.timNum, NULL);
             if(newclmh.phtim == NULL)
             {
-                destroyD1(intp, newclmh.phint);
-                destroyD1(namp, newclmh.phnam);
+                destroyD1_intp(newclmh.phint);
+                destroyD1_namp(newclmh.phnam);
                 return giveBlankClmh();
             }
             else
             {
-                newclmh.phflo = constructD1(flop, info.floNum, NULL);
+                newclmh.phflo = constructD1_flop(info.floNum, NULL);
                 if(newclmh.phflo = NULL)
                 {
-                    destroyD1(intp, newclmh.phint);
-                    destroyD1(namp, newclmh.phnam);
-                    destroyD1(timp, newclmh.phtim);
+                    destroyD1_intp(newclmh.phint);
+                    destroyD1_namp(newclmh.phnam);
+                    destroyD1_timp(newclmh.phtim);
                     return giveBlankClmh();
                 }
             }
@@ -88,10 +90,10 @@ tblclmh assignTblclmh(tblinfo info) // creat space foe column head
 
 void resignTblclmh(tblclmh tablecolumn)
 {
-	destroyD1(intp, tablecolumn.phint);
-    destroyD1(namp, tablecolumn.phnam);
-    destroyD1(timp, tablecolumn.phtim);
-    destroyD1(flop, tablecolumn.phflo);
+	destroyD1_intp(tablecolumn.phint);
+    destroyD1_namp(tablecolumn.phnam);
+    destroyD1_timp(tablecolumn.phtim);
+    destroyD1_flop(tablecolumn.phflo);
 }
 
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
@@ -118,36 +120,36 @@ tblclmh assignTblChart(tblinfo info)
 {
     tblclmh newclmh;
     
-    newclmh.phint = constructD2(int, info.intNum, info.rowNum, 0);
+    newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
     if(newclmh.phint == NULL)
     {
         return giveBlankClmh();
     }
     else
     {
-        newclmh.phnam = constructD2(nam, info.namNum, info.rowNum, giveBlankNam());
+        newclmh.phnam = constructD2_nam(info.namNum, info.rowNum, giveBlankNam());
         if(newclmh.phnam == NULL)
         {
-            destroyD2(int, newclmh.phint, info.intNum);
+            destroyD2_int(newclmh.phint, info.intNum);
             return giveBlankClmh();
         }
         else
         {
-            newclmh.phtim = constructD2(tim, info.timNum, info.rowNum, giveBlankTim());
+            newclmh.phtim = constructD2_tim(info.timNum, info.rowNum, giveBlankTim());
             if(newclmh.phtim == NULL)
             {
-                destroyD2(int, newclmh.phint, info.intNum);
-                destroyD2(nam, newclmh.phnam, info.namNum);
+                destroyD2_int(newclmh.phint, info.intNum);
+                destroyD2_nam(newclmh.phnam, info.namNum);
                 return giveBlankClmh();
             }
             else
             {
-                newclmh.phflo = constructD2(float, info.floNum, info.rowNum, 0.0);
+                newclmh.phflo = constructD2_float(info.floNum, info.rowNum, 0.0);
                 if(newclmh.phflo = NULL)
                 {
-                    destroyD2(int, newclmh.phint, info.intNum);
-                    destroyD2(nam, newclmh.phnam, info.namNum);
-                    destroyD2(tim, newclmh.phtim, info.timNum);
+                    destroyD2_int(newclmh.phint, info.intNum);
+                    destroyD2_nam(newclmh.phnam, info.namNum);
+                    destroyD2_tim(newclmh.phtim, info.timNum);
                     return giveBlankClmh();
                 }
             }
@@ -158,27 +160,27 @@ tblclmh assignTblChart(tblinfo info)
 
 void resignTblChart(tblclmh tablecolumn, tblinfo info)
 {
-	destroyD2(int, tablecolumn.phint, info.intNum);
-    destroyD2(nam, tablecolumn.phnam, info.namNum)
-    destroyD2(tim, tablecolumn.phtim, info.timNum);
-    destroyD2(float, tablecolumn.phflo, info.floNum);
+	destroyD2_int(tablecolumn.phint, info.intNum);
+    destroyD2_nam(tablecolumn.phnam, info.namNum);
+    destroyD2_tim(tablecolumn.phtim, info.timNum);
+    destroyD2_float(tablecolumn.phflo, info.floNum);
 }
 void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
 {
     *locRowNum = *locRowNum + EXPPT;
-    ptablecolumn->phint = extendD2N(int, ptablecolumn->phint, info.intNum, *locRowNum);
-    ptablecolumn->phnam = extendD2N(nam, ptablecolumn->phnam, info.namNum, *locRowNum);
-    ptablecolumn->phtim = extendD2N(tim, ptablecolumn->phtim, info.timNum, *locRowNum);
-    ptablecolumn->phflo = extendD2N(float, ptablecolumn->phflo, info.floNum, *locRowNum);
+    ptablecolumn->phint = extendD2N_int(ptablecolumn->phint, info.intNum, *locRowNum);
+    ptablecolumn->phnam = extendD2N_nam(ptablecolumn->phnam, info.namNum, *locRowNum);
+    ptablecolumn->phtim = extendD2N_tim(ptablecolumn->phtim, info.timNum, *locRowNum);
+    ptablecolumn->phflo = extendD2N_float(ptablecolumn->phflo, info.floNum, *locRowNum);
     if((ptablecolumn->phint == NULL && info.intNum != 0) ||
         (ptablecolumn->phnam == NULL && info.namNum != 0) ||
         (ptablecolumn->phtim == NULL && info.timNum != 0) ||
         (ptablecolumn->phflo == NULL && info.floNum != 0))
     {
-        destroyD2(int, ptablecolumn->phint, info.intNum);
-        destroyD2(nam, ptablecolumn->phnam, info.namNum);
-        destroyD2(tim, ptablecolumn->phtim, info.timNum);
-        destroyD2(float, ptablecolumn->phflo, info.floNum);
+        destroyD2_int(ptablecolumn->phint, info.intNum);
+        destroyD2_nam(ptablecolumn->phnam, info.namNum);
+        destroyD2_tim(ptablecolumn->phtim, info.timNum);
+        destroyD2_float(ptablecolumn->phflo, info.floNum);
         *ptablecolumn = giveBlankClmh();
         *locRowNum = 0;
     }
@@ -189,7 +191,7 @@ void addrow(tbl *table, int *introw, nam *namrow, tim *timrow, float *florow)
 {
     if(table->lrn <= table->info.rowNum + 1)
     {
-        extendTblclmh(table->info, &table->clm, &table->lrn);
+        extendTblclm(table->info, &table->clm, &table->lrn);
         if(table->lrn == 0)
         {
             table->info.rowNum = 0;
