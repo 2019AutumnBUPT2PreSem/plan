@@ -1,0 +1,43 @@
+void checkFromSetName(char* setname,tbl setTbl,tbl provider)
+{
+	int row=setTbl.info.rowNum;
+	int row_locater=0;
+	int cnfrm[row]={0};
+	int counter_pass=0;
+	int counter_out=0;
+	int temp=0;
+	int IDp=0;
+	char temp_prov[12]={"\0"};
+	while(row_locater<row)
+	{
+		if(strcmp(setname,setTbl.clm.phnam[row_locater][0])==0)
+		{
+			cnfrm[counter_pass]=row_locater;
+			counter_pass++;
+		}
+		row_locater++;
+	}
+	if (counter_pass==0)
+	{
+		printf("there's no set named %s \n",setname);
+	}
+	else 
+	{	
+		displayTitle();
+		while(counter_out<counter_pass)
+		{
+			temp=cnfrm[counter_out];
+			IDp=setTbl.clm.phint[temp][2];
+			IDp2Provider(IDp,temp_prov,provider);
+			printf("%s",setname);
+			printf("%s",temp_prov);
+			printf("%-8d",&setTbl.clm.phint[temp][3]);
+			printf("%-12d",&setTbl.clm.phint[temp][4]);
+			printf("%-12d",&setTbl.clm.phint[temp][5]);
+			printf("%-12d",&setTbl.clm.phint[temp][5]);
+			printf("%-8d",&setTbl.clm.phint[temp][6]);
+			printf("%s\n",setTbl.clm.phnam[temp][1]);
+			counter_out++;
+		}
+	}
+}
