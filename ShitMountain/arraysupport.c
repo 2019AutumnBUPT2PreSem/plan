@@ -133,21 +133,20 @@ int cmp_nam(nam a, nam b);
 int cmp_tim(tim a, tim b);
 //int cmp_float(float a, float b);
 /*______________________________________________________________________________________________*/
-int cmp_int(int a,int b)
+int CompFun4Int(int comp,int comped)
 {
-	if(a<b)
-	{
-		return 0;
-	}
-	else
-	{
+	if(comp>comped)
 		return 1;
-	}
+	else if(comp==comped)
+		return 0;
+	else
+		return -1;
 }
 
 int cmp_nam(nam a, nam b)
 {
-	if(strcmp(a.c,b.c)==0)
+
+	if(strncmp(a.c,b.c)==0)
 	{
 		return 1;
 	}
