@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<stdlib.h> 
+#include"dbstruct.h"
+#include"dbio.c"
+
+void dial_user(tbl* teleRecord, tbl* billInfo, int IDu);
+
+
+int main()
+{
+	tbl* teleRecord;
+	tbl* billInfo;
+	tblinfo info;
+	dial_user(teleRecord, billInfo,1);
+	tblclmh assignTblclmh(info);
+	setInfo(tblinfo *pinfo, nam name, 
+              int intNum, int namNum, int timNum, int floNum, int rowNum)
+    return 0;
+}
+
+void dial_user(tbl* teleRecord, tbl* billInfo, int IDu)
+{
+	if(billInfo[IDu].moneyRem > 0)
+	{
+		FILE *pfile;
+		pfile=fopen("test.txt","ab");
+		int yea,mon,day,hou,min,sec;
+		printf("Please enter your startTime:");
+		printf("Example:201909012340");
+		fscanf(pfile,"%d",&teleRecord[IDu].startTime);
+	
+
+		printf("Enter your teletype: 1.Board    2.Foreign");
+		fscanf(pfile,"%d",&teleRecord[IDu].type);
+		
+		printf("The number you dial:")
+		fscanf(pfile,"%c",&teleRecord[IDu].to);
+
+		printf("Please enter your endTime:");
+		printf("Example:201909010145");
+		fscanf(pfile,"%d",&teleRecord[IDu].endTime);
+		fclose(pfile);
+
+	}
+	else
+	{
+		printf("Please charge!");
+		//chongzhihanshu
+	}
+
+}
+
+void changePersonInfo(tbl* User,int IDu)
+{
+	printf("Which one do you want to change: 1.Telephone Number    2.User Password    3.User Email    4.Quit");
+	int type;
+	FILE *pfile;
+	scanf("%d",&type);
+	if(type==1)
+	{
+		pfile=fopen("test.txt","ab");
+		printf("Enter your number:");
+		
+
+	}
+
+}
+
+
