@@ -40,6 +40,8 @@ void _initD1(_db_type *p, int n, _db_type init)
 		}
 	}
 }
+
+// Remember to set p as NULL after use destroyD1
 void _destroyD1(_db_type *p)
 {
 	if(p != NULL)
@@ -59,10 +61,8 @@ _db_type* _constructD1(int n, _db_type init)
     return p;
 }
 
-
-
-_db_type* _extendD1(_db_type *p, int n, int add, _db_type init)
-{
+// The following function will return NULL when failed, set p to NULL if that happens.
+_db_type* _extendD1(_db_type *p, int n, int add, _db_type init) {
 	_db_type *q = (_db_type*)realloc(p,sizeof(_db_type) * (n + add));
 	if (q == NULL)
 	{
@@ -81,11 +81,7 @@ _db_type* _extendD1(_db_type *p, int n, int add, _db_type init)
 void _initD2(_db_type **p, int m, int n, _db_type init)
 {
 	int i,j;
-	if(p == NULL)
-	{
-		printf("trying to init a empty list.\n");
-	}
-    else
+	if(p != NULL)
     {
 		
 		for(i = 0; i < m && p[i] != NULL; i++)
@@ -101,6 +97,8 @@ void _initD2(_db_type **p, int m, int n, _db_type init)
 		}
 	}
 }
+
+// remember to set p as NULL after use destroyD2
 void _destroyD2(_db_type **p, int m)
 {
 	if(p != NULL)
@@ -112,6 +110,7 @@ void _destroyD2(_db_type **p, int m)
     	free(p);
 	}
 }
+
 _db_type** _constructD2(int m, int n, _db_type init)
 {
     _db_type **p = (_db_type**)malloc(sizeof(_db_type*) * m);
@@ -137,13 +136,19 @@ _db_type** _constructD2(int m, int n, _db_type init)
     return p;
 }
 
+// The following function will return NULL when failed, set p to NULL if that happens.
 _db_type** _extendD2N(_db_type **p,int m, int n, int add, _db_type init)
 {
 	for(int i=0; i < m; i++)
 	{
 		p[i] = _extendD1(p[i], n, add, init);
+		if(p[i] == NULL)
+		{
+			printf("Extend failed.\n");
+			_destroyD2(p, m);
+			return NULL;
+		}
 	}
-	//need security method
 	return p;
 }
  
@@ -157,6 +162,7 @@ void _initD3(_db_type ***p, int l, int m, int n, _db_type init)
 		}
 	}
 }
+// remember to set p as NULL after use destroyD2
 void _destroyD3(_db_type ***p, int l, int m)
 {
 	if(p != NULL)
@@ -193,6 +199,8 @@ _db_type*** _constructD3(int l, int m, int n,_db_type init)
 	}
 	return NULL;
 }
+
+// The following function will return NULL when failed, set p to NULL if that happens.
 _db_type** _extendD2M(_db_type **p,int m, int n, int add, _db_type init)
 {
 	int i;
@@ -210,67 +218,37 @@ _db_type** _extendD2M(_db_type **p,int m, int n, int add, _db_type init)
 		}
 		if(q[i - 1] == NULL)
 		{
-			for(i = i - 1; i >= m; i--)
+			for(int j = i - 1; j >= m; j--)
 			{
-				_destroyD1(q[i]);
+				_destroyD1(q[j]);
+				q[j] = NULL;
 			}
 			_destroyD2(q, m);
 			q = NULL;
 		}
 	}
 	return q;
-	
 }
+
+// The following function will return NULL when failed, set p to NULL if that happens.
 _db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type init)
 {
 	for(int i = 0; i < l; i++)
 	{
 		p[i] = _extendD2M(p[i], m, n, add, init);
+		if(p[i] == NULL)
+		{
+			for(int j = i + 1; j < l; j++)
+			{
+				_destroyD2(p[j], m);
+				p[j] = NULL;
+			}
+			_destroyD3(p, i, m + add);
+			return NULL;
+		}
 	}
-	// need security method
 	return p;
 }
-
-//int* _sort(_db_type *list, int n,  int *accmap)
-
-/*
-_db_type *_constructColumnD2(int n, _db_type init)
-{
-    _db_type *newlist = (_db_type*)malloc(n * sizeof(_db_type));
-    if(newlist != NULL)
-    {
-        for(int i = 0; i < n; i++)
-        {
-            newlist[i] = init;
-        }
-    }
-    return newlist;
-}
-
-void _destroyColumnD2(_db_type *poi)
-{
-    if(poi == NULL)
-    {
-        printf("You are trying to release a empty pointer.");
-    }
-    else
-    {
-        free(poi);
-    }
-}
-
-int _searchID(int rowlen, int m, int n)//???? 
-{
-	int certer=0;
-    certer = n + m * rowlen;
-	return certer;
-}
-
-_db_type *_access(_db_type *head, int rowlen, int m, int n)
-{
-    return &head[_searchID(rowlen, m, n)];
-}
-*/
 
 #undef _db_type
 

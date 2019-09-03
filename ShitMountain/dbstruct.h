@@ -14,43 +14,27 @@ typedef struct yymmddhhmmss
     int min;
     int sec;
 } tim;
-typedef char* nam;
 typedef struct tableinfo
 {
-    nam name;
+    char* name;
     int intNum;
     int namNum;
     int timNum;
-    int floNum;
     int rowNum;
 } tblinfo;
-/*
-typedef struct tablerow
-{
-    int *pint; // by default, pint[0] is internal ID, pint[1] is valid tag.
-    nam *pnam;
-    tim *ptim;
-    float *pflo;
-} tblrow;
-*/
 typedef struct tablecolumn
 {
     int **phint; // pointer to the head of a list of int, all the same.
-    nam **phnam;
+    char ***phnam;
     tim **phtim;
-    float **phflo;
 } tblclmh; // column head
 
 typedef struct table
 {
     tblinfo info;
-    nam *pitem;
-    //int *defaultmap;
-    //int recordMode; // -1 : abandon; 0 : empty; 1 : row; 2 : column
-    //tblrow *prow;
+    char **pitem;
     int lrn; // located row number
     tblclmh clm;
-    //struct tbale **phtbl;
 } tbl;
 
 tblclmh giveBlankClmh(void)
@@ -59,14 +43,20 @@ tblclmh giveBlankClmh(void)
     newclmh.phint = NULL;
     newclmh.phnam = NULL;
     newclmh.phtim = NULL;
-    newclmh.phflo = NULL;
 }
-nam giveBlankNam(void)
+char* giveBlankNam(void)
 {
-    nam blankNam;
-    for(int i = 0; i < STRLENLIMIT; i++)
+    char* blankNam = (char*)malloc(sizeof(char) * STRLENLIMIT);
+    if(blankNam != NULL)
     {
-        blankNam[i] = '\0';
+        for(int i = 0; i < STRLENLIMIT; i++)
+        {
+            blankNam[i] = '\0';
+        }
+    }
+    else
+    {
+        printf("can't get blank nam(char*).\n");
     }
     return blankNam;
 }
@@ -77,7 +67,6 @@ tblinfo giveBlankInfo(void)
     info.intNum = 0;
     info.namNum = 0;
     info.timNum = 0;
-    info.floNum = 0;
     info.rowNum = 0;
     return info;
 }

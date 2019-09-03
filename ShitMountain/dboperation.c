@@ -6,8 +6,8 @@
 #include<string.h>
 
 
-nam fillnam(const char *p);
-void setInfo(tblinfo *pinfo, nam name, int intNum, int strNum, int timNum, int floNum, int rowNum);
+char* fillnam(const char *p);
+void setInfo(tblinfo *pinfo, char* name, int intNum, int strNum, int timNum, int rowNum);
 int getClmNum(tblinfo info);
 
 //void setItem(tblinfo info, nam **ppitem);
@@ -16,30 +16,22 @@ tblclmh assignTblclmh(tblinfo info);
 void resignTblclmh(tblclmh tablecolumn); //need to be done
 
 tblclmh assignTblChart(tblinfo info);
-void resignTblChart(tblclmh tablecolumn, tblinfo info); //need to be done
+void resignTblChart(tblclmh tablecolumn, tblinfo info);
 
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2);
 void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum);
 
 
-nam fillnam(const char *p)
+char* fillnam(const char *p)
 {
-    nam newnam;
-
-    if((int)strlen(p)<STRLENLIMIT)
+    char* newnam = (char*)malloc(sizeof(char) * STRLENLIMIT);
+    if(newnam == NULL)
     {
-    	strncpy(newnam, p, strlen(p));
-    	for(int i = strlen(p); i < STRLENLIMIT; i++)
-    	{
-    		newnam[i] = '\n';
-		}
-	}
-	else
-	{
-		strncpy(newnam, p, STRLENLIMIT);
-	}
+        strncpy(newnam, p, STRLENLIMIT);
+    }
+    return newnam;
 }
-void setInfo(tblinfo *pinfo, nam name, 
+void setInfo(tblinfo *pinfo, char *name, 
               int intNum, int namNum, int timNum, int floNum, int rowNum)
 {
     
@@ -47,30 +39,29 @@ void setInfo(tblinfo *pinfo, nam name,
     pinfo->intNum = intNum;
     pinfo->namNum = namNum;
     pinfo->timNum = timNum;
-    pinfo->floNum = floNum;
     pinfo->rowNum = rowNum;
 }
 
 int getClmNum(tblinfo info)
 {
-    return info.intNum + info.namNum + info.timNum + info.floNum;
+    return info.intNum + info.namNum + info.timNum;
 }
 
-tblclmh assignTblclmh(tblinfo info) // creat space foe column head
+tblclmh assignTblclmh(tblinfo info) // creat space for column head
 {
     tblclmh newclmh;
     newclmh.phint = constructD1_intp(info.intNum, NULL);
     if(newclmh.phint == NULL)
     {
-        return giveBlankClmh();
+        newclmh = giveBlankClmh();
     }
     else
     {
-        newclmh.phnam = constructD1_namp(info.namNum, NULL);
+        newclmh.phnam = constructD1_charpp(info.namNum, NULL);
         if(newclmh.phnam == NULL)
         {
             destroyD1_intp(newclmh.phint);
-            return giveBlankClmh();
+            newclmh = giveBlankClmh();
         }
         else
         {
@@ -78,34 +69,21 @@ tblclmh assignTblclmh(tblinfo info) // creat space foe column head
             if(newclmh.phtim == NULL)
             {
                 destroyD1_intp(newclmh.phint);
-                destroyD1_namp(newclmh.phnam);
-                return giveBlankClmh();
-            }
-            else
-            {
-                newclmh.phflo = constructD1_flop(info.floNum, NULL);
-                if(newclmh.phflo = NULL)
-                {
-                    destroyD1_intp(newclmh.phint);
-                    destroyD1_namp(newclmh.phnam);
-                    destroyD1_timp(newclmh.phtim);
-                    return giveBlankClmh();
-                }
+                destroyD1_charpp(newclmh.phnam);
+                newclmh = giveBlankClmh();
             }
         }
     }
     return newclmh;
 }
-
 void resignTblclmh(tblclmh tablecolumn)
 {
 	destroyD1_intp(tablecolumn.phint);
-    destroyD1_namp(tablecolumn.phnam);
+    destroyD1_charpp(tablecolumn.phnam);
     destroyD1_timp(tablecolumn.phtim);
-    destroyD1_flop(tablecolumn.phflo);
 }
 
-void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
+void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2) // clmh1 -> clmh2
 {
     for(int i = 0; i < info.intNum; i ++)
     {
@@ -119,100 +97,79 @@ void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2)
     {
         clmh2.phtim[i] = clmh1.phtim[i];
     }
-    for(int i = 0; i < info.floNum; i ++)
-    {
-        clmh2.phflo[i] = clmh1.phflo[i];
-    }
 }
 
 tblclmh assignTblChart(tblinfo info)
 {
     tblclmh newclmh;
     
-    newclmh.phint = constructD3_int(info.intNum, info.rowNum,STRLENLIMIT, 0);
+    newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
     if(newclmh.phint == NULL)
     {
-        return giveBlankClmh();
+        newclmh = giveBlankClmh();
     }
     else
     {
-        newclmh.phnam = constructD3_nam(info.namNum, info.rowNum, STRLENLIMIT, giveBlankNam());
+        newclmh.phnam = constructD3_char(info.namNum, info.rowNum, STRLENLIMIT, '\0');
         if(newclmh.phnam == NULL)
         {
-            destroyD3_int(newclmh.phint, info.intNum, info.rowNum);
-            return giveBlankClmh();
+            destroyD2_int(newclmh.phint, info.intNum);
+            newclmh = giveBlankClmh();
         }
         else
         {
-            newclmh.phtim = constructD3_tim(info.timNum, info.rowNum, STRLENLIMIT, giveBlankTim());
+            newclmh.phtim = constructD2_tim(info.timNum, info.rowNum, giveBlankTim());
             if(newclmh.phtim == NULL)
             {
-                destroyD3_int(newclmh.phint, info.intNum, info.rowNum);
+                destroyD2_int(newclmh.phint, info.intNum);
                 destroyD3_nam(newclmh.phnam, info.namNum, info.rowNum);
-                return giveBlankClmh();
-            }
-            else
-            {
-                newclmh.phflo = constructD3_float(info.floNum, info.rowNum,STRLENLIMIT, 0.0);
-                if(newclmh.phflo = NULL)
-                {
-                    destroyD3_int(newclmh.phint, info.intNum, info.rowNum);
-                    destroyD3_nam(newclmh.phnam, info.namNum, info.rowNum);
-                    destroyD3_tim(newclmh.phtim, info.timNum, info.rowNum);
-                    return giveBlankClmh();
-                }
+                newclmh = giveBlankClmh();
             }
         }
     }
     return newclmh;
 }
-
 void resignTblChart(tblclmh tablecolumn, tblinfo info)
 {
-	destroyD3_int(tablecolumn.phint, info.intNum, info.rowNum);
+	destroyD2_int(tablecolumn.phint, info.intNum);
     destroyD3_nam(tablecolumn.phnam, info.namNum, info.rowNum);
-    destroyD3_tim(tablecolumn.phtim, info.timNum, info.rowNum);
-    destroyD3_float(tablecolumn.phflo, info.floNum, info.rowNum);
+    destroyD2_tim(tablecolumn.phtim, info.timNum);
 }
-void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
+
+void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *plocRowNum) // this chart will change ptablecolumn to NULL if failed
 {
    
-    ptablecolumn->phint = extendD2M_int(ptablecolumn->phint, info.intNum, *locRowNum, STRLENLIMIT, EXPPT );
-    ptablecolumn->phnam = extendD3M_nam(ptablecolumn->phnam, info.namNum, *locRowNum, STRLENLIMIT, EXPPT);
-    ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *locRowNum, STRLENLIMIT, EXPPT);
-    ptablecolumn->phflo = extendD2M_float(ptablecolumn->phflo, info.floNum, *locRowNum, STRLENLIMIT, EXPPT);
+    ptablecolumn->phint = extendD2M_int(ptablecolumn->phint, info.intNum, *plocRowNum, EXPPT, 0);
+    ptablecolumn->phnam = extendD3M_char(ptablecolumn->phnam, info.namNum, *plocRowNum, STRLENLIMIT, EXPPT, '\0');
+    ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *plocRowNum, EXPPT, giveBlankTim());
     if((ptablecolumn->phint == NULL && info.intNum != 0) ||
         (ptablecolumn->phnam == NULL && info.namNum != 0) ||
-        (ptablecolumn->phtim == NULL && info.timNum != 0) ||
-        (ptablecolumn->phflo == NULL && info.floNum != 0))
+        (ptablecolumn->phtim == NULL && info.timNum != 0))
     {
-        destroyD3_int(ptablecolumn->phint, info.intNum, info.rowNum);
-        destroyD3_nam(ptablecolumn->phnam, info.namNum, info.rowNum);
-        destroyD3_tim(ptablecolumn->phtim, info.timNum, info.rowNum);
-        destroyD3_float(ptablecolumn->phflo, info.floNum, info.rowNum);
+        destroyD2_int(ptablecolumn->phint, info.intNum);
+        destroyD3_char(ptablecolumn->phnam, info.namNum, info.rowNum);
+        destroyD2_tim(ptablecolumn->phtim, info.timNum);
         *ptablecolumn = giveBlankClmh();
-        *locRowNum = 0;
+        *plocRowNum = 0;
     }
     else
 	{
-		*locRowNum += EXPPT;
+		*plocRowNum += EXPPT;
 	}
-    //if bug look here.
 }
 
-void addrow(tbl *table, int *introw, nam *namrow, tim *timrow, float *florow)
+void addrow(tbl *table, int *introw, char **namrow, tim *timrow)
 {
     if(table->lrn <= table->info.rowNum + 1)
     {
         extendTblclm(table->info, &table->clm, &table->lrn);
         if(table->lrn == 0)
         {
-            table->info.rowNum = 0;
             printf("add row failed, stire all.\n");
         }
         else
         {
-            addrow(table, introw, namrow, timrow, florow);
+            addrow(table, introw, namrow, timrow);
         }
     }
     else
@@ -223,15 +180,11 @@ void addrow(tbl *table, int *introw, nam *namrow, tim *timrow, float *florow)
         }
         for(int i = 0; i < table->info.namNum; i++)
         {
-            table->clm.phnam[i][table->info.rowNum + 1] = namrow[i];
+            strncpy(table->clm.phnam[i][table->info.rowNum + 1], namrow[i], STRLENLIMIT);
         }
         for(int i = 0; i < table->info.intNum; i++)
         {
             table->clm.phtim[i][table->info.rowNum + 1] = timrow[i];
-        }
-        for(int i = 0; i < table->info.floNum; i++)
-        {
-            table->clm.phflo[i][table->info.rowNum + 1] = florow[i];
         }
         table->info.rowNum = table->info.rowNum + 1;
     }

@@ -7,6 +7,7 @@
 #include<string.h>
 #include"dbstruct.h"
 
+/*______________________________________________________________________________________________*/
 // construct supportive function that deals with int
 #define _db_type int
 
@@ -25,41 +26,27 @@
 #define _extendD3M extendD3M_int
 
 #include "multitype.c"
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with char
+#define _db_type char
 
-#undef _constructD1
-#undef _constructD2
-#undef _constructD3 
-#undef _destoryD1
-#undef _destoryD2
-#undef _destoryD3
-#undef _initD1
-#undef _initD2
-#undef _initD3
-#undef _extendD1
-#undef _extendD2N
-#undef _extendD2M
-#undef _extendD3M
-
-// construct supportive function that deals with char*
-#define _db_type nam
-
-#define _constructD1 constructD1_nam
-#define _constructD2 constructD2_nam
-#define _constructD3 constructD3_nam
-#define _destroyD1 destroyD1_nam
-#define _destroyD2 destroyD2_nam
-#define _destroyD3 destroyD3_nam
-#define _initD1 initD1_nam
-#define _initD2 initD2_nam
-#define _initD3 initD3_nam
-#define _extendD1 extendD1_nam
-#define _extendD2N extendD2N_nam
-#define _extendD2M extendD2M_nam
-#define _extendD3M extendD3M_nam
+#define _constructD1 constructD1_char
+#define _constructD2 constructD2_char
+#define _constructD3 constructD3_char
+#define _destroyD1 destroyD1_char
+#define _destroyD2 destroyD2_char
+#define _destroyD3 destroyD3_char
+#define _initD1 initD1_char
+#define _initD2 initD2_char
+#define _initD3 initD3_char
+#define _extendD1 extendD1_char
+#define _extendD2N extendD2N_char
+#define _extendD2M extendD2M_char
+#define _extendD3M extendD3M_char
 
 #include "multitype.c"
-
-// construct supportive function that deals with int
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with tim
 #define _db_type tim
 
 #define _constructD1 constructD1_tim
@@ -77,8 +64,9 @@
 #define _extendD3M extendD3M_tim
 
 #include "multitype.c"
-
-// construct supportive function that deals with int
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with float
+/*
 #define _db_type float
 
 #define _constructD1 constructD1_float
@@ -96,7 +84,9 @@
 #define _extendD3M extendD3M_float
 
 #include "multitype.c"
-
+*/
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with int*
 typedef int* intp;
 #define _db_type intp
 
@@ -115,26 +105,28 @@ typedef int* intp;
 #define _extendD3M extendD3M_intp
 
 #include "multitype.c"
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with char*
+typedef char* charp;
+#define _db_type charp
 
-typedef nam* namp;
-#define _db_type namp
-
-#define _constructD1 constructD1_namp
-#define _constructD2 constructD2_namp
-#define _constructD3 constructD3_namp
-#define _destroyD1 destroyD1_namp
-#define _destroyD2 destroyD2_namp
-#define _destroyD3 destroyD3_namp
-#define _initD1 initD1_namp
-#define _initD2 initD2_namp
-#define _initD3 initD3_namp
-#define _extendD1 extendD1_namp
-#define _extendD2N extendD2N_namp
-#define _extendD2M extendD2M_namp
-#define _extendD3M extendD3M_namp
+#define _constructD1 constructD1_charp
+#define _constructD2 constructD2_charp
+#define _constructD3 constructD3_charp
+#define _destroyD1 destroyD1_charp
+#define _destroyD2 destroyD2_charp
+#define _destroyD3 destroyD3_charp
+#define _initD1 initD1_charp
+#define _initD2 initD2_charp
+#define _initD3 initD3_charp
+#define _extendD1 extendD1_charp
+#define _extendD2N extendD2N_charp
+#define _extendD2M extendD2M_charp
+#define _extendD3M extendD3M_charp
 
 #include "multitype.c"
-
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with int
 typedef tim* timp;
 #define _db_type timp
 
@@ -153,7 +145,9 @@ typedef tim* timp;
 #define _extendD3M extendD3M_timp
 
 #include "multitype.c"
-
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with int
+/*
 typedef float* flop;
 #define _db_type flop
 
@@ -170,11 +164,30 @@ typedef float* flop;
 #define _extendD2N extendD2N_flop
 #define _extendD2M extendD2M_flop
 #define _extendD3M extendD3M_flop
+*/
+/*______________________________________________________________________________________________*/
+// construct supportive function that deals with int
+typedef char** charpp;
+#define _db_type charpp
+
+#define _constructD1 constructD1_charpp
+#define _constructD2 constructD2_charpp
+#define _constructD3 constructD3_charpp
+#define _destroyD1 destroyD1_charpp
+#define _destroyD2 destroyD2_charpp
+#define _destroyD3 destroyD3_charpp
+#define _initD1 initD1_charpp
+#define _initD2 initD2_charpp
+#define _initD3 initD3_charpp
+#define _extendD1 extendD1_charpp
+#define _extendD2N extendD2N_charpp
+#define _extendD2M extendD2M_charpp
+#define _extendD3M extendD3M_charpp
 
 #include "multitype.c"
 /*_________________________________function list_____________________________________________________________*/
 int cmp_int(int a, int b);
-int cmp_nam(nam a, nam b);
+int cmp_nam(char *a, char *b);
 int cmp_tim(tim a, tim b);
 //int cmp_float(float a, float b);
 /*______________________________________________________________________________________________*/
@@ -187,58 +200,5 @@ int CompFun4Int(int comp,int comped)
 	else
 		return -1;
 }
-
-/* 
-int cmp_nam(nam a, nam b)
-{
-
-	if(strncmp(a.c,b.c)==0)
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-int cmp_tim(tim a, tim b)
-{
-	int counter=0;
-	if(a.yea==b.yea)
-	{
-		counter++;
-	}
-	if(a.mon==b.mon)
-	{
-		counter++;
-	}
-	if(a.day==b.day)
-	{
-		counter++;
-	}
-	if(a.hou==b.hou)
-	{
-		counter++;
-	}
-	if(a.min==b.min)
-	{
-		counter++;
-	}
-	if(a.sec==b.sec)
-	{
-		counter++;
-	}
-	if(counter==6)
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-//int cmp_float(float a, float b);
-*/ 
 
 #endif
