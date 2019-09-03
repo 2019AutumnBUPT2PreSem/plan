@@ -4,6 +4,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include"dbstruct.h"
 
 // construct supportive function that deals with int
@@ -126,13 +127,73 @@ typedef float* flop;
 #define _extendD2N extendD2N_flop
 
 #include "multitype.c"
-
+/*_________________________________function list_____________________________________________________________*/
 int cmp_int(int a, int b);
 int cmp_nam(nam a, nam b);
 int cmp_tim(tim a, tim b);
-int cmp_float(float a, float b);
+//int cmp_float(float a, float b);
+/*______________________________________________________________________________________________*/
+int cmp_int(int a,int b)
+{
+	if(a<b)
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+}
 
+int cmp_nam(nam a, nam b)
+{
+	if(strcmp(a.c,b.c)==0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+int cmp_tim(tim a, tim b)
+{
+	int counter=0;
+	if(a.yea==b.yea)
+	{
+		counter++;
+	}
+	if(a.mon==b.mon)
+	{
+		counter++;
+	}
+	if(a.day==b.day)
+	{
+		counter++;
+	}
+	if(a.hou==b.hou)
+	{
+		counter++;
+	}
+	if(a.min==b.min)
+	{
+		counter++;
+	}
+	if(a.sec==b.sec)
+	{
+		counter++;
+	}
+	if(counter==6)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
 
+//int cmp_float(float a, float b);
 
 
 #endif
