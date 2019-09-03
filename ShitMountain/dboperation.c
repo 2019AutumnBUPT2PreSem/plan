@@ -178,9 +178,9 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
 {
    
     ptablecolumn->phint = extendD2M_int(ptablecolumn->phint, info.intNum, *locRowNum, STRLENLIMIT, EXPPT );
-    ptablecolumn->phnam = extendD3M_nam(ptablecolumn->phnam, info.namNum, *locRowNum, STRLENLIMIT, EXPPT, *locRowNum);
-    ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *locRowNum, STRLENLIMIT, EXPPT, *locRowNum);
-    ptablecolumn->phflo = extendD2M_float(ptablecolumn->phflo, info.floNum, *locRowNum, STRLENLIMIT, EXPPT, *locRowNum);
+    ptablecolumn->phnam = extendD3M_nam(ptablecolumn->phnam, info.namNum, *locRowNum, STRLENLIMIT, EXPPT);
+    ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *locRowNum, STRLENLIMIT, EXPPT);
+    ptablecolumn->phflo = extendD2M_float(ptablecolumn->phflo, info.floNum, *locRowNum, STRLENLIMIT, EXPPT);
     if((ptablecolumn->phint == NULL && info.intNum != 0) ||
         (ptablecolumn->phnam == NULL && info.namNum != 0) ||
         (ptablecolumn->phtim == NULL && info.timNum != 0) ||
