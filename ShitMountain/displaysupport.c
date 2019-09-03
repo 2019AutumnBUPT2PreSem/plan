@@ -5,7 +5,7 @@
 #include"dbstruct.h"
 
 void displayInfo(tblinfo info);
-void displayItem(tblinfo info, nam *pitem);
+void displayItem(int n, nam *pitem);
 
 void displayInt16(int n);
 void displayNam(nam name);
@@ -17,18 +17,18 @@ void displayInfo(tblinfo info)
     printf("name : ");
     for(int i = 0; i < STRLENLIMIT; i++)
     {
-        printf("%c", info.name.c[i]);
+        printf("%c", info.name[i]);
     }
     printf("\nintNum : %d\nstrNum : %d\ntimNum : %d\nfloNum : %d\nrowNum : %d\n", 
            info.intNum, info.namNum, info.timNum, info.floNum, info.rowNum);
 }
 
-void displayItem(tblinfo info, nam *pitem)
+void displayItem(int n, nam *pitem)
 {
-    for(int i = 0; i < (info.intNum +  info.namNum + info.timNum + info.floNum); i++)
+    for(int i = 0; i < n; i++)
     {
         for(int j = 0; j < STRLENLIMIT; j++)
-            if(pitem[i].c[j] == '\0')
+            if(pitem[i].c[j] == '\n')
             {
                 printf(" ");
             }
@@ -45,12 +45,12 @@ void display_int(int n)
 void display_nam(nam name)
 {
     for(int j = 0; j < STRLENLIMIT; j++)
-        if(name.c[j] == '\0')
+        if(nam[j] == '\0')
         {
             printf(" ");
         }
         else
-            printf("%c", name.c[j]);
+            printf("%c", nam[j]);
 }
 void display_tim(tim time)
 {

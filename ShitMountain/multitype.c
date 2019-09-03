@@ -8,14 +8,18 @@
 void _initD1(_db_type *p, int n, _db_type init);
 void _destroyD1(_db_type *p);
 _db_type* _constructD1(int n,_db_type init);
-_db_type* _extendD1(_db_type **p,int n);
-
+_db_type* _extendD1(_db_type *p, int n, int add, _db_type init);
 
 void _initD2(_db_type **p, int m, int n, _db_type init);
 void _destroyD2(_db_type **p, int m);
-_db_type** _constructD2(int m, int n,_db_type init);
-_db_type** _extendD2N(_db_type **p,int m, int n);
+_db_type** _constructD2(int m, int n, _db_type init);
+_db_type** _extendD2N(_db_type **p,int m, int n, int add, _db_type init);
+_db_type** _extendD2M(_db_type **p,int m, int n, int add, _db_type init);
 
+void _initD3(_db_type ***p,int l, int m, int n, _db_type init);
+void _destroyD3(_db_type ***p,int l, int m);
+_db_type*** _constructD3(int l, int m, int n, _db_type init);
+_db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type init);
 /*
 _db_type *_constructColumnD2(int n, _db_type init); 
 void _destroyColumnD2(_db_type *poi);
@@ -192,7 +196,7 @@ _db_type*** _constructD3(int l, int m, int n,_db_type init)
 _db_type** _extendD2M(_db_type **p,int m, int n, int add, _db_type init)
 {
 	int i;
-	_db_type q;
+	_db_type **q;
 	q = (_db_type**)realloc(p, sizeof(_db_type*) * (m + add));
 	if(q == NULL)
 	{
@@ -271,11 +275,16 @@ _db_type *_access(_db_type *head, int rowlen, int m, int n)
 #undef _db_type
 
 #undef _constructD1
-#undef _constructD2 
+#undef _constructD2
+#undef _constructD3 
 #undef _destoryD1
 #undef _destoryD2
+#undef _destoryD3
 #undef _initD1
 #undef _initD2
+#undef _initD3
 #undef _extendD1
 #undef _extendD2N
+#undef _extendD2M
+#undef _extendD3M
 

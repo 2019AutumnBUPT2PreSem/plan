@@ -14,10 +14,7 @@ typedef struct yymmddhhmmss
     int min;
     int sec;
 } tim;
-typedef struct char16
-{
-    char c[STRLENLIMIT];
-} nam;
+typedef char* nam;
 typedef struct tableinfo
 {
     nam name;
@@ -69,7 +66,7 @@ nam giveBlankNam(void)
     nam blankNam;
     for(int i = 0; i < STRLENLIMIT; i++)
     {
-        blankNam.c[i] = '\0';
+        blankNam[i] = '\0';
     }
     return blankNam;
 }
