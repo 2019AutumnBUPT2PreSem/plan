@@ -44,26 +44,10 @@ tblclmh giveBlankClmh(void)
     newclmh.phnam = NULL;
     newclmh.phtim = NULL;
 }
-char* giveBlankNam(void)
-{
-    char* blankNam = (char*)malloc(sizeof(char) * STRLENLIMIT);
-    if(blankNam != NULL)
-    {
-        for(int i = 0; i < STRLENLIMIT; i++)
-        {
-            blankNam[i] = '\0';
-        }
-    }
-    else
-    {
-        printf("can't get blank nam(char*).\n");
-    }
-    return blankNam;
-}
 tblinfo giveBlankInfo(void)
 {
     tblinfo info;
-    info.name = giveBlankNam();
+    info.name = NULL;
     info.intNum = 0;
     info.namNum = 0;
     info.timNum = 0;

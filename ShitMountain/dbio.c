@@ -6,24 +6,20 @@
 #include"dboperation.c"
 
 /*
-in 1 file ther will be 16 char and 8 int to describe the chart follows.
+in 1 file ther will be 16 char and 4 int to describe the chart follows.
 16 char is for name,
 the ints are:
 1 intNum
 2 namNum
 3 timNum
-4 floNum
-5 rowNum
-6 0
-7 0
-8 0
+4 rowNum
 */
 
 void readHead(FILE *pfile, tblinfo *pinfo);
 void writeHead(FILE *pfile, tblinfo info);
 
-void readItem(FILE *pfile, int clmNum, nam *pitem);
-void writeItem(FILE *pfile, int clmNum, nam *pitem);
+void readItem(FILE *pfile, int clmNum, char **pitem);
+void writeItem(FILE *pfile, int clmNum, char **pitem);
 
 void readChart(FILE *pfile, tblinfo info, tblclmh clm);
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
@@ -33,43 +29,44 @@ void writeTable(FILE *pfile, tbl *ptable);
 
 void readHead(FILE *pfile, tblinfo *pinfo)
 {
-    int temp;
-    fread(pinfo->name, sizeof(char), STRLENLIMIT, pfile);
-    fread(&pinfo->intNum, sizeof(int), 1, pfile);
-    fread(&pinfo->namNum, sizeof(int), 1, pfile);
-    fread(&pinfo->timNum, sizeof(int), 1, pfile);
-    fread(&pinfo->floNum, sizeof(int), 1, pfile);
-    fread(&pinfo->rowNum, sizeof(int), 1, pfile);
-    fread(&temp, sizeof(int), 1, pfile);
-    fread(&temp, sizeof(int), 1, pfile);
-    fread(&temp, sizeof(int), 1, pfile);
+    pinfo->name = (char*)malloc(sizeof(char) * STRLENLIMIT);
+    if(pinfo->name != NULL)
+    {
+        fread(pinfo->name, sizeof(char), STRLENLIMIT, pfile);
+        fread(&pinfo->intNum, sizeof(int), 1, pfile);
+        fread(&pinfo->namNum, sizeof(int), 1, pfile);
+        fread(&pinfo->timNum, sizeof(int), 1, pfile);
+        fread(&pinfo->rowNum, sizeof(int), 1, pfile);
+    }
+    else
+    {
+        *pinfo = giveBlankInfo();
+    }
+    
+    
 }
 void writeHead(FILE *pfile, tblinfo info)
 {
-    int temp = 0;
     fwrite(info.name, sizeof(char), STRLENLIMIT, pfile);
+    free(info.name);
     fwrite(&info.intNum, sizeof(int), 1, pfile);
     fwrite(&info.namNum, sizeof(int), 1, pfile);
     fwrite(&info.timNum, sizeof(int), 1, pfile);
-    fwrite(&info.floNum, sizeof(int), 1, pfile);
     fwrite(&info.rowNum, sizeof(int), 1, pfile);
-    fwrite(&temp, sizeof(int), 1, pfile);
-    fwrite(&temp, sizeof(int), 1, pfile);
-    fwrite(&temp, sizeof(int), 1, pfile);
 }
 
-void readItem(FILE *pfile, int clmNum, nam *pitem)
+void readItem(FILE *pfile, int n, char **pitem)
 {
-    for(int i = 0; i < clmNum; i++, pitem++)
+    for(int i = 0; i < n; i++, pitem++)
     {
-        fread(pitem->c, sizeof(char), STRLENLIMIT, pfile);
+        fread(pitem[i], sizeof(char), STRLENLIMIT, pfile);
     }
 }
-void writeItem(FILE *pfile, int clmNum, nam *pitem)
+void writeItem(FILE *pfile, int n, char **pitem)
 {
-    for(int i = 0; i < clmNum; i++, pitem++)
+    for(int i = 0; i < n; i++, pitem++)
     {
-        fwrite(pitem->c, sizeof(char), STRLENLIMIT, pfile);
+        fwrite(pitem[i], sizeof(char), STRLENLIMIT, pfile);
     }
 }
 
@@ -81,26 +78,21 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm)
     {
         for (int j = 0; j < info.intNum; j++)
         {
-            fread(temp.phint[i],sizeof(int), 1, pfile);
-            temp.phint[i]++;
+            fread(temp.phint[j],sizeof(int), 1, pfile);
+            temp.phint[j]++;
         }
         for (int j = 0; j < info.namNum; j++)
         {
-            fread(temp.phnam[i],sizeof(nam), 1, pfile);
-            temp.phnam[i]++;
+            readItem(pfile, 1, temp.phnam[j]);
+            temp.phnam[j]++;
         }
         for (int j = 0; j < info.timNum; j++)
         {
-            fread(temp.phtim[i],sizeof(tim), 1, pfile);
-            temp.phtim[i]++;
-        }
-        for (int j = 0; j < info.floNum; j++)
-        {
-            fread(temp.phflo[i],sizeof(float), 1, pfile);
-            temp.phflo[i]++;
+            fread(temp.phtim[j],sizeof(tim), 1, pfile);
+            temp.phtim[j]++;
         }
     }
-    resignTblclmh(clm); //need to be done
+    resignTblclmh(clm);
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 {
@@ -110,23 +102,18 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
     {
         for (int j = 0; j < info.intNum; j++)
         {
-            fwrite(temp.phint[i],sizeof(int), 1, pfile);
-            temp.phint[i]++;
+            fwrite(temp.phint[j],sizeof(int), 1, pfile);
+            temp.phint[j]++;
         }
         for (int j = 0; j < info.namNum; j++)
         {
-            fwrite(temp.phnam[i],sizeof(nam), 1, pfile);
-            temp.phnam[i]++;
+            readItem(pfile, 1, temp.phnam[j]);
+            temp.phnam[j]++;
         }
         for (int j = 0; j < info.timNum; j++)
         {
-            fwrite(temp.phtim[i],sizeof(tim), 1, pfile);
-            temp.phtim[i]++;
-        }
-        for (int j = 0; j < info.floNum; j++)
-        {
-            fwrite(temp.phflo[i],sizeof(float), 1, pfile);
-            temp.phflo[i]++;
+            fwrite(temp.phtim[j],sizeof(tim), 1, pfile);
+            temp.phtim[j]++;
         }
     }
     resignTblclmh(clm); //need to be done
@@ -135,8 +122,8 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
 void readTable(FILE *pfile, tbl *ptable)
 {
     readHead(pfile, &ptable->info);
-    nam *itml = constructD1_nam(getClmNum(ptable->info), giveBlankNam());
-    if(itml == NULL)
+    char **itml = constructD2_char(getClmNum(ptable->info), STRLENLIMIT, '\0');
+    if(itml == NULL) 
     {
         *ptable = giveBlankTbl();
     }
@@ -146,13 +133,11 @@ void readTable(FILE *pfile, tbl *ptable)
         ptable->clm = assignTblChart(ptable->info);
         if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
         (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
-        (ptable->clm.phtim == NULL && ptable->info.timNum != 0) ||
-        (ptable->clm.phflo == NULL && ptable->info.floNum != 0))
+        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
         {
             destroyD2_int(ptable->clm.phint, ptable->info.intNum);
-            destroyD2_nam(ptable->clm.phnam, ptable->info.namNum);
+            destroyD3_char(ptable->clm.phnam, ptable->info.namNum, ptable->info.rowNum);
             destroyD2_tim(ptable->clm.phtim, ptable->info.timNum);
-            destroyD2_float(ptable->clm.phflo, ptable->info.floNum);
             ptable->lrn = 0;
         }
         else
@@ -166,7 +151,7 @@ void writeTable(FILE *pfile, tbl *ptable)
 {
     writeHead(pfile, ptable->info);
     writeItem(pfile, getClmNum(ptable->info), ptable->pitem);
-    destroyD1_nam(ptable->pitem);
+    destroyD2_char(ptable->pitem, getClmNum(ptable->info));
     writeChart(pfile, ptable->info, ptable->clm);
     resignTblChart(ptable->clm,ptable->info); //need to be done
     *ptable = giveBlankTbl();
