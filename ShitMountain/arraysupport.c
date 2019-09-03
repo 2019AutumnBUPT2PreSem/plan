@@ -108,7 +108,7 @@ typedef int* intp;
 #define _destroyD3 destroyD3_intp
 #define _initD1 initD1_intp
 #define _initD2 initD2_intp
-#define _initD3 initD2_intp
+#define _initD3 initD3_intp
 #define _extendD1 extendD1_intp
 #define _extendD2N extendD2N_intp
 #define _extendD2M extendD2M_intp
@@ -190,6 +190,7 @@ int cmp_int(int a,int b)
 	}
 }
 
+/* 
 int cmp_nam(nam a, nam b)
 {
 	if(strcmp(a.c,b.c)==0)
@@ -239,6 +240,6 @@ int cmp_tim(tim a, tim b)
 }
 
 //int cmp_float(float a, float b);
-
+*/ 
 
 #endif

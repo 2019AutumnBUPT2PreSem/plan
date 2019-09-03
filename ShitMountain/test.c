@@ -10,7 +10,7 @@ int main()
 {
 	FILE *pfile;
 	pfile=fopen("test.txt","ab");
-	
+	nam name;
 	writeItem(pfile,2 ,name);
 	fclose(pfile);
     //fwrite(item.c, sizeof(char), 16, pfile);

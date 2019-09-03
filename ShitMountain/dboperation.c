@@ -139,7 +139,7 @@ tblclmh assignTblChart(tblinfo info)
         newclmh.phnam = constructD3_nam(info.namNum, info.rowNum, STRLENLIMIT, giveBlankNam());
         if(newclmh.phnam == NULL)
         {
-            destroyD3_int(newclmh.phint, info.intNum);
+            destroyD3_int(newclmh.phint, info.intNum, info.rowNum);
             return giveBlankClmh();
         }
         else
@@ -147,8 +147,8 @@ tblclmh assignTblChart(tblinfo info)
             newclmh.phtim = constructD3_tim(info.timNum, info.rowNum, STRLENLIMIT, giveBlankTim());
             if(newclmh.phtim == NULL)
             {
-                destroyD3_int(newclmh.phint, info.intNum);
-                destroyD3_nam(newclmh.phnam, info.namNum);
+                destroyD3_int(newclmh.phint, info.intNum, info.rowNum);
+                destroyD3_nam(newclmh.phnam, info.namNum, info.rowNum);
                 return giveBlankClmh();
             }
             else
@@ -156,9 +156,9 @@ tblclmh assignTblChart(tblinfo info)
                 newclmh.phflo = constructD3_float(info.floNum, info.rowNum,STRLENLIMIT, 0.0);
                 if(newclmh.phflo = NULL)
                 {
-                    destroyD3_int(newclmh.phint, info.intNum);
-                    destroyD3_nam(newclmh.phnam, info.namNum);
-                    destroyD3_tim(newclmh.phtim, info.timNum);
+                    destroyD3_int(newclmh.phint, info.intNum, info.rowNum);
+                    destroyD3_nam(newclmh.phnam, info.namNum, info.rowNum);
+                    destroyD3_tim(newclmh.phtim, info.timNum, info.rowNum);
                     return giveBlankClmh();
                 }
             }
@@ -169,30 +169,34 @@ tblclmh assignTblChart(tblinfo info)
 
 void resignTblChart(tblclmh tablecolumn, tblinfo info)
 {
-	destroyD3_int(tablecolumn.phint, info.intNum);
-    destroyD3_nam(tablecolumn.phnam, info.namNum);
-    destroyD3_tim(tablecolumn.phtim, info.timNum);
-    destroyD3_float(tablecolumn.phflo, info.floNum);
+	destroyD3_int(tablecolumn.phint, info.intNum, info.rowNum);
+    destroyD3_nam(tablecolumn.phnam, info.namNum, info.rowNum);
+    destroyD3_tim(tablecolumn.phtim, info.timNum, info.rowNum);
+    destroyD3_float(tablecolumn.phflo, info.floNum, info.rowNum);
 }
 void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *locRowNum)
 {
-    *locRowNum = *locRowNum + EXPPT;
-    ptablecolumn->phint = extendD3M_int(ptablecolumn->phint, info.intNum, STRLENLIMIT, add, *locRowNum);
-    ptablecolumn->phnam = extendD3M_nam(ptablecolumn->phnam, info.namNum, STRLENLIMIT, add, *locRowNum);
-    ptablecolumn->phtim = extendD3M_tim(ptablecolumn->phtim, info.timNum, STRLENLIMIT, add, *locRowNum);
-    ptablecolumn->phflo = extendD3M_float(ptablecolumn->phflo, info.floNum, STRLENLIMIT, add, *locRowNum);
+   
+    ptablecolumn->phint = extendD2M_int(ptablecolumn->phint, info.intNum, *locRowNum, STRLENLIMIT, EXPPT );
+    ptablecolumn->phnam = extendD3M_nam(ptablecolumn->phnam, info.namNum, *locRowNum, STRLENLIMIT, EXPPT, *locRowNum);
+    ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *locRowNum, STRLENLIMIT, EXPPT, *locRowNum);
+    ptablecolumn->phflo = extendD2M_float(ptablecolumn->phflo, info.floNum, *locRowNum, STRLENLIMIT, EXPPT, *locRowNum);
     if((ptablecolumn->phint == NULL && info.intNum != 0) ||
         (ptablecolumn->phnam == NULL && info.namNum != 0) ||
         (ptablecolumn->phtim == NULL && info.timNum != 0) ||
         (ptablecolumn->phflo == NULL && info.floNum != 0))
     {
-        destroyD3_int(ptablecolumn->phint, info.intNum);
-        destroyD3_nam(ptablecolumn->phnam, info.namNum);
-        destroyD3_tim(ptablecolumn->phtim, info.timNum);
-        destroyD3_float(ptablecolumn->phflo, info.floNum);
+        destroyD3_int(ptablecolumn->phint, info.intNum, info.rowNum);
+        destroyD3_nam(ptablecolumn->phnam, info.namNum, info.rowNum);
+        destroyD3_tim(ptablecolumn->phtim, info.timNum, info.rowNum);
+        destroyD3_float(ptablecolumn->phflo, info.floNum, info.rowNum);
         *ptablecolumn = giveBlankClmh();
         *locRowNum = 0;
     }
+    else
+	{
+		*locRowNum += EXPPT;
+	}
     //if bug look here.
 }
 
