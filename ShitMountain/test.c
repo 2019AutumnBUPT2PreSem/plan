@@ -1,17 +1,28 @@
 #include<stdio.h>
+#include<stdlib.h> 
+#include"dbstruct.h"
 #include"dbio.c"
 
 
-#include"dbstruct.h"
-#include"dboperation.c"
+
 
 int main()
 {
-    tim ym;
+	FILE *pfile;
+	pfile=fopen("test.txt","ab");
+	
+	writeItem(pfile,2 ,name);
+	fclose(pfile);
+    //fwrite(item.c, sizeof(char), 16, pfile);
+ 
+	
 
-    scanf("%d%d%d%d%d%d",&ym.yea,&ym.mon,&ym.day,&ym.hou,&ym.min,&ym.sec);
 
-    printf("%d%d%d%d%d%d",ym.yea,ym.mon,ym.day,ym.hou,ym.min,ym.sec);
-
+/*
+	pfile=fopen("test.txt","rb");
+    readItem(pfile,1,&pitem[1]);
+	fclose(pfile);
+*/
+	//displayItem(1, &item);
     return 0;
 }

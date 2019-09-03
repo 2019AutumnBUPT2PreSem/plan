@@ -34,7 +34,7 @@ void writeTable(FILE *pfile, tbl *ptable);
 void readHead(FILE *pfile, tblinfo *pinfo)
 {
     int temp;
-    fread(pinfo->name.c, sizeof(char), STRLENLIMIT, pfile);
+    fread(pinfo->name, sizeof(char), STRLENLIMIT, pfile);
     fread(&pinfo->intNum, sizeof(int), 1, pfile);
     fread(&pinfo->namNum, sizeof(int), 1, pfile);
     fread(&pinfo->timNum, sizeof(int), 1, pfile);
@@ -47,7 +47,7 @@ void readHead(FILE *pfile, tblinfo *pinfo)
 void writeHead(FILE *pfile, tblinfo info)
 {
     int temp = 0;
-    fwrite(info.name.c, sizeof(char), STRLENLIMIT, pfile);
+    fwrite(info.name, sizeof(char), STRLENLIMIT, pfile);
     fwrite(&info.intNum, sizeof(int), 1, pfile);
     fwrite(&info.namNum, sizeof(int), 1, pfile);
     fwrite(&info.timNum, sizeof(int), 1, pfile);
@@ -60,16 +60,16 @@ void writeHead(FILE *pfile, tblinfo info)
 
 void readItem(FILE *pfile, int clmNum, nam *pitem)
 {
-    for(int i = 0; i < clmNum; i++)
+    for(int i = 0; i < clmNum; i++, pitem++)
     {
-        fread(pitem[i].c, sizeof(char), 16, pfile);
+        fread(pitem->c, sizeof(char), STRLENLIMIT, pfile);
     }
 }
 void writeItem(FILE *pfile, int clmNum, nam *pitem)
 {
-    for(int i = 0; i < clmNum; i++)
+    for(int i = 0; i < clmNum; i++, pitem++)
     {
-        fwrite(pitem[i].c, sizeof(char), 16, pfile);
+        fwrite(pitem->c, sizeof(char), STRLENLIMIT, pfile);
     }
 }
 
