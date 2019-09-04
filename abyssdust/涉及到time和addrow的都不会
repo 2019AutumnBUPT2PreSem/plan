@@ -5,15 +5,22 @@
 
 
 
-void dial_user(tbl* teleRecord, tbl* billInfo, int IDu)
+void dial_user(tbl* teleRecord, tbl* billInfo,  int IDu)
 {
 	if(billInfo.clm[IDu]phint[9] > 0)
 	{
+		addrow(tbl *table, int *introw, nam *namrow, tim *timrow)
 		
 		printf("Please enter your startTime:");
-		printf("Example:201909012340");
-		scanf("%d",&teleRecord.clm.phtim[IDu][0]);
-
+		printf("Example:19/09/01 23:40:20");
+		scanf("%d",&startTime.yea);
+		scanf("%d",&startTime.mon);
+		scanf("%d",&startTime.day);
+		scanf("%d",&startTime.hou);
+		scanf("%d",&startTime.min);
+		scanf("%d",&startTime.sec);
+		gets();
+		
 		printf("Enter your teletype: 1.Board    2.Foreign");
 		scanf("%d",&teleRecord.clm.phint[IDu][2]);
 		
@@ -21,8 +28,14 @@ void dial_user(tbl* teleRecord, tbl* billInfo, int IDu)
 		scanf("%c",&teleRecord.clm.phnam[IDu][1]);
 
 		printf("Please enter your endTime:");
-		printf("Example:201909010145");
-		scanf("%d",&teleRecord.clm.phtim[IDu][1]);
+		printf("Example:19/09/01 23:50:30");
+		scanf("%d",&endTime.yea);
+		scanf("%d",&endTime.mon);
+		scanf("%d",&endTime.day);
+		scanf("%d",&endTime.hou);
+		scanf("%d",&endTime.min);
+		scanf("%d",&endTime.sec);
+		gets();
 	}
 	else
 	{
@@ -32,7 +45,7 @@ void dial_user(tbl* teleRecord, tbl* billInfo, int IDu)
 
 }
 
-void changePersonInfo(tbl User,int IDu)
+void changePersonInfo(tbl* User,int IDu)
 {
 	printf("Which one do you want to change: 1.Telephone Number    2.User Password    3.User Email    4.Quit");
 	int type;
@@ -42,30 +55,30 @@ void changePersonInfo(tbl User,int IDu)
 		printf("Enter your new number:");
 		scanf("%d",&User.clm.phnam[IDu][2]);
 		printf("Your telephone number is setted.");
-		//fanhui
+		break;
 	}
 	if(type==2)
 	{
 		printf("Enter your new password:");
 		scanf("%d",&User.clm.phnam[IDu][3]);
 		printf("Your password is setted.");
-		//fanhui
+		break;
 	}
 	if(type==3)
 	{
 		printf("Enter your new email:");
 		scanf(pfile,"%d",&User.clm.phnam[IDu][4]);
 		printf("Your email is setted.");
-		//fanhui
+		break;
 	}
 	if(type==4)
 	{
-		//fanhui
+		break;
 	}
 	else
 	{
 		printf("Error!");
-		//fanhui
+		changePersonInfo(User, IDu);
 	}
 
 }
@@ -84,6 +97,15 @@ void checkTeleRecord(tbl teleRecord, int IDu)
 
 void checkTeleRecordByTime(tbl teleRecord, tim time, int IDu)
 {
+	int ti;
+	printf("Please enter your time: 1.Year    2.Month    3.Day");
+	scanf("%d",&ti);
+	if(ti == 1)
+	{
+		//time.yea = teleRecord.clm.phtim[IDu][0]/10000000000;
+		
+
+	}
 
 }
 
@@ -116,6 +138,46 @@ void stat(tbl User,int IDp)
 		printf("there's no user.");
 	}
 } 
+
+ void checkSet(tbl set,int prov)
+ {
+ 	printf("price:%d",set.clm.phint[prov][3]);
+ 	printf("borTime:%d",set.clm.phint[prov][4]);
+ 	printf("forTime:%d",set.clm.phint[prov][5]);
+ 	printf("setname:%s",set.clm.phnam[prov][0]);
+ 	printf("description:%s",set.clm.phnam[prov][1]);
+ }
+
+ void changeUserInfo(tbl* User, int IDp)
+ {
+ 	printf("Which one do you want to change: 1.User Password    2.User Email    3.Quit");
+	int type;
+	scanf("%d",&type);
+
+	if(type==1)
+	{
+		printf("Enter new password:");
+		scanf("%d",&User.clm.phnam[IDp][3]);
+		printf("Password is setted.");
+		break;
+	}
+	if(type==2)
+	{
+		printf("Enter new email:");
+		scanf(pfile,"%d",&User.clm.phnam[IDp][4]);
+		printf("Email is setted.");
+		break;
+	}
+	if(type==3)
+	{
+		break;
+	}
+	else
+	{
+		printf("Error!");
+		changeUserInfo(User, IDu);
+	}
+ }
 
 
 
