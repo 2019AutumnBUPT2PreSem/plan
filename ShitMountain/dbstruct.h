@@ -15,11 +15,6 @@ typedef struct yymmddhhmmss
 } tim;
 // support the function to store the time 
 
-typedef struct char16
-{
-    char c[STRLENLIMIT];
-} nam;
-//support the function to store name
 
 typedef struct tableinfo
 {
