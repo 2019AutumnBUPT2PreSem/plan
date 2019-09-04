@@ -9,7 +9,7 @@ data in storage:
 (tblList[3])teleRecord(<u>IDt(phint[0])</u>, validt(phint[1]), type(phint[2]), teleFee(phint[3]), *user(IDu)*(phint[4]), to(phnam[0]), startTime(phtim[0]), endTime(phtim[1])) [4 int, 2 char*, 2 time]
 //type : 1, in board; 2, foreign.
 
-(tblList[4])netRecord(<u>IDn(phint[0])</u>, validn(phint[1]), comAmount(phint[2]), netFee(phint[3]), *user(IDU)*(phnam[0]), time(phtim[0])) [4 int, 1 char*, 1 time]
+(tblList[4])netRecord(<u>IDn(phint[0])</u>, validn(phint[1]), comAmount(phint[2]), netFee(phint[3]), *user(IDU)*(phint[4]), time(phtim[0])) [4 int, 1 char*, 1 time]
 
 (tblList[5])admin(<u>IDa(phint[0])</u>, valida(phint[1]), *provider(IDp)*(phint[2]), adminID(phnam[0]), adminName(phnam[1]), adminPW(phnam[2]), adminEmail(phnam[3])) [3 int, 4 char*]
 
