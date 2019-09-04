@@ -262,6 +262,10 @@ void initTable(tblinfo info, char **iteml)// need "wb"
     {
         printf("idiot, you've written wrong info.\n");
     }
-    
+}
+
+int isFirstTime();
+{
+
 }
 #endif
