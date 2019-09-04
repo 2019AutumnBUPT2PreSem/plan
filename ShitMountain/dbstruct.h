@@ -23,7 +23,7 @@ typedef struct char16
 
 typedef struct tableinfo
 {
-    nam name;
+    char *name;
     int intNum;
     int namNum;
     int timNum;
@@ -35,7 +35,7 @@ typedef struct tableinfo
 typedef struct tablecolumn
 {
     int **phint; // pointer to the head of a list of int, all the same.
-    nam **phnam;
+    char ***phnam;
     tim **phtim;
     float **phflo;
 } tblclmh; // column head
@@ -60,21 +60,10 @@ tblclmh giveBlankClmh(void)
 }
 //give the form a new blank column head
 
-nam giveBlankNam(void)
-{
-    nam blankNam;
-    for(int i = 0; i < STRLENLIMIT; i++)
-    {
-        blankNam.c[i] = '\0';
-    }
-    return blankNam;
-}
-//give the form head new blank head
-
 tblinfo giveBlankInfo(void)
 {
     tblinfo info;
-    info.name = giveBlankNam();
+    info.name = NULL;
     info.intNum = 0;
     info.namNum = 0;
     info.timNum = 0;

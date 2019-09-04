@@ -9,14 +9,16 @@
 int main()
 {
 	tbl table; 
-	char *tblname[2] ;
-	tblname[0] = fillnam("sdkfjal");
-	
+	char **iteml = constructD2_char(3, STRLENLIMIT, '\0');
+	iteml[0] = fillnam("sdkfjal");
+	iteml[1] = fillnam("dsfsldfks");
+	iteml[2] = fillnam("fdsskdfnwaa");
     FILE *pfile = fopen("sdkfjal.tbl", "wb");
-    fwrite(tblname[0], sizeof(char), STRLENLIMIT, pfile);
+    writeItem(pfile, 3, iteml);
     
     fclose(pfile);
-    free(tblname);
+    destroyD2_char(iteml, 3);
+    iteml = NULL;
 	
 
     return 0;

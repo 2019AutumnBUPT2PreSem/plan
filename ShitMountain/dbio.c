@@ -19,10 +19,14 @@ void readHead(FILE *pfile, tblinfo *pinfo);
 // read the header from the file
 void writeHead(FILE *pfile, tblinfo info);
 // weite the header into the file
-void readItem(FILE *pfile, int clmNum, char **pitem);
+void readNameL(FILE *pfile, int clmNum, char **pitem);
 // read the data from the file 
-void writeItem(FILE *pfile, int clmNum, char **pitem);
+void writeNameL(FILE *pfile, int clmNum, char **pitem);
 // write the data into the file
+
+void readItem(FILE *pfile, tbl *ptable);
+void writeItem(FILE *pfile, tbl table);
+
 void readChart(FILE *pfile, tblinfo info, tblclmh clm);
 // read the chart from the file 
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
@@ -30,47 +34,92 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
 void readTable(FILE *pfile, tbl *ptable);
 //read the structure from the file 
 void writeTable(FILE *pfile, tbl *ptable);
-// write the structure into the file 
+// write the structure into the file
+
 void readHead(FILE *pfile, tblinfo *pinfo) // read the header from the file
 {
-    pinfo->name = (char*)malloc(sizeof(char) * STRLENLIMIT);
-    if(pinfo->name != NULL)
-    {
-        fread(pinfo->name, sizeof(char), STRLENLIMIT, pfile);
-        fread(&pinfo->intNum, sizeof(int), 1, pfile);
-        fread(&pinfo->namNum, sizeof(int), 1, pfile);
-        fread(&pinfo->timNum, sizeof(int), 1, pfile);
-        fread(&pinfo->rowNum, sizeof(int), 1, pfile);
-    }
-    else
-    {
-        *pinfo = giveBlankInfo();
-    }
-    
-    
+    fread(pinfo->name, sizeof(char), STRLENLIMIT, pfile);
+    fread(&pinfo->intNum, sizeof(int), 1, pfile);
+    fread(&pinfo->namNum, sizeof(int), 1, pfile);
+    fread(&pinfo->timNum, sizeof(int), 1, pfile);
+    fread(&pinfo->rowNum, sizeof(int), 1, pfile);    
 }
 void writeHead(FILE *pfile, tblinfo info) // weite the header into the file
 {
     fwrite(info.name, sizeof(char), STRLENLIMIT, pfile);
-    free(info.name);
     fwrite(&info.intNum, sizeof(int), 1, pfile);
     fwrite(&info.namNum, sizeof(int), 1, pfile);
     fwrite(&info.timNum, sizeof(int), 1, pfile);
     fwrite(&info.rowNum, sizeof(int), 1, pfile);
 }
 
-void readItem(FILE *pfile, int n, char **pitem) // read the data from the file 
+void trscptHead(FILE *pfile, tblinfo *pinfo)
+{
+    pinfo->name = (char*)malloc(sizeof(char) * STRLENLIMIT);
+    if(pinfo->name != NULL)
+    {
+        readHead(pfile, pinfo);
+    }
+    else
+    {
+        *pinfo = giveBlankInfo();
+    }
+}
+void revtrsHead(FILE *pfile, tblinfo *pinfo)
+{
+    if(pinfo->name != NULL)
+    {
+        writeHead(pfile, *pinfo);
+        destroyD1_char(pinfo->name);
+        *pinfo = giveBlankInfo();
+    }
+    else
+    {
+        printf("the head is already empty.\n");
+    }
+    
+}
+
+void readNameL(FILE *pfile, int n, char **pitem) // read the data from the file 
 {
     for(int i = 0; i < n; i++)
     {
         fread(pitem[i], sizeof(char), STRLENLIMIT, pfile);
     }
 }
-void writeItem(FILE *pfile, int n, char **pitem) // write the data into the file
+void writeNameL(FILE *pfile, int n, char **pitem) // write the data into the file
 {
     for(int i = 0; i < n; i++)
     {
         fwrite(pitem[i], sizeof(char), STRLENLIMIT, pfile);
+    }
+}
+
+void trscptItem(FILE *pfile, tbl *ptable)
+{
+    char **newiteml = constructD2_char(getClmNum(ptable->info), STRLENLIMIT, '\0');
+    if(newiteml != NULL)
+    {
+        readNameL(pfile, getClmNum(ptable->info), newiteml);
+        ptable->pitem = newiteml;
+    }
+    else
+    {
+        printf("stire all");
+        *ptable = giveBlankTbl();
+    }
+}
+void revtrsItem(FILE *pfile, tbl *ptable)
+{
+    if(ptable->pitem != NULL)
+    {
+        writeNameL(pfile, getClmNum(ptable->info), ptable->pitem);
+        destroyD2_char(ptable->pitem, getClmNum(ptable->info));
+        ptable->pitem = NULL;
+    }
+    else
+    {
+        printf("the item is already empty.\n");
     }
 }
 
@@ -87,7 +136,7 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from th
         }
         for (int j = 0; j < info.namNum; j++)
         {
-            readItem(pfile, 1, temp.phnam[j]);
+            fread(temp.phnam[j],sizeof(char), STRLENLIMIT, pfile);
             temp.phnam[j]++;
         }
         for (int j = 0; j < info.timNum; j++)
@@ -96,7 +145,7 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from th
             temp.phtim[j]++;
         }
     }
-    resignTblclmh(clm);
+    resignTblclmh(temp);
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into the file 
 {
@@ -111,7 +160,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
         }
         for (int j = 0; j < info.namNum; j++)
         {
-            readItem(pfile, 1, temp.phnam[j]);
+            fwrite(temp.phnam[j],sizeof(char), STRLENLIMIT, pfile);
             temp.phnam[j]++;
         }
         for (int j = 0; j < info.timNum; j++)
@@ -120,44 +169,71 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
             temp.phtim[j]++;
         }
     }
-    resignTblclmh(clm); //need to be done
+    resignTblclmh(temp); //need to be done
+}
+
+void trscptChart(FILE *pfile, tbl *ptable)
+{
+    ptable->clm = assignTblChart(ptable->info);
+    if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
+        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
+        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
+    {
+        resignTblChart(ptable->clm, ptable->info);
+        ptable->clm = giveBlankClmh();
+        ptable->lrn = 0;
+        printf("read failed, stire all.\n"); 
+    }
+    else
+    {
+        ptable->lrn = ptable->info.rowNum;
+        readChart(pfile, ptable->info, ptable->clm);
+    }
+}
+void revtrsChart(FILE *pfile, tbl *ptable)
+{
+    if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
+        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
+        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
+    {
+        printf("the chart is empty.\n");
+    }
+    writeChart(pfile, ptable->info, ptable->clm);
+    resignTblChart(ptable->clm, ptable->info);
+    ptable->clm = giveBlankClmh();
 }
 
 void readTable(FILE *pfile, tbl *ptable) //read the structure from the file 
 {
-    readHead(pfile, &ptable->info);
-    char **itml = constructD2_char(getClmNum(ptable->info), STRLENLIMIT, '\0');
-    if(itml == NULL) 
+    trscptHead(pfile, &ptable->info);
+    if(ptable->info.name != NULL)
     {
-        *ptable = giveBlankTbl();
-    }
-    else
-    {
-        readItem(pfile, getClmNum(ptable->info), itml);
-        ptable->clm = assignTblChart(ptable->info);
-        if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
-        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
-        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
+        trscptItem(pfile, ptable);
+        if(ptable->pitem != NULL)
         {
-            destroyD2_int(ptable->clm.phint, ptable->info.intNum);
-            destroyD3_char(ptable->clm.phnam, ptable->info.namNum, ptable->info.rowNum);
-            destroyD2_tim(ptable->clm.phtim, ptable->info.timNum);
-            ptable->lrn = 0;
-        }
-        else
-        {
-            ptable->lrn = ptable->info.rowNum;
-            readChart(pfile, ptable->info, ptable->clm);
+            trscptChart(pfile, ptable);
         }
     }
 }
 void writeTable(FILE *pfile, tbl *ptable) // write the structure into the file
 {
-    writeHead(pfile, ptable->info);
-    writeItem(pfile, getClmNum(ptable->info), ptable->pitem);
-    destroyD2_char(ptable->pitem, getClmNum(ptable->info));
-    writeChart(pfile, ptable->info, ptable->clm);
-    resignTblChart(ptable->clm,ptable->info); //need to be done
+    if(ptable->info.name != NULL && ptable->pitem != NULL && 
+        ((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
+        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
+        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
+        && ptable->lrn >= ptable->info.rowNum)
+    {
+        revtrsHead(pfile, &ptable->info);
+        revtrsItem(pfile, ptable);
+        revtrsChart(pfile, ptable);
+    }
+    else
+    {
+        resignTblChart(ptable->clm, ptable->info);
+        destroyD2_char(ptable->pitem, getClmNum(ptable->info));
+        destroyD1_char(ptable->info.name);
+        printf("danger!, table error.\n");
+    }
     *ptable = giveBlankTbl();
 }
 
