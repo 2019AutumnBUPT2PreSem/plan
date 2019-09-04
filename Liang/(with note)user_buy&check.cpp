@@ -1,18 +1,29 @@
 #include "dbio.c"
 #include "utilsupport.c" 
- /*________________________user check&buy_____________4_______________________________________*/
+ /*________________________user check&buy____________________________________________________*/
 void IDp2Provider(int IDp,char* providerNam,tbl provider);
+//From IDp(int) to provider_name ;
 void displayTitle();
+//show the title of the table;
 int Provider2IDp(tbl provider,char* provname);
-void checkFromSetName(char* setname,tbl setTbl,tbl provider);
-void checkFromProvName(char* provname,tbl setTbl,tbl provider);//获得id_provider; 
-void sortByPrice(tbl setTbl,tbl provider);// joint_new2d(ID;item 2);
+//From provider_name to IDp;
+int checkFromSetName(char* setname,tbl setTbl,tbl provider);
+//give back result by giving a set name;
+int checkFromProvName(char* provname,tbl setTbl,tbl provider);
+//give back result by giving provider name;
+void sortByPrice(tbl setTbl,tbl provider);
+//Sort by the price and display;
 void sortByData(tbl setTbl,tbl provider);
+//Sort by the amount of data and display;
 void sortByBoardLength(tbl setTbl,tbl provider);
+//Sort by the amount of Board call time and display;
 void sortByForLength(tbl setTbl,tbl provider);
+//Sort by the amount of international call time and display;
 void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu);
+//user decide which set to choose. If user doesn't have enough money or have an available set, this function won't work
 void CheckAndBuy(tbl setTbl,tbl user,tbl moneyRecord,tbl billinfo,tbl provider,int IDu);
- /*________________________user check&buy_____________4_______________________________________*/
+//the main stucture of this programme
+ /*________________________user check&buy____________________________________________________*/
 
 void displayTitle()
 {
@@ -29,7 +40,7 @@ void displayTitle()
 
 void IDp2Provider(int IDp,char* providerNam,tbl provider)
 {
-	providerNam=provider.clm.phnam[IDp][0];
+	providerNam=provider.clm.phnam[IDp][0].c;//IDp is the primaty key in provider table
 }
 
 int Provider2IDp(tbl provider,char* provname)
@@ -38,7 +49,7 @@ int Provider2IDp(tbl provider,char* provname)
 	int pass=0;
 	while(pass=0)
 	{
-		if(strcmp(provname,provider.clm.phnam[row][0])==0)
+		if(strcmp(provname,provider.clm.phnam[row][0].c)==0)
 		{
 			pass++;
 		}
@@ -50,7 +61,7 @@ int Provider2IDp(tbl provider,char* provname)
 	return row;
 }
 
-void checkFromSetName(char* setname,tbl setTbl,tbl provider)
+int checkFromSetName(char* setname,tbl setTbl,tbl provider)
 {
 	int row=setTbl.info.rowNum;
 	int row_locater=0;
@@ -60,25 +71,28 @@ void checkFromSetName(char* setname,tbl setTbl,tbl provider)
 	int temp=0;
 	int IDp=0;
 	char temp_prov[STRLENLIMIT]={"\0"};
-	while(row_locater<row)
+	
+	while(row_locater<row)//judge whether there exist a set/sets in the setTbl
 	{
-		if(strcmp(setname,setTbl.clm.phnam[row_locater][0])==0)
+		if(strcmp(setname,setTbl.clm.phnam[row_locater][0].c)==0)
 		{
-			cnfrm[counter_pass]=row_locater;
+			cnfrm[counter_pass]=row_locater;//if the set has the input name, it's ID_SET will be record in this array;
 			counter_pass++;
 		}
 		row_locater++;
 	}
+
 	if (counter_pass==0)
 	{
 		printf("there's no set named %s \n",setname);
+		return 0;
 	}
-	else 
+	else // There has at least 1 set have the name user type;
 	{	
 		displayTitle();
-		while(counter_out<counter_pass)
+		while(counter_out<counter_pass)//print the data 
 		{
-			temp=cnfrm[counter_out];
+			temp=cnfrm[counter_out];//get the ID_SET storage in the confirmArray;
 			IDp=setTbl.clm.phint[temp][2];
 			IDp2Provider(IDp,temp_prov,provider);
 			printf("%s",setname);
@@ -91,21 +105,22 @@ void checkFromSetName(char* setname,tbl setTbl,tbl provider)
 			printf("%s\n",setTbl.clm.phnam[temp][1]);
 			counter_out++;
 		}
+		return 1;
 	}
 }
 
 
-void checkFromProvName(char* provname,tbl setTbl,tbl provider)
+int checkFromProvName(char* provname,tbl setTbl,tbl provider)
 {
 	int IDp=0;
 	int row=0;
-	int counter_pass=0;
+	int counter_pass=0; 
 	IDp=Provider2IDp(provider,provname);
 	while(row<setTbl.info.rowNum)
 	{
 		if(setTbl.clm.phint[row][0]==IDp&&setTbl.clm.phint[row][1]==1)
 		{
-			if(counter_pass==0)
+			if(counter_pass==0)//if we find one target pass, this part will print the title of this table
 			{
 				displayTitle();
 			}
@@ -121,6 +136,16 @@ void checkFromProvName(char* provname,tbl setTbl,tbl provider)
 		}
 		row++;
 	}
+	if(counter_pass==0)//If there's no matching provider
+	{
+		printf("Sorry, there's no matching Provider");
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+	
 }
 
 void sortByPrice(tbl setTbl,tbl provider)
@@ -131,13 +156,14 @@ void sortByPrice(tbl setTbl,tbl provider)
 	int counter_row=0;
 	int row=0;
 	char provname[STRLENLIMIT]={"\0"};
-	while(counter_row<rowNum)
+
+	while(counter_row<rowNum)//To get an array[rowNum][2] which's first clm is the ID_SET
 	{
 		tempArray[counter_row][0]=setTbl.clm.phint[counter_row][0];
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][3];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,CompFun4Int);
+	SortFun(tempArray,rowNum,rtrnArray,CompFun4Int);//send the tempArray and return an array of ID_set that has already sorted
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
@@ -306,7 +332,7 @@ void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu)
 			int data=setTbl.clm.phint[choice][6];
 			if(billinfo->clm.phint[IDu][10]<price)
 			{
-				printf("Waring! The account has not enough money!\n");
+				printf("Waring! The account has no enough money!\n");
 			}
 			else
 			{
@@ -320,13 +346,7 @@ void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu)
 				//printf("%d,%d,%d,%d\n",billinfo->clm.phint[IDu][6],billinfo->clm.phint[IDu][7],billinfo->clm.phint[IDu][8],billinfo->clm.phint[IDu][10]);	//for test			
 			}
 		}
-		/*else
-		{
-			if(setTbl.clm.phint[choice][1]==0)
-			{
-				printf("This set is not available now!\n");
-			}
-		}*/	
+
 	}
 }
 
@@ -344,20 +364,21 @@ void CheckAndBuy(tbl setTbl,tbl user,tbl moneyRecord,tbl billinfo,tbl provider,i
 	printf("Press other button to Exit\n");
 	printf("Your choice:");
 	scanf("%d",&choice);
+	getchar();
 	int Check_counter=0;
 	if(choice==1)
 	{
 		char setname[STRLENLIMIT]={"\0"};
 		scanf("%s",setname);
-		checkFromSetName(setname,setTbl,provider);
-		Check_counter++;
+		getchar();
+		Check_counter=checkFromSetName(setname,setTbl,provider);
 	}
 	else if(choice==2)
 	{
 		char provname[STRLENLIMIT]={"\0"};
 		scanf("%s",provname);
-		checkFromProvName(provname,setTbl,provider);
-		Check_counter++;
+		getchar();
+		Check_counter=checkFromProvName(provname,setTbl,provider);
 	}
 	else if(choice==3)
 	{	
