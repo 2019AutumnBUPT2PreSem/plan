@@ -15,10 +15,6 @@ typedef struct yymmddhhmmss
 } tim;
 // support the function to store the time 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> e8a017223b0ce2c959ff18386cdfd39f9274695e
 typedef struct tableinfo
 {
     char *name;
