@@ -6,10 +6,10 @@
 #include<string.h>
 
 
-char* fillnam(const char *p);
+char* fillnam(const char *p);  // support the function fill name
 char* fillfilenam(const char *p); // don'tuse
-void setInfo(tblinfo *pinfo, char* name, int intNum, int strNum, int timNum, int rowNum);
-int getClmNum(tblinfo info);
+void setInfo(tblinfo *pinfo, char* name, int intNum, int strNum, int timNum, int rowNum); //set info
+int getClmNum(tblinfo info); // get the number of each column
 
 tblclmh assignTblclmh(tblinfo info); // create space for column head
 void resignTblclmh(tblclmh tablecolumn); // free space for column head
@@ -22,7 +22,7 @@ void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum); //this ch
 
 void addrow(tbl *table, int *introw, char **namrow, tim *timrow); // add a new row to chart
 
-char* fillnam(const char *p) //you need to free the pointer
+char* fillnam(const char *p) //you need to free the pointer // support the function fill name
 {
     char* newnam = (char*)malloc(sizeof(char) * STRLENLIMIT);
     if(newnam != NULL)
@@ -31,7 +31,7 @@ char* fillnam(const char *p) //you need to free the pointer
     }
     return newnam;
 }
-char* fillfilenam(const char *p)// must char * p = fillnam("dfakwfjdshfalkjdf"); char * q = fillfilenam(p); free(p); ... free(q);
+char* fillfilenam(const char *p) // must char * p = fillnam("dfakwfjdshfalkjdf"); char * q = fillfilenam(p); free(p); ... free(q);
 {
     char* newnam = (char*)malloc(sizeof(char) * (STRLENLIMIT + 5));
     strncpy(newnam, p, STRLENLIMIT);
@@ -40,7 +40,7 @@ char* fillfilenam(const char *p)// must char * p = fillnam("dfakwfjdshfalkjdf");
     return newnam;
 }
 void setInfo(tblinfo *pinfo, char *name, 
-              int intNum, int namNum, int timNum, int rowNum)
+              int intNum, int namNum, int timNum, int rowNum) // set infoo
 {
     
     pinfo->name = name;
