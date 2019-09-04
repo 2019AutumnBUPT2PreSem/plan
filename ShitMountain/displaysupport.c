@@ -5,10 +5,10 @@
 #include"dbstruct.h"
 
 void displayInfo(tblinfo info);// dispaly the number on screen
-void displayItem(int n, nam *pitem);// display the item on screen
+void displayItem(int n, char* *pitem);// display the item on screen
 
 void displayInt16(int n);// support to justify
-void displayNam(nam name);// display the name on screen
+void displayNam(char* name);// display the name on screen
 void displayTim(tim time);// display the time on screen
 void displayFloat16(float x);// support to justify 
 
@@ -23,7 +23,7 @@ void displayInfo(tblinfo info)// dispaly the number on screen
            info.intNum, info.namNum, info.timNum, info.floNum, info.rowNum);
 }
 
-void displayItem(int n, nam *pitem)// display the item on screen
+void displayItem(int n, char** pitem)// display the item on screen
 {
     for(int i = 0; i < n; i++)
     {
@@ -42,15 +42,15 @@ void display_int(int n)// support to justify
 {
     printf("%16d", n);
 }
-void display_nam(nam name)// display the name on screen
+void display_nam(char* name)// display the name on screen
 {
     for(int j = 0; j < STRLENLIMIT; j++)
-        if(nam[j] == '\0')
+        if(name[j] == '\0')
         {
             printf(" ");
         }
         else
-            printf("%c", nam[j]);
+            printf("%c", name[j]);
 }
 void display_tim(tim time)// display the time on screen
 {

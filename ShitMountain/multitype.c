@@ -22,13 +22,6 @@ void _initD3(_db_type ***p,int l, int m, int n, _db_type init);  //Initialize th
 void _destroyD3(_db_type ***p,int l, int m);  //Destroy a three-dimensional array.
 _db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type init);  //Expand column.
 
-/*
-_db_type *_constructColumnD2(int n, _db_type init); 
-void _destroyColumnD2(_db_type *poi);
-int _searchID(int rowlen, int m, int n);
-_db_type *_access(_db_type *head, int rowlen, int m, int n);
-*/
-
 //Create a one-dimensional array.
 _db_type* _constructD1(int n, _db_type init)
 {
