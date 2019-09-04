@@ -21,7 +21,7 @@ void sortByForLength(tbl setTbl,tbl provider);
 //Sort by the amount of international call time and display;
 void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu);
 //user decide which set to choose. If user doesn't have enough money or have an available set, this function won't work
-void CheckAndBuy(tbl setTbl,tbl user,tbl moneyRecord,tbl billinfo,tbl provider,int IDu);
+void CheckAndBuy(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,tbl provider,int IDu);
 //the main stucture of this programme
  /*________________________user check&buy____________________________________________________*/
 
@@ -350,7 +350,7 @@ void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu)
 	}
 }
 
-void CheckAndBuy(tbl setTbl,tbl user,tbl moneyRecord,tbl billinfo,tbl provider,int IDu)
+void CheckAndBuy(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,tbl provider,int IDu)
 {
 	int choice=-1;
 	printf("****************************************************************************************************\n");
@@ -402,7 +402,7 @@ void CheckAndBuy(tbl setTbl,tbl user,tbl moneyRecord,tbl billinfo,tbl provider,i
 	}
 	if (Check_counter!=0)
 	{
-		BuySet(setTbl,&user,&moneyRecord,&billinfo,IDu);
+		BuySet(setTbl,user,moneyRecord,billinfo,IDu);
 	}
 	
 }
