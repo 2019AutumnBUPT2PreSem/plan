@@ -4,15 +4,15 @@
 #include"arraysupport.c"
 #include"dbstruct.h"
 
-void displayInfo(tblinfo info);
-void displayItem(int n, nam *pitem);
+void displayInfo(tblinfo info);// dispaly the number on screen
+void displayItem(int n, nam *pitem);// display the item on screen
 
-void displayInt16(int n);
-void displayNam(nam name);
-void displayTim(tim time);
-void displayFloat16(float x);
+void displayInt16(int n);// support to justify
+void displayNam(nam name);// display the name on screen
+void displayTim(tim time);// display the time on screen
+void displayFloat16(float x);// support to justify 
 
-void displayInfo(tblinfo info)
+void displayInfo(tblinfo info)// dispaly the number on screen
 {
     printf("name : ");
     for(int i = 0; i < STRLENLIMIT; i++)
@@ -23,7 +23,7 @@ void displayInfo(tblinfo info)
            info.intNum, info.namNum, info.timNum, info.floNum, info.rowNum);
 }
 
-void displayItem(int n, nam *pitem)
+void displayItem(int n, nam *pitem)// display the item on screen
 {
     for(int i = 0; i < n; i++)
     {
@@ -38,11 +38,11 @@ void displayItem(int n, nam *pitem)
     }
 }
 
-void display_int(int n)
+void display_int(int n)// support to justify
 {
     printf("%16d", n);
 }
-void display_nam(nam name)
+void display_nam(nam name)// display the name on screen
 {
     for(int j = 0; j < STRLENLIMIT; j++)
         if(nam[j] == '\0')
@@ -52,12 +52,12 @@ void display_nam(nam name)
         else
             printf("%c", nam[j]);
 }
-void display_tim(tim time)
+void display_tim(tim time)// display the time on screen
 {
     printf("%02d/%02d/%02d%02d:%02d:%02d", time.yea, time.mon, time.day, time.hou, time.min, time.sec);
 }
 void display_float(float x)
 {
-    printf("%16f", x);
+    printf("%16f", x);// support to justify 
 }
 #endif
