@@ -168,7 +168,7 @@ void sortByPrice(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][3];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
+	SortFun(tempArray,rowNum,rtrnArray,CompFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
@@ -207,7 +207,7 @@ void sortByData(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][6];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
+	SortFun(tempArray,rowNum,rtrnArray,CompFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
@@ -246,7 +246,7 @@ void sortByBoardLength(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][4];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
+	SortFun(tempArray,rowNum,rtrnArray,CompFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
@@ -285,7 +285,7 @@ void sortByForLength(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][5];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
+	SortFun(tempArray,rowNum,rtrnArray,CompFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
