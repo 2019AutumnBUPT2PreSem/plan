@@ -40,7 +40,7 @@ void displayTitle()
 
 void IDp2Provider(int IDp,char* providerNam,tbl provider)
 {
-	providerNam=provider.clm.phnam[IDp][0].c;//IDp is the primaty key in provider table
+	providerNam=provider.clm.phnam[IDp][0];//IDp is the primaty key in provider table
 }
 
 int Provider2IDp(tbl provider,char* provname)
@@ -49,7 +49,7 @@ int Provider2IDp(tbl provider,char* provname)
 	int pass=0;
 	while(pass=0)
 	{
-		if(strcmp(provname,provider.clm.phnam[row][0].c)==0)
+		if(strcmp(provname,provider.clm.phnam[row][0])==0)
 		{
 			pass++;
 		}
@@ -74,7 +74,7 @@ int checkFromSetName(char* setname,tbl setTbl,tbl provider)
 	
 	while(row_locater<row)//judge whether there exist a set/sets in the setTbl
 	{
-		if(strcmp(setname,setTbl.clm.phnam[row_locater][0].c)==0)
+		if(strcmp(setname,setTbl.clm.phnam[row_locater][0])==0)
 		{
 			cnfrm[counter_pass]=row_locater;//if the set has the input name, it's ID_SET will be record in this array;
 			counter_pass++;
@@ -342,6 +342,19 @@ void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu)
 				billinfo->clm.phint[IDu][7]=forTime;
 				billinfo->clm.phint[IDu][8]=data;
 				billinfo->clm.phint[IDu][10]=billinfo->clm.phint[IDu][10]-price;
+				int inte[5]={setTbl.info.rowNum,1,IDu,choice};
+				char **name;
+				tim time;
+				printf("Please enter your Time:");
+				printf("Example:19/09/01 23:40:20");
+				scanf("%d",&time.yea);
+				scanf("%d",&time.mon);
+				scanf("%d",&time.day);
+				scanf("%d",&time.hou);
+				scanf("%d",&time.min);
+				scanf("%d",&time.sec);
+				getchar();
+				addrow(moneyRecord,inte,name,&time);
 				printf("Success!\n");
 				//printf("%d,%d,%d,%d\n",billinfo->clm.phint[IDu][6],billinfo->clm.phint[IDu][7],billinfo->clm.phint[IDu][8],billinfo->clm.phint[IDu][10]);	//for test			
 			}
