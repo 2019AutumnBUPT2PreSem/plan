@@ -1,5 +1,6 @@
 #include "dbio.c"
-
+#include "utilsupport.c"
+#include "arraysupport.c"
  /*________________________login part__________________1______________________________________*/
 int AdminOrUser();
 int loginFun(int statu);
@@ -12,7 +13,7 @@ void IDp2Provider(int IDp,char* providerNam,tbl provider);
 void displayTitle();
 int Provider2IDp(tbl provider,char* provname);
 void checkFromSetName(char* setname,tbl setTbl,tbl provider);
-void checkFromProvName(char* provname,tbl setTbl,tbl provider);//获得id_provider; 
+void checkFromProvName(char* provname,tbl setTbl,tbl provider);//鑾峰緱id_provider; 
 void sortByPrice(tbl setTbl,tbl provider);// joint_new2d(ID;item 2);
 void sortByData(tbl setTbl,tbl provider);
 void sortByBoardLength(tbl setTbl,tbl provider);
@@ -43,27 +44,6 @@ void stat_sort(tbl billinfo);
  /*_________________________FunOver___________________________________________________________*/
  
 
-//void weight_recommend(tbl setTbl)//
-//{
-//	int rowNum=setTbl.info.rowNum
-//	int temp2Dlist[rowNum][2]={0};
-//	int counter_trv=0;
-//	int rcmdList[rowNum];
-//	int counter_out=0;
-//	while(counter_trv<rowNum)
-//	{
-//		temp2Dlist[counter_trv][0]=setTbl.clm.phint[counter_trv][0];
-//		temp2Dlist[counter_trv][1]=(setTbl.clm.phint[counter_trv][4]*4+setTbl.clm.phint[counter_trv][5]+setTbl.clm.phint[counter_trv][6]*5)/(setTbl.clm.phint[counter_trv][3]+1);
-//		counter_trv++;
-//	}
-//	SortFun(temp2Dlist,rowNum,rcmdList,cmp_int);
-//	displayItem(setTbl.info);
-//	while(counter_out<row)
-//	{
-//		displayRow(setTbl,rcmdList[counter_out]);
-//		counter_out++;
-//	}
-//}
 
 void displayTitle()
 {
@@ -188,7 +168,7 @@ void sortByPrice(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][3];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,cmp_int);
+	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
@@ -227,7 +207,7 @@ void sortByData(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][6];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,cmp_int);
+	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
@@ -266,7 +246,7 @@ void sortByBoardLength(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][4];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,cmp_int);
+	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
@@ -305,7 +285,7 @@ void sortByForLength(tbl setTbl,tbl provider)
 		tempArray[counter_row][1]=setTbl.clm.phint[counter_row][5];
 		counter_row++;
 	}
-	SortFun(tempArray,rowNum,rtrnArray,cmp_int);
+	SortFun(tempArray,rowNum,rtrnArray,CmpFun4Int);
 	counter_row=0;
 	while(counter_row<rowNum)
 	{
