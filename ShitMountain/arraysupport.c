@@ -65,27 +65,6 @@
 
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
-// construct supportive function that deals with float
-/*
-#define _db_type float
-
-#define _constructD1 constructD1_float
-#define _constructD2 constructD2_float
-#define _constructD3 constructD3_float
-#define _destroyD1 destroyD1_float
-#define _destroyD2 destroyD2_float
-#define _destroyD3 destroyD3_float
-#define _initD1 initD1_float
-#define _initD2 initD2_float
-#define _initD3 initD3_float
-#define _extendD1 extendD1_float
-#define _extendD2N extendD2N_float
-#define _extendD2M extendD2M_float
-#define _extendD3M extendD3M_float
-
-#include "multitype.c"
-*/
-/*______________________________________________________________________________________________*/
 // construct supportive function that deals with int*
 typedef int* intp;
 #define _db_type intp
@@ -145,26 +124,6 @@ typedef tim* timp;
 #define _extendD3M extendD3M_timp
 
 #include "multitype.c"
-/*______________________________________________________________________________________________*/
-// construct supportive function that deals with int
-/*
-typedef float* flop;
-#define _db_type flop
-
-#define _constructD1 constructD1_flop
-#define _constructD2 constructD2_flop
-#define _constructD3 constructD3_flop
-#define _destroyD1 destroyD1_flop
-#define _destroyD2 destroyD2_flop
-#define _destroyD3 destroyD3_flop
-#define _initD1 initD1_flop
-#define _initD2 initD2_flop
-#define _initD3 initD3_flop
-#define _extendD1 extendD1_flop
-#define _extendD2N extendD2N_flop
-#define _extendD2M extendD2M_flop
-#define _extendD3M extendD3M_flop
-*/
 /*______________________________________________________________________________________________*/
 // construct supportive function that deals with int
 typedef char** charpp;

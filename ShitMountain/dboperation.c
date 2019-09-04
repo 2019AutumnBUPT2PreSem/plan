@@ -7,6 +7,7 @@
 
 
 char* fillnam(const char *p);
+char* fillfilenam(const char *p); // don'tuse
 void setInfo(tblinfo *pinfo, char* name, int intNum, int strNum, int timNum, int rowNum);
 int getClmNum(tblinfo info);
 
@@ -25,14 +26,22 @@ void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum);
 char* fillnam(const char *p)
 {
     char* newnam = (char*)malloc(sizeof(char) * STRLENLIMIT);
-    if(newnam == NULL)
+    if(newnam != NULL)
     {
         strncpy(newnam, p, STRLENLIMIT);
     }
     return newnam;
 }
+char* fillfilenam(const char *p) // don't use
+{
+    char* newnam = (char*)malloc(sizeof(char) * (STRLENLIMIT + 5));
+    strncpy(newnam, p, STRLENLIMIT);
+    newnam[STRLENLIMIT] = '\0';
+    strcat(newnam, ".tbl");
+    return newnam;
+}
 void setInfo(tblinfo *pinfo, char *name, 
-              int intNum, int namNum, int timNum, int floNum, int rowNum)
+              int intNum, int namNum, int timNum, int rowNum)
 {
     
     pinfo->name = name;
@@ -122,7 +131,7 @@ tblclmh assignTblChart(tblinfo info)
             if(newclmh.phtim == NULL)
             {
                 destroyD2_int(newclmh.phint, info.intNum);
-                destroyD3_nam(newclmh.phnam, info.namNum, info.rowNum);
+                destroyD3_char(newclmh.phnam, info.namNum, info.rowNum);
                 newclmh = giveBlankClmh();
             }
         }
@@ -132,7 +141,7 @@ tblclmh assignTblChart(tblinfo info)
 void resignTblChart(tblclmh tablecolumn, tblinfo info)
 {
 	destroyD2_int(tablecolumn.phint, info.intNum);
-    destroyD3_nam(tablecolumn.phnam, info.namNum, info.rowNum);
+    destroyD3_char(tablecolumn.phnam, info.namNum, info.rowNum);
     destroyD2_tim(tablecolumn.phtim, info.timNum);
 }
 

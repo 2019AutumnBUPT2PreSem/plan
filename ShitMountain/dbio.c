@@ -57,14 +57,14 @@ void writeHead(FILE *pfile, tblinfo info)
 
 void readItem(FILE *pfile, int n, char **pitem)
 {
-    for(int i = 0; i < n; i++, pitem++)
+    for(int i = 0; i < n; i++)
     {
         fread(pitem[i], sizeof(char), STRLENLIMIT, pfile);
     }
 }
 void writeItem(FILE *pfile, int n, char **pitem)
 {
-    for(int i = 0; i < n; i++, pitem++)
+    for(int i = 0; i < n; i++)
     {
         fwrite(pitem[i], sizeof(char), STRLENLIMIT, pfile);
     }
