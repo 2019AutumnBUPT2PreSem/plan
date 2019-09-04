@@ -18,23 +18,33 @@ the ints are:
 void readHead(FILE *pfile, tblinfo *pinfo);
 // read the header from the file
 void writeHead(FILE *pfile, tblinfo info);
-// weite the header into the file
+// write the header into the file
+void trscptHead(FILE *pfile, tblinfo *pinfo);
+// support the function both apply space and copy content
+void revtrsHead(FILE *pfile, tblinfo *pinfo);
+// reverse transcription
 void readNameL(FILE *pfile, int clmNum, char **pitem);
 // read the data from the file 
 void writeNameL(FILE *pfile, int clmNum, char **pitem);
 // write the data into the file
-
-void readItem(FILE *pfile, tbl *ptable);
-void writeItem(FILE *pfile, tbl table);
-
+void trscptItem(FILE *pfile, tbl *ptable);
+// support the function both apply space and copy item
+void revtrsItem(FILE *pfile, tbl *ptable);
+// reverse transcription
 void readChart(FILE *pfile, tblinfo info, tblclmh clm);
 // read the chart from the file 
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
 // write the chart into the file 
+void trscptChart(FILE *pfile, tbl *ptable);
+// support the function both apply space and copy chart
+void revtrsChart(FILE *pfile, tbl *ptable);
+// reverse transcription
 void readTable(FILE *pfile, tbl *ptable);
-//read the structure from the file 
+// read the structure from the file 
 void writeTable(FILE *pfile, tbl *ptable);
 // write the structure into the file
+void initTable(tblinfo info, char **iteml);
+// need "wb"
 
 void readHead(FILE *pfile, tblinfo *pinfo) // read the header from the file
 {
@@ -44,7 +54,7 @@ void readHead(FILE *pfile, tblinfo *pinfo) // read the header from the file
     fread(&pinfo->timNum, sizeof(int), 1, pfile);
     fread(&pinfo->rowNum, sizeof(int), 1, pfile);    
 }
-void writeHead(FILE *pfile, tblinfo info) // weite the header into the file
+void writeHead(FILE *pfile, tblinfo info) // write the header into the file
 {
     fwrite(info.name, sizeof(char), STRLENLIMIT, pfile);
     fwrite(&info.intNum, sizeof(int), 1, pfile);
@@ -53,23 +63,26 @@ void writeHead(FILE *pfile, tblinfo info) // weite the header into the file
     fwrite(&info.rowNum, sizeof(int), 1, pfile);
 }
 
-void trscptHead(FILE *pfile, tblinfo *pinfo)
+
+void trscptHead(FILE *pfile, tblinfo *pinfo) // support the function both apply space and copy content
+
 {
     pinfo->name = (char*)malloc(sizeof(char) * STRLENLIMIT);
     if(pinfo->name != NULL)
     {
-        readHead(pfile, pinfo);
+        readHead(pfile, pinfo);// read the chart head
     }
     else
     {
-        *pinfo = giveBlankInfo();
+        *pinfo = giveBlankInfo();// give a blank info
     }
 }
-void revtrsHead(FILE *pfile, tblinfo *pinfo)
+void revtrsHead(FILE *pfile, tblinfo *pinfo) // reverse transcription
+
 {
     if(pinfo->name != NULL)
     {
-        writeHead(pfile, *pinfo);
+        writeHead(pfile, *pinfo);// write the header into the file
         destroyD1_char(pinfo->name);
         *pinfo = giveBlankInfo();
     }
@@ -95,7 +108,8 @@ void writeNameL(FILE *pfile, int n, char **pitem) // write the data into the fil
     }
 }
 
-void trscptItem(FILE *pfile, tbl *ptable)
+void trscptItem(FILE *pfile, tbl *ptable) // support the function both apply space and copy item
+
 {
     char **newiteml = constructD2_char(getClmNum(ptable->info), STRLENLIMIT, '\0');
     if(newiteml != NULL)
@@ -109,7 +123,7 @@ void trscptItem(FILE *pfile, tbl *ptable)
         *ptable = giveBlankTbl();
     }
 }
-void revtrsItem(FILE *pfile, tbl *ptable)
+void revtrsItem(FILE *pfile, tbl *ptable) // reverse transcription
 {
     if(ptable->pitem != NULL)
     {
@@ -172,7 +186,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
     resignTblclmh(temp); //need to be done
 }
 
-void trscptChart(FILE *pfile, tbl *ptable)
+void trscptChart(FILE *pfile, tbl *ptable) // support the function both apply space and copy chart
 {
     ptable->clm = assignTblChart(ptable->info);
     if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
@@ -190,7 +204,7 @@ void trscptChart(FILE *pfile, tbl *ptable)
         readChart(pfile, ptable->info, ptable->clm);
     }
 }
-void revtrsChart(FILE *pfile, tbl *ptable)
+void revtrsChart(FILE *pfile, tbl *ptable) // reverse transcription
 {
     if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
         (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
