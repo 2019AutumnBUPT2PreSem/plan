@@ -1,49 +1,18 @@
 #include "dbio.c"
-#include "utilsupport.c"
-#include "arraysupport.c"
- /*________________________login part__________________1______________________________________*/
-int AdminOrUser();
-int loginFun(int statu);
- /*________________________user part__________________1_______________________________________*/
-void showUserMenu();
+#include "utilsupport.c" 
  /*________________________user check&buy_____________4_______________________________________*/
-void UserMenu();
-//void weight_recommend(tbl setTbl);
 void IDp2Provider(int IDp,char* providerNam,tbl provider);
 void displayTitle();
 int Provider2IDp(tbl provider,char* provname);
 void checkFromSetName(char* setname,tbl setTbl,tbl provider);
-void checkFromProvName(char* provname,tbl setTbl,tbl provider);//鑾峰緱id_provider; 
+void checkFromProvName(char* provname,tbl setTbl,tbl provider);//获得id_provider; 
 void sortByPrice(tbl setTbl,tbl provider);// joint_new2d(ID;item 2);
 void sortByData(tbl setTbl,tbl provider);
 void sortByBoardLength(tbl setTbl,tbl provider);
 void sortByForLength(tbl setTbl,tbl provider);
 void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu);
-
- /*_________________________user dial_____________________2___________________________________*/
-void dial_user(tbl* teleRecord,tbl* billinfo,int IDu);
-void net_user(tbl* netRecord,tbl* billinfo,int IDu);
- /*_________________________user info______________________2__________________________________*/
-void changePersonInfo(tbl* User,int IDu); 
-void checkTeleRecord(tbl teleRecord,int IDu);
-void checkTeleRecordByTime(tbl teleRecord,tim time);
-void checkNetRecord(tbl netRecord);
-void checkNetRecordByTime(tbl netRecord,tim time);
- /*_________________________admin part__________________1_____________________________________*/
-void showAdminMenu();
- /*_________________________admin check__________________1____________________________________*/
-void checkProviderSet(tbl User);
- /*_________________________admin stat______________________3_________________________________*/
-void stat(tbl User,int IDu);
-void stat_time(tbl teleRecord);
-void stat_sort(tbl billinfo);
- /*_________________________admin set________________________3_________________________________*/
- void checkSet(tbl set,int prov);
- void addNewSet(tbl* set,int prov);
- void changeUserInfo(tbl* User);
- /*_________________________FunOver___________________________________________________________*/
- 
-
+void CheckAndBuy(tbl setTbl,tbl user,tbl moneyRecord,tbl billinfo,tbl provider,int IDu);
+ /*________________________user check&buy_____________4_______________________________________*/
 
 void displayTitle()
 {
@@ -90,7 +59,7 @@ void checkFromSetName(char* setname,tbl setTbl,tbl provider)
 	int counter_out=0;
 	int temp=0;
 	int IDp=0;
-	char temp_prov[12]={"\0"};
+	char temp_prov[STRLENLIMIT]={"\0"};
 	while(row_locater<row)
 	{
 		if(strcmp(setname,setTbl.clm.phnam[row_locater][0])==0)
@@ -161,7 +130,7 @@ void sortByPrice(tbl setTbl,tbl provider)
 	int rtrnArray[rowNum];
 	int counter_row=0;
 	int row=0;
-	char provname[16]={"\0"};
+	char provname[STRLENLIMIT]={"\0"};
 	while(counter_row<rowNum)
 	{
 		tempArray[counter_row][0]=setTbl.clm.phint[counter_row][0];
@@ -200,7 +169,7 @@ void sortByData(tbl setTbl,tbl provider)
 	int rtrnArray[rowNum];
 	int counter_row=0;
 	int row=0;
-	char provname[16]={"\0"};
+	char provname[]={"\0"};
 	while(counter_row<rowNum)
 	{
 		tempArray[counter_row][0]=setTbl.clm.phint[counter_row][0];
@@ -239,7 +208,7 @@ void sortByBoardLength(tbl setTbl,tbl provider)
 	int rtrnArray[rowNum];
 	int counter_row=0;
 	int row=0;
-	char provname[16]={"\0"};
+	char provname[STRLENLIMIT]={"\0"};
 	while(counter_row<rowNum)
 	{
 		tempArray[counter_row][0]=setTbl.clm.phint[counter_row][0];
@@ -278,7 +247,7 @@ void sortByForLength(tbl setTbl,tbl provider)
 	int rtrnArray[rowNum];
 	int counter_row=0;
 	int row=0;
-	char provname[16]={"\0"};
+	char provname[STRLENLIMIT]={"\0"};
 	while(counter_row<rowNum)
 	{
 		tempArray[counter_row][0]=setTbl.clm.phint[counter_row][0];
@@ -335,19 +304,9 @@ void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu)
 			int borTime=setTbl.clm.phint[choice][4];
 			int forTime=setTbl.clm.phint[choice][5];
 			int data=setTbl.clm.phint[choice][6];
-			if(user->clm.phint[IDu][3]==0)
-			{
-				printf("Dear teacher, you will have  discount.\n");
-				price=price*0.9;
-			}
-			else if(user->clm.phint[IDu][3]==1)
-			{
-				printf("Dear student,you will have 20%% discount.\n");
-				price=price*0.8;
-			}
 			if(billinfo->clm.phint[IDu][10]<price)
 			{
-				printf("Warning! The account has not enough money!\n");
+				printf("Waring! The account has not enough money!\n");
 			}
 			else
 			{
@@ -369,4 +328,60 @@ void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu)
 			}
 		}*/	
 	}
+}
+
+void CheckAndBuy(tbl setTbl,tbl user,tbl moneyRecord,tbl billinfo,tbl provider,int IDu)
+{
+	int choice=-1;
+	printf("****************************************************************************************************\n");
+	printf("welcome,please choose a service\n");
+	printf("1.Check sets by name\n");
+	printf("2.Check sets by provider\n");
+	printf("3.Check sets by price sequence\n");
+	printf("4.Check sets by data sequence\n");
+	printf("5.Check sets by board call sequence\n");
+	printf("6.Check sets by international call sequence\n");
+	printf("Press other button to Exit\n");
+	printf("Your choice:");
+	scanf("%d",&choice);
+	int Check_counter=0;
+	if(choice==1)
+	{
+		char setname[STRLENLIMIT]={"\0"};
+		scanf("%s",setname);
+		checkFromSetName(setname,setTbl,provider);
+		Check_counter++;
+	}
+	else if(choice==2)
+	{
+		char provname[STRLENLIMIT]={"\0"};
+		scanf("%s",provname);
+		checkFromProvName(provname,setTbl,provider);
+		Check_counter++;
+	}
+	else if(choice==3)
+	{	
+		sortByPrice(setTbl,provider);
+		Check_counter++;
+	}
+	else if(choice==4)
+	{
+		sortByData(setTbl,provider);
+		Check_counter++;
+	}
+	else if(choice==5)
+	{
+		sortByBoardLength(setTbl,provider);
+		Check_counter++;
+	}
+	else if(choice==6)
+	{
+		sortByForLength(setTbl,provider);
+		Check_counter++;
+	}
+	if (Check_counter!=0)
+	{
+		BuySet(setTbl,&user,&moneyRecord,&billinfo,IDu);
+	}
+	
 }

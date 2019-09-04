@@ -11,19 +11,18 @@ char* fillfilenam(const char *p); // don'tuse
 void setInfo(tblinfo *pinfo, char* name, int intNum, int strNum, int timNum, int rowNum);
 int getClmNum(tblinfo info);
 
-//void setItem(tblinfo info, nam **ppitem);
+tblclmh assignTblclmh(tblinfo info); // create space for column head
+void resignTblclmh(tblclmh tablecolumn); // free space for column head
 
-tblclmh assignTblclmh(tblinfo info);
-void resignTblclmh(tblclmh tablecolumn); //need to be done
+tblclmh assignTblChart(tblinfo info); //create space for chart
+void resignTblChart(tblclmh tablecolumn, tblinfo info); //free space for chart
 
-tblclmh assignTblChart(tblinfo info);
-void resignTblChart(tblclmh tablecolumn, tblinfo info);
+void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2); //clmh1->clmh2
+void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum); //this chart will change ptablecolumn to NULL if failed
 
-void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2);
-void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum);
+void addrow(tbl *table, int *introw, char **namrow, tim *timrow); // add a new row to chart
 
-
-char* fillnam(const char *p)
+char* fillnam(const char *p) //you need to free the pointer
 {
     char* newnam = (char*)malloc(sizeof(char) * STRLENLIMIT);
     if(newnam != NULL)
@@ -51,12 +50,12 @@ void setInfo(tblinfo *pinfo, char *name,
     pinfo->rowNum = rowNum;
 }
 
-int getClmNum(tblinfo info)
+int getClmNum(tblinfo info) // get the number of each column
 {
     return info.intNum + info.namNum + info.timNum;
 }
 
-tblclmh assignTblclmh(tblinfo info) // creat space for column head
+tblclmh assignTblclmh(tblinfo info) // create space for column head
 {
     tblclmh newclmh;
     newclmh.phint = constructD1_intp(info.intNum, NULL);
@@ -85,7 +84,7 @@ tblclmh assignTblclmh(tblinfo info) // creat space for column head
     }
     return newclmh;
 }
-void resignTblclmh(tblclmh tablecolumn)
+void resignTblclmh(tblclmh tablecolumn) // free space for column head
 {
 	destroyD1_intp(tablecolumn.phint);
     destroyD1_charpp(tablecolumn.phnam);
@@ -108,7 +107,7 @@ void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2) // clmh1 -> clmh2
     }
 }
 
-tblclmh assignTblChart(tblinfo info)
+tblclmh assignTblChart(tblinfo info) //create space for chart
 {
     tblclmh newclmh;
     
@@ -138,7 +137,7 @@ tblclmh assignTblChart(tblinfo info)
     }
     return newclmh;
 }
-void resignTblChart(tblclmh tablecolumn, tblinfo info)
+void resignTblChart(tblclmh tablecolumn, tblinfo info) //free space for chart
 {
 	destroyD2_int(tablecolumn.phint, info.intNum);
     destroyD3_char(tablecolumn.phnam, info.namNum, info.rowNum);
@@ -167,7 +166,7 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *plocRowNum) // this 
 	}
 }
 
-void addrow(tbl *table, int *introw, char **namrow, tim *timrow)
+void addrow(tbl *table, int *introw, char **namrow, tim *timrow) // add a new blank row to chart
 {
     if(table->lrn <= table->info.rowNum + 1)
     {

@@ -160,4 +160,75 @@ int CompFun4Int(int comp,int comped)
 		return -1;
 }
 
+int cmp_tim(tim a,tim b)
+{
+	if(a.yea>b.yea)
+	{
+		return 1;
+	}
+	else if(a.yea==b.yea)
+	{
+		if(a.mon>b.mon)
+		{
+			return 1;
+		}
+		else if(a.mon==b.mon)
+		{
+			if(a.day>b.day)
+			{
+				return 1;
+			}
+			else if(a.day==b.day)
+			{
+				if(a.hou>b.hou)
+				{
+					return 1;
+				}
+				else if(a.hou==b.hou)
+				{
+					if(a.min>b.min)
+					{
+						return 1;
+					}
+					else if(a.min==b.min)
+					{
+						if(a.sec>b.sec)
+						{
+							return 1;
+						}
+						else if(a.sec==b.sec)
+						{
+							return 0;
+						}
+						else if(a.sec<b.sec)
+						{
+							return -1;
+						}
+					}
+					else
+					{
+						return -1;
+					}
+				}
+				else
+				{
+					return -1;
+				}
+			}
+			else
+			{
+				return -1;
+			}
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	else
+	{
+		return -1;
+	}
+}
+
 #endif

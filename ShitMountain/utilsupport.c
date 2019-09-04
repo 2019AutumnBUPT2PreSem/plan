@@ -9,7 +9,7 @@
 #define IGNR_NUM 30001
 #define CompFunType int
 
-void ReadArray(DBMEMORY_C (*database)[2],int row_num,DBMEMORY_C* tempArray)//读取一个2列n行的数组 
+void ReadArray(DBMEMORY_C (*database)[2],int row_num,DBMEMORY_C* tempArray)//Read an array of two columns and N rows
 {
 	int counter=0;
 	while(counter<row_num)
@@ -19,7 +19,7 @@ void ReadArray(DBMEMORY_C (*database)[2],int row_num,DBMEMORY_C* tempArray)//读
 	}
 }
 
-void genSeqL(int* array,int row)//初始化一个序列数组
+void genSeqL(int* array,int row)//Initialize a sequence array
 {
 	int counter=0;
 	while(counter<row)
@@ -33,9 +33,9 @@ void genSeqL(int* array,int row)//初始化一个序列数组
 
 void GetRtrnArray(int* compArray,int* rtrnArray,int row)
 {
-	int pass_counter=0;//用于确定已经经过了多少数字 
-	int trv_counter=0;//用于遍历
-	int locater=row-1;//这个函数使用的是反向搜索
+	int pass_counter=0;//Used to determine how many words have passed
+	int trv_counter=0;//Used to loop through
+	int locater=row-1;//This function uses reverse search
 	int keyArray[row]; 
 	int temp;
 	genSeqL(keyArray,row);
@@ -46,30 +46,30 @@ void GetRtrnArray(int* compArray,int* rtrnArray,int row)
 		trv_counter=0;
 		while(pass_counter!=temp) 
 		{
-			if(keyArray[trv_counter]!=IGNR_NUM)//如果读到ignore_num就跳过，不计入counter；
+			if(keyArray[trv_counter]!=IGNR_NUM)//skip ignore_num,won't count in counter；
 				pass_counter++;
 			trv_counter++;
 		}
-		while(keyArray[trv_counter]==IGNR_NUM)//此处是为了解决如果连续几个IGNR_NUM而出现读取了IGNR_NUM的情况
+		while(keyArray[trv_counter]==IGNR_NUM)//This is to solve the problem of reading IGNR_NUM if there are several successive IGNR_NUM.
 			{
 				trv_counter++;
 			}
 		rtrnArray[locater]=keyArray[trv_counter];
 		keyArray[trv_counter]=IGNR_NUM;
-		locater--;//反向进行序数数列的排列
+		locater--;//Reverse Arrangement of Ordinal Sequences
 	}
 }
 
-void SortFun(DBMEMORY_C (*database)[2],int row_num,int* rtrnArray,int (*CompFun)(CompFunType ch1,CompFunType ch2))//最后的到的输出是按照从小到大的序列
+void SortFun(DBMEMORY_C (*database)[2],int row_num,int* rtrnArray,int (*CompFun)(CompFunType ch1,CompFunType ch2))//The final output is in a sequence from small to large.
 {
 	DBMEMORY_C tempArray[row_num]={0};
 	DBMEMORY_C compArray[row_num]={0};
-	ReadArray(database,row_num,tempArray);//将二元数组的需要比较的数据读入tempArray中
+	ReadArray(database,row_num,tempArray);//Read the data needed to compare binary arrays into tempArray
 	int row_counter=0;
 	int row_locater=0;
 	int comp_counter=0;
 	
-	while(row_counter!=row_num)//获得compArray（由于引入了CompFun函数指针，具体比较方法请自行设定
+	while(row_counter!=row_num)//Get compArray (since the introduction of the CompFun function pointer, specific comparison method should be set by yourself
 	{
 		row_locater=0;
 		comp_counter=0;
@@ -94,21 +94,4 @@ int accum(int *p, int n,  int *acsmap)
     }
 	return acmres;
 }
-/*
-int* filter(tbl t, int nacs, int *acsmap, int *nft, int (*acpt_sth)(tbl table, int rowID, tbl accord, ))
-{
-	int pass[nacs];
-	int count = 0;
-	int *p = NULL;
-	for(int i = 0; i < nacs; i++)
-	{
-		pass[i] = acpt_sth(t, acsmap[i]);
-		if(pass[i] == 1)
-		{
-			count++;
-		}
-	}
-
-}
-*/
 #endif

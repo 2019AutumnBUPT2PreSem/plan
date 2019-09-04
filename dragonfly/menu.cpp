@@ -1,17 +1,17 @@
- #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
 
 void modeset(int w,int h);//设置界面大小                  correct
-void login();//登录界面                                   correct
-void decide(int sort);//决定是哪个种类                     correct              
+int login();//登录界面                                   correct
+int decide(int sort);//决定是哪个种类                     correct              
 void userid(int sort);//ID的输入 
 void adminid(int sort);//ID的输入 
 void judgeid(int sort,char id[10]);//ID的判断             correct             
 int innerjudge(char id[10]);//ID多次判断                  correct
 void judgepass(int sort,char pass[16],char id[10]);//密码的判断 
-void usermenu(int sort);//用户菜单 
-void adminmenu(int sort);//管理员菜单 
+int usermenu(int sort);//用户菜单 
+int adminmenu(int sort);//管理员菜单 
 void markline(int n);//星标行 
 void strailine(int n);//直线行
 void blankline(int n);//空白行 
@@ -27,8 +27,12 @@ void checklist();
  
 int main()
 {
+	int log=1;
 	modeset(100,50);
-	login();
+	while(log==1)
+	{
+	    log=login();
+    }
 	return 0;
 }
 void modeset(int w,int h)
@@ -42,10 +46,10 @@ void modeset(int w,int h)
 	return;
 }
 
-void login()
+int login()
 {
 	system("cls");
-	int i,sort,max=99,mid=47,smid=42;
+	int i,sort=1,max=99,mid=47,smid=42,login=0;
 	blankline(max);
     markline(max);
     printf("\n");
@@ -57,13 +61,13 @@ void login()
 	printf("1.adminisitrator");
     blankline(smid);
 	printf("2.user\n");
-	strailine(max);	
+	strailine(max);
 	printf("\nPlease choose which identity to log in with:");
 	scanf("%d",&sort);
-	system("cls");   
-	for(;sort!=1&sort!=2;)
+	system("cls");   	
+	while(sort!=1&&sort!=2)
 	{
-		printf("Error!!!");
+		printf("\nError!!!");
 		strailine(max);
 		printf("\n\nOption does not exist,please choose again!\n");
 		strailine(max);
@@ -71,29 +75,30 @@ void login()
 		blankline(smid);
 	    printf("1.adminisitrator");
         blankline(smid);
-    	printf("2.user\n");
+    	printf("2.user");
     	strailine(max);
-		printf("\n\nPlease choose which identity to log in with:");
-		scanf("%d",&sort);
+    	printf("\nPlease choose which identity to log in with:");
+	    scanf("%d",&sort);
+	    system("cls");   
 	}
-	system("cls"); 
-	strailine(max);
-	decide(sort);	 
+	login=decide(sort);	 
+    return login;
 }
 
-void decide(int sort)
+int decide(int sort)
 {
+	int login=0;
 	if(sort==1)
 	{
 	    adminid(sort);
-	    adminmenu(sort);
+	    login=adminmenu(sort);
 	}
 	else if(sort==2)
 	{
 		userid(sort);
-		usermenu(sort);
+		login=usermenu(sort);
 	}
-	system("cls");
+	return login;
 }
 
 void userid(int sort)
@@ -199,10 +204,10 @@ void judgepass(int sort,char pass[16],char id[10])
     
 }
 
-void usermenu(int sort)
+int usermenu(int sort)
 {
-	int i,option=0,mid=37,smid=34;
-	while(option!=5&&option!=6)
+	int i,option=0,mid=37,smid=34,max=99,login=0;
+	while(option!=5)
 	{
 	    strailine(mid);
         printf("What do you want to do?");
@@ -220,9 +225,9 @@ void usermenu(int sort)
 	    blankline(smid);
 	    printf("4.Make a call.");
 	    blankline(smid);
-	    printf("5.Back to Login.");
-	    blankline(smid);
-	    printf("6.Quit.\n");
+	    printf("5.Back to Login.\n");
+	    strailine(max);
+	    printf("\n");
 	    printf("Choose an option:");
 	    scanf("%d",&option);
 	    switch(option)
@@ -244,18 +249,16 @@ void usermenu(int sort)
 		//查询清单
 		    break; 
 		case 5:
-		    login();
+		    login=1;
 		    break;
-		case 6:
-		    break;
-
 	    } 
+	    system("cls");
     }
-	system("cls");	 
+	return login;	 
 }
-void adminmenu(int sort)
+int adminmenu(int sort)
 {
-	int i,option,mid=37,smid=34;
+	int i,option,mid=37,smid=34,max=99,login=0;
 	while(option!=4&&option!=5)
 	{
 	    strailine(mid);
@@ -274,8 +277,9 @@ void adminmenu(int sort)
 		blankline(smid);
 		printf("4.Back to login.");
 		blankline(smid);
-		printf("5.Quit.\n");
-		printf("Choose an option:");
+		printf("5.Shut down.\n");
+		strailine(max);
+		printf("\nChoose an option:");
 		scanf("%d",&option);
 	
 		switch(option)
@@ -287,13 +291,14 @@ void adminmenu(int sort)
 			case 3:
 			    break;
 	    	case 4:
-	    		login();
+	    		login=1;
 	        	break;	
 	    	case 5:
 	        	break;
 	    } 
 	    system("cls");
 	}
+	return login;
 }
 void markline(int n)
 {

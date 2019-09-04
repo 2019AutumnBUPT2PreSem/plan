@@ -16,18 +16,22 @@ the ints are:
 */
 
 void readHead(FILE *pfile, tblinfo *pinfo);
+// read the header from the file
 void writeHead(FILE *pfile, tblinfo info);
-
+// weite the header into the file
 void readItem(FILE *pfile, int clmNum, char **pitem);
+// read the data from the file 
 void writeItem(FILE *pfile, int clmNum, char **pitem);
-
+// write the data into the file
 void readChart(FILE *pfile, tblinfo info, tblclmh clm);
+// read the chart from the file 
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
-
+// write the chart into the file 
 void readTable(FILE *pfile, tbl *ptable);
+//read the structure from the file 
 void writeTable(FILE *pfile, tbl *ptable);
-
-void readHead(FILE *pfile, tblinfo *pinfo)
+// write the structure into the file 
+void readHead(FILE *pfile, tblinfo *pinfo) // read the header from the file
 {
     pinfo->name = (char*)malloc(sizeof(char) * STRLENLIMIT);
     if(pinfo->name != NULL)
@@ -45,7 +49,7 @@ void readHead(FILE *pfile, tblinfo *pinfo)
     
     
 }
-void writeHead(FILE *pfile, tblinfo info)
+void writeHead(FILE *pfile, tblinfo info) // weite the header into the file
 {
     fwrite(info.name, sizeof(char), STRLENLIMIT, pfile);
     free(info.name);
@@ -55,14 +59,14 @@ void writeHead(FILE *pfile, tblinfo info)
     fwrite(&info.rowNum, sizeof(int), 1, pfile);
 }
 
-void readItem(FILE *pfile, int n, char **pitem)
+void readItem(FILE *pfile, int n, char **pitem) // read the data from the file 
 {
     for(int i = 0; i < n; i++)
     {
         fread(pitem[i], sizeof(char), STRLENLIMIT, pfile);
     }
 }
-void writeItem(FILE *pfile, int n, char **pitem)
+void writeItem(FILE *pfile, int n, char **pitem) // write the data into the file
 {
     for(int i = 0; i < n; i++)
     {
@@ -70,7 +74,7 @@ void writeItem(FILE *pfile, int n, char **pitem)
     }
 }
 
-void readChart(FILE *pfile, tblinfo info, tblclmh clm)
+void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from the file 
 {
     tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
@@ -94,7 +98,7 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm)
     }
     resignTblclmh(clm);
 }
-void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
+void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into the file 
 {
     tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
@@ -119,7 +123,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm)
     resignTblclmh(clm); //need to be done
 }
 
-void readTable(FILE *pfile, tbl *ptable)
+void readTable(FILE *pfile, tbl *ptable) //read the structure from the file 
 {
     readHead(pfile, &ptable->info);
     char **itml = constructD2_char(getClmNum(ptable->info), STRLENLIMIT, '\0');
@@ -147,7 +151,7 @@ void readTable(FILE *pfile, tbl *ptable)
         }
     }
 }
-void writeTable(FILE *pfile, tbl *ptable)
+void writeTable(FILE *pfile, tbl *ptable) // write the structure into the file
 {
     writeHead(pfile, ptable->info);
     writeItem(pfile, getClmNum(ptable->info), ptable->pitem);
