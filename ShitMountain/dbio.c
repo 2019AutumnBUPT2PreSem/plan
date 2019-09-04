@@ -278,8 +278,18 @@ void initTable(tblinfo info, char **iteml)// need "wb"
     }
 }
 
-int isFirstTime();
+int isFirstTime(tbl table)
 {
-
+    char *filename = fillfilenam(table.info.name);
+    FILE *pfile = fopen(filename, "rb");
+    if(feof(pfile))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+    
 }
 #endif

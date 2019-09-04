@@ -21,7 +21,6 @@ typedef struct tableinfo
     int intNum;
     int namNum;
     int timNum;
-    int floNum;
     int rowNum;
 } tblinfo;
 //support the function to store the number of data
@@ -31,7 +30,6 @@ typedef struct tablecolumn
     int **phint; // pointer to the head of a list of int, all the same.
     char ***phnam;
     tim **phtim;
-    float **phflo;
 } tblclmh; // column head
 //support the function to store each column head
 
@@ -50,7 +48,6 @@ tblclmh giveBlankClmh(void)
     newclmh.phint = NULL;
     newclmh.phnam = NULL;
     newclmh.phtim = NULL;
-    newclmh.phflo = NULL;
 }
 //give the form a new blank column head
 
@@ -61,7 +58,6 @@ tblinfo giveBlankInfo(void)
     info.intNum = 0;
     info.namNum = 0;
     info.timNum = 0;
-    info.floNum = 0;
     info.rowNum = 0;
     return info;
 }

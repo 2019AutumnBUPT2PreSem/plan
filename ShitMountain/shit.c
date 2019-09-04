@@ -18,7 +18,7 @@ int main()
     provider.pitem = iteml;
     if(isFirstTime(provider))
     {
-        initTable(provider.info, &provider);
+        initTable(provider.info, provider.pitem);
     }
 
     tbl user;
