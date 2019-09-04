@@ -5,6 +5,10 @@
 #include"dbstruct.h"
 #include<string.h>
 
+tblclmh giveBlankClmh(void);
+tblinfo giveBlankInfo(void);
+tbl giveBlankTbl(void);
+tim giveBlankTim(void);
 
 char* fillnam(const char *p);  // support the function fill name
 char* fillfilenam(const char *p); // don'tuse
@@ -21,6 +25,51 @@ void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2); //clmh1->clmh2
 void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum); //this chart will change ptablecolumn to NULL if failed
 
 void addrow(tbl *table, int *introw, char **namrow, tim *timrow); // add a new row to chart
+
+tblclmh giveBlankClmh(void)
+{
+    tblclmh newclmh;
+    newclmh.phint = NULL;
+    newclmh.phnam = NULL;
+    newclmh.phtim = NULL;
+}
+//give the form a new blank column head
+
+tblinfo giveBlankInfo(void)
+{
+    tblinfo info;
+    info.name = NULL;
+    info.intNum = 0;
+    info.namNum = 0;
+    info.timNum = 0;
+    info.rowNum = 0;
+    return info;
+}
+//give the form new blank info
+
+tbl giveBlankTbl(void)
+{
+    tbl table;
+    table.info = giveBlankInfo();
+    table.pitem = NULL;
+    table.lrn = 0;
+    table.clm = giveBlankClmh(); 
+    return table;
+}
+//give a new blank form
+
+tim giveBlankTim(void)
+{
+    tim blankTim;
+    blankTim.yea = 0;
+    blankTim.mon = 0;
+    blankTim.day = 0;
+    blankTim.hou = 0;
+    blankTim.min = 0;
+    blankTim.sec = 0;
+    return blankTim;
+}
+// give a new time to the form
 
 char* fillnam(const char *p) //you need to free the pointer // support the function fill name
 {

@@ -19,8 +19,8 @@ void displayInfo(tblinfo info)// dispaly the number on screen
     {
         printf("%c", info.name[i]);
     }
-    printf("\nintNum : %d\nstrNum : %d\ntimNum : %d\nfloNum : %d\nrowNum : %d\n", 
-           info.intNum, info.namNum, info.timNum, info.floNum, info.rowNum);
+    printf("\nintNum : %d\nstrNum : %d\ntimNum : %d\nrowNum : %d\n", 
+           info.intNum, info.namNum, info.timNum, info.rowNum);
 }
 
 void displayItem(int n, char** pitem)// display the item on screen
@@ -28,12 +28,12 @@ void displayItem(int n, char** pitem)// display the item on screen
     for(int i = 0; i < n; i++)
     {
         for(int j = 0; j < STRLENLIMIT; j++)
-            if(pitem[i].c[j] == '\n')
+            if(pitem[i][j] == '\0')
             {
                 printf(" ");
             }
             else
-                printf("%c", pitem[i].c[j]);
+                printf("%c", pitem[i][j]);
         printf("|");
     }
 }
@@ -55,9 +55,5 @@ void display_nam(char* name)// display the name on screen
 void display_tim(tim time)// display the time on screen
 {
     printf("%02d/%02d/%02d%02d:%02d:%02d", time.yea, time.mon, time.day, time.hou, time.min, time.sec);
-}
-void display_float(float x)
-{
-    printf("%16f", x);// support to justify 
 }
 #endif

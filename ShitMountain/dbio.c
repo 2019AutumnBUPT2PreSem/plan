@@ -35,6 +35,7 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm);
 // read the chart from the file 
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
 // write the chart into the file 
+int xor(int a, int b);
 void trscptChart(FILE *pfile, tbl *ptable);
 // support the function both apply space and copy chart
 void revtrsChart(FILE *pfile, tbl *ptable);
@@ -43,7 +44,7 @@ void readTable(FILE *pfile, tbl *ptable);
 // read the structure from the file 
 void writeTable(FILE *pfile, tbl *ptable);
 // write the structure into the file
-void initTable(tblinfo info, char **iteml);
+void initTable(tbl *ptable);
 // need "wb"
 
 void readHead(FILE *pfile, tblinfo *pinfo) // read the header from the file
@@ -78,7 +79,6 @@ void trscptHead(FILE *pfile, tblinfo *pinfo) // support the function both apply 
     }
 }
 void revtrsHead(FILE *pfile, tblinfo *pinfo) // reverse transcription
-
 {
     if(pinfo->name != NULL)
     {
@@ -173,7 +173,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
             temp.phint[j]++;
         }
         for (int j = 0; j < info.namNum; j++)
-        {
+        { 
             fwrite(temp.phnam[j],sizeof(char), STRLENLIMIT, pfile);
             temp.phnam[j]++;
         }
@@ -185,13 +185,16 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
     }
     resignTblclmh(temp); //need to be done
 }
-
+int xor(int a, int b)
+{
+	return (!a && b) || (a && !b);
+}
 void trscptChart(FILE *pfile, tbl *ptable) // support the function both apply space and copy chart
 {
     ptable->clm = assignTblChart(ptable->info);
-    if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
-        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
-        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
+    if(xor(ptable->clm.phint == NULL, ptable->info.intNum == 0) || 
+        xor(ptable->clm.phnam == NULL, ptable->info.namNum == 0) || 
+        xor(ptable->clm.phtim == NULL, ptable->info.timNum == 0))
     {
         resignTblChart(ptable->clm, ptable->info);
         ptable->clm = giveBlankClmh();
@@ -206,11 +209,11 @@ void trscptChart(FILE *pfile, tbl *ptable) // support the function both apply sp
 }
 void revtrsChart(FILE *pfile, tbl *ptable) // reverse transcription
 {
-    if((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
-        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
-        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
+    if((xor(ptable->clm.phint == NULL, ptable->info.intNum == 0) || 
+        xor(ptable->clm.phnam == NULL, ptable->info.namNum == 0) || 
+        xor(ptable->clm.phtim == NULL, ptable->info.timNum == 0)))
     {
-        printf("the chart is empty.\n");
+        printf("the chart is wrong.\n");
     }
     writeChart(pfile, ptable->info, ptable->clm);
     resignTblChart(ptable->clm, ptable->info);
@@ -232,10 +235,10 @@ void readTable(FILE *pfile, tbl *ptable) //read the structure from the file
 void writeTable(FILE *pfile, tbl *ptable) // write the structure into the file
 {
     if(ptable->info.name != NULL && ptable->pitem != NULL && 
-        ((ptable->clm.phint == NULL && ptable->info.intNum != 0) ||
-        (ptable->clm.phnam == NULL && ptable->info.namNum != 0) ||
-        (ptable->clm.phtim == NULL && ptable->info.timNum != 0))
-        && ptable->lrn >= ptable->info.rowNum)
+        ((!xor(ptable->clm.phint == NULL, ptable->info.intNum == 0) &&
+        !xor(ptable->clm.phnam == NULL, ptable->info.namNum == 0) && 
+        !xor(ptable->clm.phtim == NULL, ptable->info.timNum == 0)) || ptable->info.rowNum == 0) &&
+		ptable->lrn >= ptable->info.rowNum)
     {
         revtrsHead(pfile, &ptable->info);
         revtrsItem(pfile, ptable);
@@ -251,19 +254,16 @@ void writeTable(FILE *pfile, tbl *ptable) // write the structure into the file
     *ptable = giveBlankTbl();
 }
 
-void initTable(tblinfo info, char **iteml)// need "wb"
+void initTable(tbl *ptable)
 {
-    tbl table = giveBlankTbl();
-    if(info.name != NULL)
+	printf("tring to init table %s\n", ptable->info.name);
+    if(ptable->info.name != NULL)
     {
-        table.info = info;
-        table.pitem = iteml;
-
-        char *filename = fillfilenam(info.name);
+        char *filename = fillfilenam(ptable->info.name);
         if(filename != NULL)
         {
             FILE *pfile = fopen(filename, "wb");
-            writeTable(pfile, &table);
+            writeTable(pfile, ptable);
             fclose(pfile);
             destroyD1_char(filename);
         }
@@ -280,14 +280,20 @@ void initTable(tblinfo info, char **iteml)// need "wb"
 
 int isFirstTime(tbl table)
 {
+	char c;
     char *filename = fillfilenam(table.info.name);
     FILE *pfile = fopen(filename, "rb");
+    free(filename);
+    fread(&c, sizeof(char), 1, pfile);
     if(feof(pfile))
     {
+		fclose(pfile);
         return 1;
+        
     }
     else
     {
+    	fclose(pfile);
         return 0;
     }
     
