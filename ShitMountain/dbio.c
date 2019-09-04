@@ -16,17 +16,21 @@ the ints are:
 */
 
 void readHead(FILE *pfile, tblinfo *pinfo);
+// read the header from the file
 void writeHead(FILE *pfile, tblinfo info);
-
+// weite the header into the file
 void readItem(FILE *pfile, int clmNum, char **pitem);
+// read the data from the file 
 void writeItem(FILE *pfile, int clmNum, char **pitem);
-
+// write the data into the file
 void readChart(FILE *pfile, tblinfo info, tblclmh clm);
+// read the chart from the file 
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm);
-
+// write the chart into the file 
 void readTable(FILE *pfile, tbl *ptable);
+//read the structure from the file 
 void writeTable(FILE *pfile, tbl *ptable);
-
+// write the structure into the file 
 void readHead(FILE *pfile, tblinfo *pinfo)
 {
     pinfo->name = (char*)malloc(sizeof(char) * STRLENLIMIT);
