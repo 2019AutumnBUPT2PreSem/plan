@@ -31,7 +31,7 @@ char* fillnam(const char *p) //you need to free the pointer
     }
     return newnam;
 }
-char* fillfilenam(const char *p) // don't use
+char* fillfilenam(const char *p)// must char * p = fillnam("dfakwfjdshfalkjdf"); char * q = fillfilenam(p); free(p); ... free(q);
 {
     char* newnam = (char*)malloc(sizeof(char) * (STRLENLIMIT + 5));
     strncpy(newnam, p, STRLENLIMIT);

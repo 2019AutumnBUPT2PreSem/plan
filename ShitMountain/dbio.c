@@ -237,4 +237,31 @@ void writeTable(FILE *pfile, tbl *ptable) // write the structure into the file
     *ptable = giveBlankTbl();
 }
 
+void initTable(tblinfo info, char **iteml)// need "wb"
+{
+    tbl table = giveBlankTbl();
+    if(info.name != NULL)
+    {
+        table.info = info;
+        table.pitem = iteml;
+
+        char *filename = fillfilenam(info.name);
+        if(filename != NULL)
+        {
+            FILE *pfile = fopen(filename, "wb");
+            writeTable(pfile, &table);
+            fclose(pfile);
+            destroyD1_char(filename);
+        }
+        else
+        {
+            printf("file name not yet assigned.\n");
+        }
+    }
+    else
+    {
+        printf("idiot, you've written wrong info.\n");
+    }
+    
+}
 #endif
