@@ -18,6 +18,7 @@ char* fillnam(const char *p);  // support the function fill name
 char* fillfilenam(const char *p); // don'tuse
 void setInfo(tblinfo *pinfo, char* name, int intNum, int strNum, int timNum, int rowNum); //set info
 int getClmNum(tblinfo info); // get the number of each column
+tim setTim(int y, int mo, int d, int h, int mi, int s);
 
 int myxor(int a, int b);
 
@@ -107,6 +108,18 @@ void setInfo(tblinfo *pinfo, char *name,
 int getClmNum(tblinfo info) // get the number of each column
 {
     return info.intNum + info.namNum + info.timNum;
+}
+
+tim setTim(int y, int mo, int d, int h, int mi, int s)
+{
+    tim temp;
+    temp.yea = y;
+    temp.mon = mo;
+    temp.day = d;
+    temp.hou = h;
+    temp.min = mi;
+    temp.sec = s;
+    return temp;
 }
 
 int myxor(int a, int b)
@@ -289,15 +302,16 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *plocRowNum) // this 
     ptablecolumn->phint = extendD2M_int(ptablecolumn->phint, info.intNum, *plocRowNum, EXPPT, 0);
     ptablecolumn->phnam = extendD3M_char(ptablecolumn->phnam, info.namNum, *plocRowNum, STRLENLIMIT, EXPPT, '\0');
     ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *plocRowNum, EXPPT, giveBlankTim());
-    if(!(myxor(ptablecolumn->phint == NULL, info.intNum != 0) ||
-        myxor(ptablecolumn->phnam == NULL, info.namNum != 0) ||
-        myxor(ptablecolumn->phtim == NULL, info.timNum != 0)))
+    if(!(myxor(ptablecolumn->phint == NULL, info.intNum <= 0) ||
+        myxor(ptablecolumn->phnam == NULL, info.namNum <= 0) ||
+        myxor(ptablecolumn->phtim == NULL, info.timNum <= 0)))
     {
         destroyD2_int(ptablecolumn->phint, info.intNum);
         destroyD3_char(ptablecolumn->phnam, info.namNum, info.rowNum);
         destroyD2_tim(ptablecolumn->phtim, info.timNum);
         *ptablecolumn = giveBlankClmh();
         *plocRowNum = 0;
+
         sprintf(diagL, "[fail to extendTblclm ]\n");
         displayDiagnos();
     }
@@ -315,7 +329,7 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
     displayDiagnos();
 
     indent++;
-    if(ptable->lrn <= ptable->info.rowNum + 1)
+    if(ptable->lrn <= (ptable->info.rowNum + 1))
     {
         extendTblclm(ptable->info, &ptable->clm, &ptable->lrn);
         

@@ -210,8 +210,11 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from th
     sprintf(diagL, "[try to assign and copy row pointer]\n");
     displayDiagnos();
 
+    indent++;
+    tim *ptime;
     tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
+    indent--;
 
     sprintf(diagL, "[assign and copy row pointer done]\n");
     displayDiagnos();
@@ -230,7 +233,13 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from th
         }
         for (int j = 0; j < info.timNum; j++)
         {
-            fread(temp.phtim[j],sizeof(tim), 1, pfile);
+            ptime = temp.phtim[j];
+            fread(ptime->yea,sizeof(int), 1, pfile);
+            fread(ptime->mon,sizeof(int), 1, pfile);
+            fread(ptime->day,sizeof(int), 1, pfile);
+            fread(ptime->hou,sizeof(int), 1, pfile);
+            fread(ptime->min,sizeof(int), 1, pfile);
+            fread(ptime->sec,sizeof(int), 1, pfile);
             temp.phtim[j]++;
         }
     }
@@ -249,6 +258,7 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
     displayDiagnos();
 
     indent++;
+    tim *ptime;
     tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
     indent--;
@@ -270,8 +280,13 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
         }
         for (int j = 0; j < info.timNum; j++)
         {
-            fwrite(temp.phtim[j],sizeof(tim), 1, pfile);
-            temp.phtim[j]++;
+            ptime = temp.phtim[j];
+            fwrite(ptime->yea,sizeof(int), 1, pfile);
+            fwrite(ptime->mon,sizeof(int), 1, pfile);
+            fwrite(ptime->day,sizeof(int), 1, pfile);
+            fwrite(ptime->hou,sizeof(int), 1, pfile);
+            fwrite(ptime->min,sizeof(int), 1, pfile);
+            fwrite(ptime->sec,sizeof(int), 1, pfile);
         }
     }
     resignTblclmh(temp); //need to be done
