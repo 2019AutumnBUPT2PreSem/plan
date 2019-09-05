@@ -418,6 +418,8 @@ void initTable(tbl *ptable)
 	sprintf(diagL, "[tring to init table %s]\n", ptable->info.name);
     displayDiagnos();
 
+    ptable->info.rowNum = 0;
+    ptable->lrn = 0;
     if(ptable->info.name != NULL)
     {
         char *filename = fillfilenam(ptable->info.name);
@@ -431,6 +433,76 @@ void initTable(tbl *ptable)
 
             fclose(pfile);
             destroyD1_char(filename);
+        }
+        else
+        {
+            sprintf(diagL, "[file name not yet assigned]\n");
+            displayDiagnos();
+        }
+    }
+    else
+    {
+        sprintf(diagL, "[idiot, you've written wrong info]\n");
+        displayDiagnos();
+    }
+}
+
+void exposeTable(tbl *ptable)
+{
+	sprintf(diagL, "[tring to open file and read table %s]\n", ptable->info.name);
+    displayDiagnos();
+
+    if(ptable->info.name != NULL)
+    {
+        char *filename = fillfilenam(ptable->info.name);
+        if(filename != NULL)
+        {
+            FILE *pfile = fopen(filename, "wb");
+
+            indent++;
+            readTable(pfile, ptable);
+            indent--;
+
+            fclose(pfile);
+            destroyD1_char(filename);
+
+            sprintf(diagL, "[open file and read table done]\n");
+            displayDiagnos();
+        }
+        else
+        {
+            sprintf(diagL, "[file name not yet assigned]\n");
+            displayDiagnos();
+        }
+    }
+    else
+    {
+        sprintf(diagL, "[idiot, you've written wrong info]\n");
+        displayDiagnos();
+    }
+}
+
+void encloseTable(tbl *ptable)
+{
+	sprintf(diagL, "[tring to write table %s and close file]\n", ptable->info.name);
+    displayDiagnos();
+
+    if(ptable->info.name != NULL)
+    {
+        char *filename = fillfilenam(ptable->info.name);
+        if(filename != NULL)
+        {
+            FILE *pfile = fopen(filename, "wb");
+
+            indent++;
+            writeTable(pfile, ptable);
+            indent--;
+
+            fclose(pfile);
+            destroyD1_char(filename);
+
+            sprintf(diagL, "[write table and close file done]\n");
+            displayDiagnos();
         }
         else
         {

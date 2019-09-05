@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include"dbstruct.h"
 #include"dboperation.c"
+#include"dbio.c"
 
 #define DBMEMORY_C int
 #define MAX_CLIENT 30000
@@ -32,8 +33,6 @@ void genSeqL(int* array,int row)//Initialize a sequence array
 		counter++;
 	}
 }
-
-
 
 void GetRtrnArray(int* compArray,int* rtrnArray,int row)
 {
@@ -99,7 +98,7 @@ int accum(int *p, int n,  int *acsmap)
 	return acmres;
 }
 
-int initAllTable(tbl *pprovider, tbl *puser, tbl *pbillinfo, tbl *ptelerecord, tbl *pnetrecord, tbl *padmin, tbl *pset, tbl *pmoneyrecord)
+void initAllTable(tbl *pprovider, tbl *puser, tbl *pbillinfo, tbl *ptelerecord, tbl *pnetrecord, tbl *padmin, tbl *pset, tbl *pmoneyrecord)
 {
 	char *name,**iteml;
 
@@ -222,5 +221,30 @@ int initAllTable(tbl *pprovider, tbl *puser, tbl *pbillinfo, tbl *ptelerecord, t
 	name = NULL;
 	iteml = NULL;
 }
+
+void readAllTable(tbl *pprovider, tbl *puser, tbl *pbillinfo, tbl *ptelerecord, tbl *pnetrecord, tbl *padmin, tbl *pset, tbl *pmoneyrecord)
+{
+	exposeTable(pprovider);
+	exposeTable(puser);
+	exposeTable(pbillinfo);
+	exposeTable(ptelerecord);
+	exposeTable(pnetrecord);
+	exposeTable(padmin);
+	exposeTable(pset);
+	exposeTable(pmoneyrecord);
+}
+
+void writeAllTable(tbl *pprovider, tbl *puser, tbl *pbillinfo, tbl *ptelerecord, tbl *pnetrecord, tbl *padmin, tbl *pset, tbl *pmoneyrecord)
+{
+	encloseTable(pprovider);
+	encloseTable(puser);
+	encloseTable(pbillinfo);
+	encloseTable(ptelerecord);
+	encloseTable(pnetrecord);
+	encloseTable(padmin);
+	encloseTable(pset);
+	encloseTable(pmoneyrecord);
+}
+
 
 #endif
