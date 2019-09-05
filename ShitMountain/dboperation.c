@@ -59,7 +59,6 @@ tbl giveBlankTbl(void)
 {
     tbl table;
     table.info = giveBlankInfo();
-    table.pitem = NULL;
     table.lrn = 0;
     table.clm = giveBlankClmh(); 
     return table;
@@ -375,7 +374,7 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
         sprintf(diagL, "[add nameArray is done]\n");
         displayDiagnos();
 
-        for(int i = 0; i < ptable->info.intNum; i++)
+        for(int i = 0; i < ptable->info.timNum; i++)
         {
             ptable->clm.phtim[i][ptable->info.rowNum] = timrow[i];
         }

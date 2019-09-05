@@ -39,7 +39,6 @@ typedef struct tablecolumn
 typedef struct table
 {
     tblinfo info;
-    char **pitem;
     int lrn; // located row number
     tblclmh clm;
 } tbl;
