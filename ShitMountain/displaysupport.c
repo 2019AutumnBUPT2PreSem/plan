@@ -48,6 +48,7 @@ void displayItem(int n, char** pitem)// display the item on screen
                 printf("%c", pitem[i][j]);
         printf("|");
     }
+    printf("\n");
 }
 
 void display_int(int n)// support to justify

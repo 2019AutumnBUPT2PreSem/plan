@@ -66,8 +66,8 @@
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
 // construct supportive function that deals with int*
-typedef int* intp;
-#define _db_type intp
+//typedef int* intp;
+#define _db_type int*
 
 #define _constructD1 constructD1_intp
 #define _constructD2 constructD2_intp
@@ -86,8 +86,8 @@ typedef int* intp;
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
 // construct supportive function that deals with char*
-typedef char* charp;
-#define _db_type charp
+//typedef char* charp;
+#define _db_type char*
 
 #define _constructD1 constructD1_charp
 #define _constructD2 constructD2_charp
@@ -106,8 +106,8 @@ typedef char* charp;
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
 // construct supportive function that deals with int
-typedef tim* timp;
-#define _db_type timp
+//typedef tim* timp;
+#define _db_type tim*
 
 #define _constructD1 constructD1_timp
 #define _constructD2 constructD2_timp
@@ -126,8 +126,8 @@ typedef tim* timp;
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
 // construct supportive function that deals with int
-typedef char** charpp;
-#define _db_type charpp
+//typedef char** charpp;
+#define _db_type char**
 
 #define _constructD1 constructD1_charpp
 #define _constructD2 constructD2_charpp

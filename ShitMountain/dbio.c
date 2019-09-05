@@ -229,8 +229,17 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from th
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into the file 
 {
+    sprintf(diagL, "[writting chart, assigning and copying row pointer]\n");
+    displayDiagnos();
+
+    indent++;
     tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
+    indent--;
+
+    sprintf(diagL, "[assign and copy row pointer done, write %d row]\n", info.rowNum);
+    displayDiagnos();
+
     for(int i = 0; i < info.rowNum; i++)
     {
         for (int j = 0; j < info.intNum; j++)
@@ -255,10 +264,8 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
 void trscptChart(FILE *pfile, tbl *ptable) // support the function both apply space and copy chart
 {
     sprintf(diagL, "[trying to transcript chart of table %s]\n", ptable->info.name);
-    displayDiagnos();
 
     indent++;
-    ptable->clm = assignTblChart(ptable->info);
     if(myxor(ptable->clm.phint == NULL, ptable->info.intNum == 0) || 
         myxor(ptable->clm.phnam == NULL, ptable->info.namNum == 0) || 
         myxor(ptable->clm.phtim == NULL, ptable->info.timNum == 0))
@@ -295,7 +302,7 @@ void revtrsChart(FILE *pfile, tbl *ptable) // reverse transcription
     indent++;
     if((myxor(ptable->clm.phint == NULL, ptable->info.intNum == 0) || 
         myxor(ptable->clm.phnam == NULL, ptable->info.namNum == 0) || 
-        myxor(ptable->clm.phtim == NULL, ptable->info.timNum == 0)))
+        myxor(ptable->clm.phtim == NULL, ptable->info.timNum == 0)) && ptable->info.rowNum != 0)
     {
         sprintf(diagL, "[the chart has lost blocks, write denied, stire all]\n");
         displayDiagnos();
@@ -431,6 +438,7 @@ void initTable(tbl *ptable)
             FILE *pfile = fopen(filename, "wb");
 
             indent++;
+            ptable->clm =  assignTblChart(ptable->info);
             writeTable(pfile, ptable);
             indent--;
 

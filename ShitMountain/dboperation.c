@@ -3,6 +3,7 @@
 
 #include"arraysupport.c"
 #include"dbstruct.h"
+#include"displaysupport.c"
 #include<string.h>
 
 extern int indent;
@@ -96,7 +97,6 @@ char* fillfilenam(const char *p) // must char * p = fillnam("dfakwfjdshfalkjdf")
 void setInfo(tblinfo *pinfo, char *name, 
               int intNum, int namNum, int timNum, int rowNum) // set infoo
 {
-    
     pinfo->name = name;
     pinfo->intNum = intNum;
     pinfo->namNum = namNum;
@@ -117,86 +117,154 @@ int myxor(int a, int b)
 tblclmh assignTblclmh(tblinfo info) // create space for column head
 {
     tblclmh newclmh;
+
+    sprintf(diagL, "[trying to assign row pointer]\n");
+    displayDiagnos();
+
+    indent++;
     newclmh.phint = constructD1_intp(info.intNum, NULL);
-    if(newclmh.phint == NULL && info.intNum > 0)
+    if(myxor(newclmh.phint == NULL, info.intNum <= 0))
     {
+        sprintf(diagL, "[assign block pointer for int failed, row pointer set NULL]\n");
+        displayDiagnos();
         newclmh = giveBlankClmh();
     }
     else
     {
+        sprintf(diagL, "[assign block pointer for int done, assign that for nam]\n");
+        displayDiagnos();
+
         newclmh.phnam = constructD1_charpp(info.namNum, NULL);
-        if(newclmh.phnam == NULL && info.namNum > 0)
+        if(myxor(newclmh.phnam == NULL, info.namNum <= 0))
         {
+            sprintf(diagL, "[assign block pointer for nam failed, row pointer set NULL]\n");
+            displayDiagnos();
+
             destroyD1_intp(newclmh.phint);
             newclmh = giveBlankClmh();
         }
         else
         {
+            sprintf(diagL, "[assign block pointer for nam done, set that for tim]\n");
+            displayDiagnos();
+
             newclmh.phtim = constructD1_timp(info.timNum, NULL);
-            if(newclmh.phtim == NULL && info.timNum > 0)
+            if(myxor(newclmh.phtim == NULL, info.timNum <= 0))
             {
+                sprintf(diagL, "[assign block pointer for tim failed, row pointer set NULL]\n");
+                displayDiagnos();
+
                 destroyD1_intp(newclmh.phint);
                 destroyD1_charpp(newclmh.phnam);
                 newclmh = giveBlankClmh();
             }
+            else
+            {
+                sprintf(diagL, "[assign block pointer for tim done]\n");
+                displayDiagnos();
+            }
         }
     }
+    indent--;
+
+    sprintf(diagL, "[assign row pointer procedure done]\n");
+    displayDiagnos();
+
     return newclmh;
 }
 void resignTblclmh(tblclmh tablecolumn) // free space for column head
 {
+    sprintf(diagL, "[resigning row pointer]\n");
+    displayDiagnos();
+
 	destroyD1_intp(tablecolumn.phint);
     destroyD1_charpp(tablecolumn.phnam);
     destroyD1_timp(tablecolumn.phtim);
+
+    sprintf(diagL, "[resign row pointer done]\n");
+    displayDiagnos();
 }
 
 void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2) // clmh1 -> clmh2
 {
-    for(int i = 0; i < info.intNum; i ++)
+    sprintf(diagL, "[copying row pointer  of %s to new row pointer]\n", info.name);
+    displayDiagnos();
+
+    for(int i = 0; i < info.intNum; i++)
     {
         clmh2.phint[i] = clmh1.phint[i];
     }
-    for(int i = 0; i < info.namNum; i ++)
+    for(int i = 0; i < info.namNum; i++)
     {
         clmh2.phnam[i] = clmh1.phnam[i];
     }
-    for(int i = 0; i < info.timNum; i ++)
+    for(int i = 0; i < info.timNum; i++)
     {
         clmh2.phtim[i] = clmh1.phtim[i];
     }
+
+    sprintf(diagL, "[copy row pointer done]\n");
+    displayDiagnos();
 }
 
 tblclmh assignTblChart(tblinfo info) //create space for chart
 {
-    tblclmh newclmh;
-    if(info.rowNum > 0)
+    sprintf(diagL, "[assigning space for chart]\n");
+    displayDiagnos();
+    
+    indent++;
+    sprintf(diagL, "[assigning 2D int chart %dc, %dr]\n", info.intNum, info.rowNum);
+    displayDiagnos();
+
+    tblclmh newclmh = giveBlankClmh();
+    newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
+    if(myxor(newclmh.phint == NULL, info.intNum > 0))
     {
-        newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
-        if(newclmh.phint == NULL && info.intNum > 0)
+        sprintf(diagL, "[fail to assign 2D int chart, stire all]\n");
+        displayDiagnos();
+
+        newclmh = giveBlankClmh();
+    }
+    else
+    {
+        sprintf(diagL, "[assign 2D int chart done, assigning 2D nam chart %dc, %dr]\n", info.namNum, info.rowNum);
+        displayDiagnos();
+
+        newclmh.phnam = constructD3_char(info.namNum, info.rowNum, STRLENLIMIT, '\0');
+        if(myxor(newclmh.phnam == NULL, info.namNum > 0))
         {
+            sprintf(diagL, "[fail to assign 2D nam chart, stire all]\n");
+            displayDiagnos();
+
+            destroyD2_int(newclmh.phint, info.intNum);
             newclmh = giveBlankClmh();
         }
         else
         {
-            newclmh.phnam = constructD3_char(info.namNum, info.rowNum, STRLENLIMIT, '\0');
-            if(newclmh.phnam == NULL && info.namNum > 0)
+            sprintf(diagL, "[assign 2D nam chart done, assigning 2D tim chart %dc, %dr]\n", info.timNum, info.rowNum);
+            displayDiagnos();
+
+            newclmh.phtim = constructD2_tim(info.timNum, info.rowNum, giveBlankTim());
+            if(myxor(newclmh.phtim == NULL, info.namNum > 0))
             {
+                sprintf(diagL, "[fail to assign 2D tim chart, stire all]\n");
+                displayDiagnos();
+
                 destroyD2_int(newclmh.phint, info.intNum);
+                destroyD3_char(newclmh.phnam, info.namNum, info.rowNum);
                 newclmh = giveBlankClmh();
             }
             else
             {
-                newclmh.phtim = constructD2_tim(info.timNum, info.rowNum, giveBlankTim());
-                if(newclmh.phtim == NULL && info.namNum > 0)
-                {
-                    destroyD2_int(newclmh.phint, info.intNum);
-                    destroyD3_char(newclmh.phnam, info.namNum, info.rowNum);
-                    newclmh = giveBlankClmh();
-                }
+                sprintf(diagL, "[assign 2D nam chart done]\n");
+                displayDiagnos();
             }
         }
     }
-    
+    indent--;
+    sprintf(diagL, "[assign space for chart done]\n");
+    displayDiagnos();
+
     return newclmh;
 }
 void resignTblChart(tblclmh tablecolumn, tblinfo info) //free space for chart
