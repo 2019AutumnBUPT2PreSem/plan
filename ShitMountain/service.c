@@ -439,8 +439,8 @@ void checkSet(tbl set,int prov)
 		{
 			printf("price:%d\n",set.clm.phint[prov][3]);
 			printf("netAmount:%d\n",set.clm.phint[prov][4]);
- 			printf("borTime:%d\n",set.clm.phtim[prov][0]);
- 			printf("forTime:%d\n",set.clm.phtim[prov][1]);
+ 			printf("borTime:%d\n",set.clm.phint[prov][5]);
+ 			printf("forTime:%d\n",set.clm.phint[prov][6]);
  			printf("setname:%s\n",set.clm.phnam[prov][0]);
  			printf("description:%s\n",set.clm.phnam[prov][1]);
  			counter_pass++;
