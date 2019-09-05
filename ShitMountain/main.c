@@ -15,11 +15,14 @@ int main()
 	tbl provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord;
 
 	setAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
-	if(existFirstTime(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord) || 1)
+	if(existFirstTime(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord))
 	{
+		printf("Wrong");
 		initAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
+		setAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
 	}
 	readAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
+	
 	
 	/*we gonna read all table there*/
 	int quit_prog=0;

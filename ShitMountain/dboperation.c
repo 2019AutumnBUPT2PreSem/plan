@@ -211,63 +211,72 @@ tblclmh assignTblChart(tblinfo info) //create space for chart
 {
     sprintf(diagL, "[assigning space for chart]\n");
     displayDiagnos();
-    
-    indent++;
-    sprintf(diagL, "[assigning 2D int chart %dc, %dr]\n", info.intNum, info.rowNum);
-    displayDiagnos();
 
     tblclmh newclmh = giveBlankClmh();
-    
-    newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
-    if(myxor(newclmh.phint == NULL, info.intNum > 0))
-    {
-        sprintf(diagL, "[fail to assign 2D int chart, stire all]\n");
-        displayDiagnos();
 
-        newclmh = giveBlankClmh();
+    indent++;
+    if(info.rowNum <= 0)
+    {
+        newclmh = assignTblclmh(info);
     }
     else
     {
-        sprintf(diagL, "[assign 2D int chart done, assigning 2D nam chart %dc, %dr]\n", info.namNum, info.rowNum);
+        sprintf(diagL, "[assigning 2D int chart %dc, %dr]\n", info.intNum, info.rowNum);
         displayDiagnos();
 
-        newclmh.phnam = constructD3_char(info.namNum, info.rowNum, STRLENLIMIT, '\0');
-        if(myxor(newclmh.phnam == NULL, info.namNum > 0))
+        newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
+        if(myxor(newclmh.phint == NULL, info.intNum > 0))
         {
-            sprintf(diagL, "[fail to assign 2D nam chart, stire all]\n");
+            sprintf(diagL, "[fail to assign 2D int chart, stire all]\n");
             displayDiagnos();
 
-            destroyD2_int(newclmh.phint, info.intNum);
             newclmh = giveBlankClmh();
         }
         else
         {
-            sprintf(diagL, "[assign 2D nam chart done, assigning 2D tim chart %dc, %dr]\n", info.timNum, info.rowNum);
+            sprintf(diagL, "[assign 2D int chart done, assigning 2D nam chart %dc, %dr]\n", info.namNum, info.rowNum);
             displayDiagnos();
 
-            newclmh.phtim = constructD2_tim(info.timNum, info.rowNum, giveBlankTim());
-            if(myxor(newclmh.phtim == NULL, info.namNum > 0))
+            newclmh.phnam = constructD3_char(info.namNum, info.rowNum, STRLENLIMIT, '\0');
+            if(myxor(newclmh.phnam == NULL, info.namNum > 0))
             {
-                sprintf(diagL, "[fail to assign 2D tim chart, stire all]\n");
+                sprintf(diagL, "[fail to assign 2D nam chart, stire all]\n");
                 displayDiagnos();
 
                 destroyD2_int(newclmh.phint, info.intNum);
-                destroyD3_char(newclmh.phnam, info.namNum, info.rowNum);
                 newclmh = giveBlankClmh();
             }
             else
             {
-                sprintf(diagL, "[assign 2D nam chart done]\n");
+                sprintf(diagL, "[assign 2D nam chart done, assigning 2D tim chart %dc, %dr]\n", info.timNum, info.rowNum);
                 displayDiagnos();
+
+                newclmh.phtim = constructD2_tim(info.timNum, info.rowNum, giveBlankTim());
+                if(myxor(newclmh.phtim == NULL, info.namNum > 0))
+                {
+                    sprintf(diagL, "[fail to assign 2D tim chart, stire all]\n");
+                    displayDiagnos();
+
+                    destroyD2_int(newclmh.phint, info.intNum);
+                    destroyD3_char(newclmh.phnam, info.namNum, info.rowNum);
+                    newclmh = giveBlankClmh();
+                }
+                else
+                {
+                    sprintf(diagL, "[assign 2D nam chart done]\n");
+                    displayDiagnos();
+                }
             }
         }
     }
     indent--;
+
     sprintf(diagL, "[assign space for chart done]\n");
     displayDiagnos();
 
     return newclmh;
 }
+
 void resignTblChart(tblclmh tablecolumn, tblinfo info) //free space for chart
 {
 	destroyD2_int(tablecolumn.phint, info.intNum);
@@ -302,7 +311,9 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *plocRowNum) // this 
 
 void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new blank row to chart
 {
-    printf("[trying to add row to table %s]\n", ptable->info.name);
+    sprintf(diagL, "[trying to add row to table %s]\n", ptable->info.name);
+    displayDiagnos();
+
     indent++;
     if(ptable->lrn <= ptable->info.rowNum + 1)
     {
@@ -310,7 +321,8 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
         
         if(ptable->lrn == 0)
         {
-            printf("add row failed, stire all.\n");
+            sprintf(diagL, "[add row failed, stire all]\n");
+            displayDiagnos();
         }
         else
         {
@@ -326,20 +338,26 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
         {
             ptable->clm.phint[i][ptable->info.rowNum + 1] = introw[i];
         }
+           
         sprintf(diagL, "[add intArray is done]\n");
         displayDiagnos();
+
         for(int i = 0; i < ptable->info.namNum; i++)
         {
             strncpy(ptable->clm.phnam[i][ptable->info.rowNum + 1], namrow[i], STRLENLIMIT);
         }
+
         sprintf(diagL, "[add nameArray is done]\n");
         displayDiagnos();
+
         for(int i = 0; i < ptable->info.intNum; i++)
         {
             ptable->clm.phtim[i][ptable->info.rowNum + 1] = timrow[i];
         }
+
         sprintf(diagL, "[add timArray is done]\n");
         displayDiagnos();
+
         ptable->info.rowNum = ptable->info.rowNum + 1;
     }
     indent--;

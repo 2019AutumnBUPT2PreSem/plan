@@ -160,8 +160,10 @@ void trscptItem(FILE *pfile, tbl *ptable) // support the function both apply spa
         ptable->pitem = newiteml;
         indent--;
 
-        sprintf(diagL, "[read done, show info]\n");
+        sprintf(diagL, "[read done, show item list]\n");
         displayDiagnos();
+        displayInfo(ptable->info);
+        displayItem(getClmNum(ptable->info), ptable->pitem);
     }
     else
     {
@@ -205,8 +207,15 @@ void revtrsItem(FILE *pfile, tbl *ptable) // reverse transcription
 
 void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from the file 
 {
+    sprintf(diagL, "[try to assign and copy row pointer]\n");
+    displayDiagnos();
+
     tblclmh temp = assignTblclmh(info);
     cpyTblclmh(info, clm, temp);
+
+    sprintf(diagL, "[assign and copy row pointer done]\n");
+    displayDiagnos();
+    
     for(int i = 0; i < info.rowNum; i++)
     {
         for (int j = 0; j < info.intNum; j++)
@@ -225,7 +234,14 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from th
             temp.phtim[j]++;
         }
     }
+
+    sprintf(diagL, "[try to resign temp row pointer]\n");
+    displayDiagnos();
+
     resignTblclmh(temp);
+
+    sprintf(diagL, "[resign temp row pointer done]\n");
+    displayDiagnos();
 }
 void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into the file 
 {
@@ -264,6 +280,9 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
 void trscptChart(FILE *pfile, tbl *ptable) // support the function both apply space and copy chart
 {
     sprintf(diagL, "[trying to transcript chart of table %s]\n", ptable->info.name);
+    displayDiagnos();
+
+    ptable->clm = assignTblChart(ptable->info);
 
     indent++;
     if(myxor(ptable->clm.phint == NULL, ptable->info.intNum == 0) || 
@@ -383,6 +402,7 @@ void writeTable(FILE *pfile, tbl *ptable) // write the structure into the file
     {
         sprintf(diagL, "[all checked, start to write info]\n");
         displayDiagnos();
+        displayInfo(ptable->info);
 
         indent++;
         writeHead(pfile, ptable->info);
@@ -468,7 +488,7 @@ void exposeTable(tbl *ptable)
         char *filename = fillfilenam(ptable->info.name);
         if(filename != NULL)
         {
-            FILE *pfile = fopen(filename, "wb");
+            FILE *pfile = fopen(filename, "rb");
 
             indent++;
             readTable(pfile, ptable);
