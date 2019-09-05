@@ -224,8 +224,8 @@ tblclmh assignTblChart(tblinfo info) //create space for chart
         sprintf(diagL, "[assigning 2D int chart %dc, %dr]\n", info.intNum, info.rowNum);
         displayDiagnos();
 
-        newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
-        if(myxor(newclmh.phint == NULL, info.intNum > 0))
+        newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);//
+        if(myxor(newclmh.phint == NULL, info.intNum <= 0))
         {
             sprintf(diagL, "[fail to assign 2D int chart, stire all]\n");
             displayDiagnos();
@@ -238,7 +238,7 @@ tblclmh assignTblChart(tblinfo info) //create space for chart
             displayDiagnos();
 
             newclmh.phnam = constructD3_char(info.namNum, info.rowNum, STRLENLIMIT, '\0');
-            if(myxor(newclmh.phnam == NULL, info.namNum > 0))
+            if(myxor(newclmh.phnam == NULL, info.namNum <= 0))
             {
                 sprintf(diagL, "[fail to assign 2D nam chart, stire all]\n");
                 displayDiagnos();
@@ -252,7 +252,7 @@ tblclmh assignTblChart(tblinfo info) //create space for chart
                 displayDiagnos();
 
                 newclmh.phtim = constructD2_tim(info.timNum, info.rowNum, giveBlankTim());
-                if(myxor(newclmh.phtim == NULL, info.namNum > 0))
+                if(myxor(newclmh.phtim == NULL, info.timNum <= 0))
                 {
                     sprintf(diagL, "[fail to assign 2D tim chart, stire all]\n");
                     displayDiagnos();
