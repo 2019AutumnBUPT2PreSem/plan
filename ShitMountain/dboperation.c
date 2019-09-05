@@ -289,9 +289,9 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *plocRowNum) // this 
     ptablecolumn->phint = extendD2M_int(ptablecolumn->phint, info.intNum, *plocRowNum, EXPPT, 0);
     ptablecolumn->phnam = extendD3M_char(ptablecolumn->phnam, info.namNum, *plocRowNum, STRLENLIMIT, EXPPT, '\0');
     ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *plocRowNum, EXPPT, giveBlankTim());
-    if(!(myxor(ptablecolumn->phint == NULL, info.intNum != 0) ||
-        myxor(ptablecolumn->phnam == NULL, info.namNum != 0) ||
-        myxor(ptablecolumn->phtim == NULL, info.timNum != 0)))
+    if(!(myxor(ptablecolumn->phint == NULL, info.intNum <= 0) ||
+        myxor(ptablecolumn->phnam == NULL, info.namNum <= 0) ||
+        myxor(ptablecolumn->phtim == NULL, info.timNum <= 0)))
     {
         destroyD2_int(ptablecolumn->phint, info.intNum);
         destroyD3_char(ptablecolumn->phnam, info.namNum, info.rowNum);
