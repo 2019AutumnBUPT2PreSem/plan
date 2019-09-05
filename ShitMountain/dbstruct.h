@@ -4,6 +4,9 @@
 #define TBLINFONUM 8
 #define EXPPT 20// expand per tim
 
+int indent = 0;
+char diagL[80];
+
 typedef struct yymmddhhmmss
 {
     int yea;

@@ -4,6 +4,9 @@
 #include "dbio.c"
 #include "displaysupport.c"
 
+extern int indent;
+extern char diagL[80];
+
 int main()
 {
 	char *name,**iteml;
@@ -115,8 +118,10 @@ int main()
 	iteml[5]=fillnam("dealTime");
 	moneyrecord.pitem = iteml;
 	
+	
+	
 	if(isFirstTime(provider) || isFirstTime(set) || isFirstTime(user) || isFirstTime(billinfo) || 
-	   isFirstTime(telerecord) || isFirstTime(netrecord) || isFirstTime(moneyrecord) || isFirstTime(admin))
+	   isFirstTime(telerecord) || isFirstTime(netrecord) || isFirstTime(moneyrecord) || isFirstTime(admin) || 1)
 	{
 		initTable(&provider);
 		initTable(&set);

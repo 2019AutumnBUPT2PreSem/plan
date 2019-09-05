@@ -9,6 +9,9 @@
 #define IGNR_NUM 30001
 #define CompFunType int
 
+extern int indent;
+extern char diagL[80];
+
 void ReadArray(DBMEMORY_C (*database)[2],int row_num,DBMEMORY_C* tempArray)//Read an array of two columns and N rows
 {
 	int counter=0;

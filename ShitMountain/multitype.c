@@ -25,21 +25,29 @@ _db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type ini
 //Create a one-dimensional array.
 _db_type* _constructD1(int n, _db_type init)
 {
-    _db_type *p = (_db_type*)malloc(sizeof(_db_type) * n);  //Dynamically allocate memory.
-	if(p == NULL)
+	_db_type *p = NULL;
+	if(n > 0)
 	{
-		printf("Memory overflow while locating 1 dimension array");
+		p = (_db_type*)malloc(sizeof(_db_type) * n);  //Dynamically allocate memory.
+		if(p == NULL)
+		{
+			printf("Memory overflow while locating 1 dimension array");
+		}
+		else
+		{
+			_initD1(p, n, init);  //Initialization function.
+		}
 	}
-	else
+    else
 	{
-		_initD1(p, n, init);  //Initialization function.
+		p = NULL;
 	}
     return p;
 }
 //Initialize the one-dimensional array.
 void _initD1(_db_type *p, int n, _db_type init)
 {
-	if(p == NULL)
+	if(p == NULL && n > 0)
 	{
 		printf("trying to init a empty list.\n");
 	}
@@ -62,17 +70,33 @@ void _destroyD1(_db_type *p)
 // The following function will return NULL when failed, set p to NULL if that happens.
 _db_type* _extendD1(_db_type *p, int n, int add, _db_type init)
 {
-	_db_type *q = (_db_type*)realloc(p,sizeof(_db_type) * (n + add));  //Expand memory.
-	if (q == NULL)
+	_db_type *q;
+	if(n > 0 && add > 0)
 	{
-		_destroyD1(p);
+		q = (_db_type*)realloc(p,sizeof(_db_type) * (n + add));  //Expand memory.
+		if (q == NULL)
+		{
+			_destroyD1(p);
+		}
+		else
+		{
+			for(int i = n; i < n + add; i++)
+			{
+				q[i] = init;
+			}
+		}
 	}
 	else
 	{
-		for(int i = n; i < n + add; i++)
+		if(add == 0)
 		{
-			q[i] = init;
+			q = p;
 		}
+		else
+		{
+			q = NULL;
+		}
+		
 	}
 	return q;	
 }
@@ -80,25 +104,33 @@ _db_type* _extendD1(_db_type *p, int n, int add, _db_type init)
 //Create a two-dimensional array.
 _db_type** _constructD2(int m, int n, _db_type init)
 {
-    _db_type **p = (_db_type**)malloc(sizeof(_db_type*) * m);  //Dynamically allocate memory.
-	if(p == NULL)
+	_db_type **p;
+	if(m > 0)
 	{
-		printf("Memory overflow while locating 2 dimension array.\n");
+		p = (_db_type**)malloc(sizeof(_db_type*) * m);  //Dynamically allocate memory.
+		if(p == NULL)
+		{
+			printf("Memory overflow while locating 2 dimension array.\n");
+		}
+		else
+		{
+			int i;
+			for(i = 0; i < m; i++)
+			{
+				p[i] = _constructD1(n, init);
+				if(p[i] == NULL && n > 0)
+				{
+					printf(", row %d of 2 dimension array", i);
+					_destroyD2(p, i);  //Free memory if allocation fails。
+					return NULL;
+				}
+			}
+			_initD2(p, m, n, init);  //Initialization function.
+		}
 	}
 	else
 	{
-		int i;
-		for(i = 0; i < m; i++)
-		{
-	    	p[i] = _constructD1(n, init);
-	    	if(p[i] == NULL)
-	    	{
-				printf(", row %d of 2 dimension array", i);
-				_destroyD2(p, i);  //Free memory if allocation fails。
-				return NULL;
-	    	}
-		}
-    	_initD2(p, m, n, init);  //Initialization function.
+		p = NULL;
 	}
     return p;
 }
@@ -106,16 +138,12 @@ _db_type** _constructD2(int m, int n, _db_type init)
 //Initialize the two-dimensional array.
 void _initD2(_db_type **p, int m, int n, _db_type init)
 {
-	int i,j;
-	if(p != NULL)
+	int i = 0, j = 0;
+	if(p != NULL && m != 0)
     {
-		
 		for(i = 0; i < m && p[i] != NULL; i++)
 		{
-			for(j = 0; j < n; j++)
-			{
-				p[i][j] = init;  //Initialization.
-			}	
+			_initD1(p[i], n, init);
 		}
 		if(i < m)
 		{
@@ -142,16 +170,20 @@ void _destroyD2(_db_type **p, int m)
 // The following function will return NULL when failed, set p to NULL if that happens.
 _db_type** _extendD2N(_db_type **p,int m, int n, int add, _db_type init)
 {
-	for(int i=0; i < m; i++)
+	if(p != NULL)
 	{
-		p[i] = _extendD1(p[i], n, add, init);  //Expand column.
-		if(p[i] == NULL)
+		for(int i=0; i < m; i++)
 		{
-			printf("Extend failed.\n");
-			_destroyD2(p, m);  //Free memory.
-			return NULL;
+			p[i] = _extendD1(p[i], n, add, init);  //Expand column.
+			if(p[i] == NULL && n > 0 && add > 0)
+			{
+				printf("Extend failed.\n");
+				_destroyD2(p, m);  //Free memory.
+				return NULL;
+			}
 		}
 	}
+	
 	return p;
 }
 
@@ -159,28 +191,35 @@ _db_type** _extendD2N(_db_type **p,int m, int n, int add, _db_type init)
 // The following function will return NULL when failed, set p to NULL if that happens.
 _db_type** _extendD2M(_db_type **p,int m, int n, int add, _db_type init)
 {
-	int i;
+	int i = 0;
 	_db_type **q;
-	q = (_db_type**)realloc(p, sizeof(_db_type*) * (m + add));  //Expand memory.
-	if(q == NULL)
+	if(q == NULL && m == 0)
 	{
-		_destroyD2(p, m);
+		q = _constructD2(add, n, init);
 	}
 	else
 	{
-		for(i = m; i < m + add && (i == m || q[i - 1] != NULL); i++)
+		q = (_db_type**)realloc(p, sizeof(_db_type*) * (m + add));  //Expand memory.
+		if(q == NULL)
 		{
-			q[i] = _constructD1(n, init);
+			_destroyD2(p, m);
 		}
-		if(q[i - 1] == NULL)
+		else
 		{
-			for(int j = i - 1; j >= m; j--)
+			for(i = m; i < m + add && (i == m || q[i - 1] != NULL); i++)
 			{
-				_destroyD1(q[j]);
-				q[j] = NULL;
+				q[i] = _constructD1(n, init);
 			}
-			_destroyD2(q, m);
-			q = NULL;
+			if(q[i - 1] == NULL)
+			{
+				for(int j = i - 1; j >= m; j--)
+				{
+					_destroyD1(q[j]);
+					q[j] = NULL;
+				}
+				_destroyD2(q, m);
+				q = NULL;
+			}
 		}
 	}
 	return q;
@@ -243,18 +282,25 @@ void _destroyD3(_db_type ***p, int l, int m)
 // The following function will return NULL when failed, set p to NULL if that happens.
 _db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type init)  //l is line, m is colum, n is STRLENLIMIT.
 {
-	for(int i = 0; i < l; i++)
+	if(p == NULL && l > 0)
 	{
-		p[i] = _extendD2M(p[i], m, n, add, init);
-		if(p[i] == NULL)
+		p = _constructD3(l, m, n, init);
+	}
+	else
+	{
+		for(int i = 0; i < l; i++)
 		{
-			for(int j = i + 1; j < l; j++)
+			p[i] = _extendD2M(p[i], m, n, add, init);
+			if(p[i] == NULL && m > 0)
 			{
-				_destroyD2(p[j], m);
-				p[j] = NULL;
+				for(int j = i + 1; j < l; j++)
+				{
+					_destroyD2(p[j], m);
+					p[j] = NULL;
+				}
+				_destroyD3(p, i, m + add);
+				return NULL;
 			}
-			_destroyD3(p, i, m + add);
-			return NULL;
 		}
 	}
 	return p;
