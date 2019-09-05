@@ -75,8 +75,8 @@ void GetRtrnArray(int* compArray,int* rtrnArray,int row)
 
 void SortFun(DBMEMORY_C (*database)[2],int row_num,int* rtrnArray,int (*CompFun)(CompFunType ch1,CompFunType ch2))//The final output is in a sequence from small to large.
 {
-	DBMEMORY_C tempArray[row_num]={0};
-	DBMEMORY_C compArray[row_num]={0};
+	DBMEMORY_C tempArray[row_num];
+	DBMEMORY_C compArray[row_num];
 	ReadArray(database,row_num,tempArray);//Read the data needed to compare binary arrays into tempArray
 	int row_counter=0;
 	int row_locater=0;

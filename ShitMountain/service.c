@@ -696,7 +696,7 @@ void sortFee(tbl User, tbl teleRecord, tbl netRecord, int IDp)
 		 }
 	}
 
-	printf("Sorted telephone charges锛?);
+	printf("Sorted telephone charges:");
     for(int i=0; i<telenumber; i++)
     {
         printf("%d\n",IDtele[i]);
@@ -733,7 +733,7 @@ void sortFee(tbl User, tbl teleRecord, tbl netRecord, int IDp)
 		 }
 	}
 
-	printf("Sorted telephone charges锛?);
+	printf("Sorted telephone charges:");
     for(int i=0; i<netnumber; i++)
     {
         printf("%d\n",IDnet[i]);

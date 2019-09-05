@@ -3,11 +3,12 @@
 #include <Windows.h>
 #include"dbstruct.h"
 #include"arraysupport.c"
+#include"displaysupport.c"
 #include"dboperation.c"
 #include"dbio.c"
 #include"utilsupport.c"
 #include"decoration.c" 
-//#include"service.c"
+#include"service.c"
 
 
 int loginType();//liuge
@@ -198,6 +199,10 @@ int main()
 	tbl provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord;
 
 	setAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
+	if(existFirstTime(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord))
+	{
+		initAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
+	}
 	readAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
 	
 	/*we gonna read all table there*/
