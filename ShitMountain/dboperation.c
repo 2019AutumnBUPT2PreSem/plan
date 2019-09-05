@@ -32,6 +32,7 @@ void cpyTblclmh(tblinfo info, tblclmh clmh1, tblclmh clmh2); //clmh1->clmh2
 void extendTblclm(tblinfo info, tblclmh *tablecolumn, int *locRowNum); //this chart will change ptablecolumn to NULL if failed
 
 void addrow(tbl *table, int *introw, char **namrow, tim *timrow); // add a new row to chart
+void display_tbl(tbl table);
 
 tblclmh giveBlankClmh(void)
 {
@@ -299,10 +300,14 @@ void resignTblChart(tblclmh tablecolumn, tblinfo info) //free space for chart
 
 void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *plocRowNum) // this chart will change ptablecolumn to NULL if failed
 {
-    ptablecolumn->phint = extendD2M_int(ptablecolumn->phint, info.intNum, *plocRowNum, EXPPT, 0);
+    ptablecolumn->phint = extendD2N_int(ptablecolumn->phint, info.intNum, *plocRowNum, EXPPT, 0);
     ptablecolumn->phnam = extendD3M_char(ptablecolumn->phnam, info.namNum, *plocRowNum, STRLENLIMIT, EXPPT, '\0');
-    ptablecolumn->phtim = extendD2M_tim(ptablecolumn->phtim, info.timNum, *plocRowNum, EXPPT, giveBlankTim());
-    if(!(myxor(ptablecolumn->phint == NULL, info.intNum <= 0) ||
+    ptablecolumn->phtim = extendD2N_tim(ptablecolumn->phtim, info.timNum, *plocRowNum, EXPPT, giveBlankTim());
+    
+    sprintf(diagL, "[done extend D2M, int %d, nam %d, tim %d]\n", ptablecolumn->phint != NULL, ptablecolumn->phnam != NULL, ptablecolumn->phtim != NULL);
+    displayDiagnos();
+
+    if((myxor(ptablecolumn->phint == NULL, info.intNum <= 0) ||
         myxor(ptablecolumn->phnam == NULL, info.namNum <= 0) ||
         myxor(ptablecolumn->phtim == NULL, info.timNum <= 0)))
     {
@@ -331,9 +336,14 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
     indent++;
     if(ptable->lrn <= (ptable->info.rowNum + 1))
     {
+        sprintf(diagL, "[located row not enough, extend]\n");
+        displayDiagnos();
+
+        indent++;
         extendTblclm(ptable->info, &ptable->clm, &ptable->lrn);
-        
-        if(ptable->lrn == 0)
+        indent--;
+
+        if(ptable->lrn <= 0)
         {
             sprintf(diagL, "[add row failed, stire all]\n");
             displayDiagnos();
@@ -348,9 +358,10 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
     }
     else
     {
+        displayInfo(ptable->info);
         for(int i = 0; i < ptable->info.intNum; i++)
         {
-            ptable->clm.phint[i][ptable->info.rowNum + 1] = introw[i];
+            ptable->clm.phint[i][ptable->info.rowNum] = introw[i];
         }
            
         sprintf(diagL, "[add intArray is done]\n");
@@ -358,7 +369,7 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
 
         for(int i = 0; i < ptable->info.namNum; i++)
         {
-            strncpy(ptable->clm.phnam[i][ptable->info.rowNum + 1], namrow[i], STRLENLIMIT);
+            strncpy(ptable->clm.phnam[i][ptable->info.rowNum], namrow[i], STRLENLIMIT);
         }
 
         sprintf(diagL, "[add nameArray is done]\n");
@@ -366,7 +377,7 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
 
         for(int i = 0; i < ptable->info.intNum; i++)
         {
-            ptable->clm.phtim[i][ptable->info.rowNum + 1] = timrow[i];
+            ptable->clm.phtim[i][ptable->info.rowNum] = timrow[i];
         }
 
         sprintf(diagL, "[add timArray is done]\n");
@@ -377,4 +388,33 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
     indent--;
 }
 
+void display_tbl(tbl table)
+{
+    displayInfo(table.info);
+    tblclmh temp = assignTblclmh(table.info);
+    cpyTblclmh(table.info, table.clm, temp);
+
+    for(int i = 0; i < table.info.rowNum; i++)
+    {
+        for (int j = 0; j < table.info.intNum; j++)
+        {
+            display_int(*temp.phint[j]);
+            printf("|");
+            temp.phint[j]++;
+        }
+        for (int j = 0; j < table.info.namNum; j++)
+        { 
+            display_nam(*temp.phnam[j]);
+            printf("|");
+            temp.phnam[j]++;
+        }
+        for (int j = 0; j < table.info.timNum; j++)
+        {
+            display_tim(*temp.phtim[j]);
+            printf("|");
+            temp.phtim[j]++;
+        }
+        printf("\n");    
+    }
+}
 #endif

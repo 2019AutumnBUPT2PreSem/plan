@@ -21,6 +21,7 @@ _db_type*** _constructD3(int l, int m, int n, _db_type init);  //Create a three-
 void _initD3(_db_type ***p,int l, int m, int n, _db_type init);  //Initialize the three-dimensional array.
 void _destroyD3(_db_type ***p,int l, int m);  //Destroy a three-dimensional array.
 _db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type init);  //Expand column.
+_db_type** _transpose(_db_type **p, int m, int n, _db_type init);
 
 //Create a one-dimensional array.
 _db_type* _constructD1(int n, _db_type init)
@@ -94,7 +95,14 @@ _db_type* _extendD1(_db_type *p, int n, int add, _db_type init)
 		}
 		else
 		{
-			q = NULL;
+			if(n == 0)
+			{
+				q = _constructD1(add, init);
+			}
+			else
+			{
+				q = NULL;
+			}
 		}
 		
 	}
@@ -175,7 +183,7 @@ _db_type** _extendD2N(_db_type **p,int m, int n, int add, _db_type init)
 		for(int i=0; i < m; i++)
 		{
 			p[i] = _extendD1(p[i], n, add, init);  //Expand column.
-			if(p[i] == NULL && n > 0 && add > 0)
+			if(p[i] == NULL && n >= 0 && add > 0)
 			{
 				printf("Extend failed.\n");
 				_destroyD2(p, m);  //Free memory.
@@ -193,7 +201,7 @@ _db_type** _extendD2M(_db_type **p,int m, int n, int add, _db_type init)
 {
 	int i = 0;
 	_db_type **q;
-	if(q == NULL && m == 0)
+	if(p == NULL && m == 0)
 	{
 		q = _constructD2(add, n, init);
 	}
@@ -306,6 +314,19 @@ _db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type ini
 	return p;
 }
 
+_db_type** _transpose(_db_type **p, int m, int n, _db_type init)
+{
+	_db_type **q;
+	q = _constructD2(n, m, init);
+	for(int i = 0; i < m; i++)
+	{
+		for(int j = 0; j < n; j++)
+		{
+			q[j][i] = p[i][j];
+		}
+	}
+}
+
 #undef _db_type
 
 #undef _constructD1
@@ -321,4 +342,4 @@ _db_type*** _extendD3M(_db_type ***p, int l, int m, int n, int add, _db_type ini
 #undef _extendD2N
 #undef _extendD2M
 #undef _extendD3M
-
+#undef _transpose

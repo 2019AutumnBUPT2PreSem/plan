@@ -24,6 +24,7 @@
 #define _extendD2N extendD2N_int
 #define _extendD2M extendD2M_int
 #define _extendD3M extendD3M_int
+#define _transpose transpose_int
 
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
@@ -43,6 +44,7 @@
 #define _extendD2N extendD2N_char
 #define _extendD2M extendD2M_char
 #define _extendD3M extendD3M_char
+#define _transpose transpose_char
 
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
@@ -62,6 +64,7 @@
 #define _extendD2N extendD2N_tim
 #define _extendD2M extendD2M_tim
 #define _extendD3M extendD3M_tim
+#define _transpose transpose_tim
 
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
@@ -82,6 +85,7 @@
 #define _extendD2N extendD2N_intp
 #define _extendD2M extendD2M_intp
 #define _extendD3M extendD3M_intp
+#define _transpose transpose_intp
 
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
@@ -102,6 +106,7 @@
 #define _extendD2N extendD2N_charp
 #define _extendD2M extendD2M_charp
 #define _extendD3M extendD3M_charp
+#define _transpose transpose_charp
 
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
@@ -122,6 +127,7 @@
 #define _extendD2N extendD2N_timp
 #define _extendD2M extendD2M_timp
 #define _extendD3M extendD3M_timp
+#define _transpose transpose_timp
 
 #include "multitype.c"
 /*______________________________________________________________________________________________*/
@@ -142,6 +148,7 @@
 #define _extendD2N extendD2N_charpp
 #define _extendD2M extendD2M_charpp
 #define _extendD3M extendD3M_charpp
+#define _transpose transpose_charpp
 
 #include "multitype.c"
 /*_________________________________function list_____________________________________________________________*/

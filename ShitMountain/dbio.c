@@ -234,12 +234,12 @@ void readChart(FILE *pfile, tblinfo info, tblclmh clm) // read the chart from th
         for (int j = 0; j < info.timNum; j++)
         {
             ptime = temp.phtim[j];
-            fread(ptime->yea,sizeof(int), 1, pfile);
-            fread(ptime->mon,sizeof(int), 1, pfile);
-            fread(ptime->day,sizeof(int), 1, pfile);
-            fread(ptime->hou,sizeof(int), 1, pfile);
-            fread(ptime->min,sizeof(int), 1, pfile);
-            fread(ptime->sec,sizeof(int), 1, pfile);
+            fread(&ptime->yea,sizeof(int), 1, pfile);
+            fread(&ptime->mon,sizeof(int), 1, pfile);
+            fread(&ptime->day,sizeof(int), 1, pfile);
+            fread(&ptime->hou,sizeof(int), 1, pfile);
+            fread(&ptime->min,sizeof(int), 1, pfile);
+            fread(&ptime->sec,sizeof(int), 1, pfile);
             temp.phtim[j]++;
         }
     }
@@ -263,15 +263,17 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
     cpyTblclmh(info, clm, temp);
     indent--;
 
-    sprintf(diagL, "[assign and copy row pointer done, write %d row]\n", info.rowNum);
+    sprintf(diagL, "[assign and copy row pointer done, will write %d row]\n", info.rowNum);
     displayDiagnos();
 
+    indent++;
     for(int i = 0; i < info.rowNum; i++)
     {
         for (int j = 0; j < info.intNum; j++)
         {
             fwrite(temp.phint[j],sizeof(int), 1, pfile);
             temp.phint[j]++;
+            
         }
         for (int j = 0; j < info.namNum; j++)
         { 
@@ -281,14 +283,17 @@ void writeChart(FILE *pfile, tblinfo info, tblclmh clm) // write the chart into 
         for (int j = 0; j < info.timNum; j++)
         {
             ptime = temp.phtim[j];
-            fwrite(ptime->yea,sizeof(int), 1, pfile);
-            fwrite(ptime->mon,sizeof(int), 1, pfile);
-            fwrite(ptime->day,sizeof(int), 1, pfile);
-            fwrite(ptime->hou,sizeof(int), 1, pfile);
-            fwrite(ptime->min,sizeof(int), 1, pfile);
-            fwrite(ptime->sec,sizeof(int), 1, pfile);
-        }
+            fwrite(&ptime->yea,sizeof(int), 1, pfile);
+            fwrite(&ptime->mon,sizeof(int), 1, pfile);
+            fwrite(&ptime->day,sizeof(int), 1, pfile);
+            fwrite(&ptime->hou,sizeof(int), 1, pfile);
+            fwrite(&ptime->min,sizeof(int), 1, pfile);
+            fwrite(&ptime->sec,sizeof(int), 1, pfile);
+            temp.phtim[j]++;
+        }    
     }
+    indent--;
+    
     resignTblclmh(temp); //need to be done
 }
 
@@ -334,9 +339,9 @@ void revtrsChart(FILE *pfile, tbl *ptable) // reverse transcription
     displayDiagnos();
 
     indent++;
-    if((myxor(ptable->clm.phint == NULL, ptable->info.intNum == 0) || 
-        myxor(ptable->clm.phnam == NULL, ptable->info.namNum == 0) || 
-        myxor(ptable->clm.phtim == NULL, ptable->info.timNum == 0)) && ptable->info.rowNum != 0)
+    if((myxor(ptable->clm.phint == NULL, ptable->info.intNum <= 0) || 
+        myxor(ptable->clm.phnam == NULL, ptable->info.namNum <= 0) || 
+        myxor(ptable->clm.phtim == NULL, ptable->info.timNum <= 0)) && ptable->info.rowNum != 0)
     {
         sprintf(diagL, "[the chart has lost blocks, write denied, stire all]\n");
         displayDiagnos();
