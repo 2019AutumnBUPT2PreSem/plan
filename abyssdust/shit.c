@@ -198,36 +198,40 @@ void changePersonInfo(tbl* User,int IDu)
 	printf("Which one do you want to change: 1.Telephone Number    2.User Password    3.User Email    4.Quit");
 	int type;
 	scanf("%d",&type);
-	if(type==1)
+	switch(type)
+	{
+			case 1:
 	{
 		printf("Enter your new number:");
 		scanf("%d",&User->clm.phnam[IDu][2]);
 		printf("Your telephone number is setted.");
 		break;
 	}
-	if(type==2)
+	case 2:
 	{
 		printf("Enter your new password:");
 		scanf("%d",&User->clm.phnam[IDu][3]);
 		printf("Your password is setted.");
 		break;
 	}
-	if(type==3)
+	case 3:
 	{
 		printf("Enter your new email:");
-		scanf("%d",&User->clm.phnam[IDu][4]);
+		enterEmail();
 		printf("Your email is setted.");
 		break;
 	}
-	if(type==4)
+	case 4:
 	{
 		break;
 	}
-	else
+	default:
 	{
 		printf("Error!");
 		changePersonInfo(User, IDu);
 	}
+	}
+	
 
 }
 
@@ -430,30 +434,33 @@ void addNewSet(tbl* set,int prov)
  	printf("Which one do you want to change: 1.User Password    2.User Email    3.Quit");
 	int type;
 	scanf("%d",&type);
-
-	if(type==1)
+	switch(type)
+	{
+		case 1:
 	{
 		printf("Enter new password:");
 		scanf("%d",&User->clm.phnam[IDp][3]);
 		printf("Password is setted.");
 		break;
 	}
-	if(type==2)
+	case 2:
 	{
 		printf("Enter new email:");
-		scanf("%d",&User->clm.phnam[IDp][4]);
+		enterEmail();
 		printf("Email is setted.");
 		break;
 	}
-	if(type==3)
+	case 3:
 	{
 		break;
 	}
-	else
+	default:
 	{
 		printf("Error!");
 		changeUserInfo(User,IDp,IDu);
 	}
+	}
+	
  }
 
 void stattele(tbl teleRecord, int IDp)
@@ -702,3 +709,13 @@ void sortFee(tbl User, tbl teleRecord, tbl netRecord, int IDp)
     }
 }
 
+void enterEmail()
+{
+    char mailName[MAXLENGTH];
+    printf("Please enter your mailname XXX@XXX.com:\n");
+    printf("for example ILOVEBUPT@bupt.com (mail name must less than 15)\n");
+    while(scanf ("%s",&mailName)!= EOF)
+    {
+        user.clm.phnam[4] = mailName;
+    }
+}
