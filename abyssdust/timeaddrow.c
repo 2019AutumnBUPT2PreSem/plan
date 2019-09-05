@@ -7,7 +7,7 @@
 
 void dial_user(tbl* teleRecord, tbl* billInfo,  int IDu)
 {
-	if(billInfo.clm[IDu]phint[9] > 0)
+	if(billInfo.clmphint[IDu][9] > 0)
 	{
 		addrow(tbl *table, int *introw, nam *namrow, tim *timrow)
 		
@@ -66,7 +66,7 @@ void changePersonInfo(tbl* User,int IDu)
 	}
 	if(type==3)
 	{
-		printf("Enter your new email:");
+		printf("Enter your new email:"); 
 		scanf(pfile,"%d",&User.clm.phnam[IDu][4]);
 		printf("Your email is setted.");
 		break;
