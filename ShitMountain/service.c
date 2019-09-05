@@ -3,7 +3,8 @@
 #include"dbstruct.h"
 #include"dbio.c"
 #include"utilsupport.c"
-
+#define STRLENLIMIT 16
+void enterEmail(tbl* user,int IDu);
  /*________________________user check&buy____________________________________________________*/
 void IDp2Provider(int IDp,char* providerNam,tbl provider);
 //From IDp(int) to provider_name ;
@@ -28,13 +29,14 @@ void BuySet(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,int IDu);
 void CheckAndBuy(tbl setTbl,tbl* user,tbl* moneyRecord,tbl* billinfo,tbl provider,int IDu);
 //the main stucture of this programme
  /*________________________user check&buy____________________________________________________*/
+ 
 void ChargeFun(tbl* billInfo,int IDu)
 {
 	int charge_cnt=0;
 	int over=0;
 	printf("If you want to charge, please enter 1\n");
 	scanf("%d",&charge_cnt);
-	gets();
+	getchar();
 	if(charge_cnt==1)
 	{
 		printf("How much would you like to charge?(integer only)\n");
@@ -43,7 +45,7 @@ void ChargeFun(tbl* billInfo,int IDu)
 		printf("3. 100 yuan\n");
 		int charge_num=0;
 		scanf("%d",charge_num);
-		gets();
+		getchar();
 		if(charge_num==1)
 		{
 			billInfo->clm.phint[IDu][9]= billInfo->clm.phint[IDu][9]+100;
@@ -86,12 +88,12 @@ void dial_user(tbl* teleRecord, tbl* billInfo,  int IDu)
 		scanf("%d",&startTime.hou);
 		scanf("%d",&startTime.min);
 		scanf("%d",&startTime.sec);
-		gets();
+		getchar();
 		while(counter_pass==0)
 		{
 			printf("Enter your teletype: 1.Board    2.Foreign");
 			scanf("%d",&teletype);
-			gets();
+			getchar();
 			if(counter_pass==1||counter_pass==2)
 			{
 				counter_pass++;
@@ -105,7 +107,7 @@ void dial_user(tbl* teleRecord, tbl* billInfo,  int IDu)
 		
 		printf("The number you dial:");
 		scanf("%s",telenum);
-		gets();
+		getchar();
 
 		printf("Please enter your endTime:");
 		printf("Example:19/09/01 23:50:30");
@@ -115,7 +117,7 @@ void dial_user(tbl* teleRecord, tbl* billInfo,  int IDu)
 		scanf("%d",&endTime.hou);
 		scanf("%d",&endTime.min);
 		scanf("%d",&endTime.sec);
-		gets();
+		getchar();
 		
 		if(cmp_tim(startTime,endTime)==1||cmp_tim(startTime,endTime)==0)
 		{
@@ -160,7 +162,9 @@ void dial_user(tbl* teleRecord, tbl* billInfo,  int IDu)
 			}
 			billInfo->clm.phint[IDu][9] = billInfo->clm.phint[IDu][9] - telefee;
 			int inte[5]={teleRecord->info.rowNum,1,teletype,telefee,IDu};
-			char *nam[STRLENLIMIT]=telenum;
+			char **nam;
+			nam=constructD2_char(1,STRLENLIMIT,'\0');
+			strcpy(nam[0],telenum);
 			tim time[2];
 			time[0]=startTime;
 			time[1]=endTime;
@@ -188,11 +192,11 @@ void net_user(tbl* netRecord, tbl* billInfo, int IDu)
 		scanf("%d",&Time.yea);
 		scanf("%d",&Time.mon);
 		scanf("%d",&Time.day);
-		gets();
+		getchar();
 	
 		printf("The data use:");
 		scanf("%d",&comAmount);
-		gets();
+		getchar();
 
 			if(billInfo->clm.phint[IDu][8] >= comAmount)
 				{
@@ -204,7 +208,7 @@ void net_user(tbl* netRecord, tbl* billInfo, int IDu)
 					billInfo->clm.phint[IDu][8] = 0;
 				}
 			int inte[4]={netRecord->info.rowNum,1,netfee,IDu};
-			char *nam[STRLENLIMIT]=NULL;
+			char **nam=NULL;
 			tim time[1];
 			time[0]=Time;
 			addrow(netRecord,inte,nam,time);
@@ -242,7 +246,7 @@ void changePersonInfo(tbl* User,int IDu)
 	case 3:
 	{
 		printf("Enter your new email:");
-		enterEmail();
+		enterEmail(User,IDu);
 		printf("Your email is setted.");
 		break;
 	}
@@ -444,11 +448,13 @@ void checkSet(tbl set,int prov)
 void addNewSet(tbl* set,int prov)
 {
 	int bortime, fortime, data, price;
-	char name;
+	char name[STRLENLIMIT];
 	printf("Price  Bortime  Fortime  Date  Name");
 	scanf("%d%d%d%d%s",&price,&bortime,&fortime,&data,name);
-	int inte[8]={set->info.rowNum,1,prov,price,bortime,fortime,data,name};
-	char *nam[STRLENLIMIT]=name;
+	int inte[7]={set->info.rowNum,1,prov,price,bortime,fortime,data};
+	//char nam[STRLENLIMIT]=name;
+	char **nam=constructD2_char(1,STRLENLIMIT,'\0');
+	strcpy(nam[0],name);
 	tim *time=NULL;
 	addrow(set,inte,nam,time);
 }
@@ -471,7 +477,7 @@ void addNewSet(tbl* set,int prov)
 	case 2:
 	{
 		printf("Enter new email:");
-		enterEmail();
+		enterEmail(User,IDu);
 		printf("Email is setted.");
 		break;
 	}
@@ -690,7 +696,7 @@ void sortFee(tbl User, tbl teleRecord, tbl netRecord, int IDp)
 		 }
 	}
 
-	printf("Sorted telephone charges：");
+	printf("Sorted telephone charges锛?);
     for(int i=0; i<telenumber; i++)
     {
         printf("%d\n",IDtele[i]);
@@ -707,9 +713,9 @@ void sortFee(tbl User, tbl teleRecord, tbl netRecord, int IDp)
 		rowtele_locater++;
 	}
 
-	int i=0;
-	int j=0;
-	int temp1=temp=0;
+	i=0;
+	j=0;
+	temp1=temp=0;
 	 for(j=0; j<netnumber; j++)
 	{
 		 for(i=0; i<netnumber-1-j; i++)
@@ -727,21 +733,21 @@ void sortFee(tbl User, tbl teleRecord, tbl netRecord, int IDp)
 		 }
 	}
 
-	printf("Sorted telephone charges：");
+	printf("Sorted telephone charges锛?);
     for(int i=0; i<netnumber; i++)
     {
         printf("%d\n",IDnet[i]);
     }
 }
 
-void enterEmail()
+void enterEmail(tbl* user,int IDu)
 {
-    char mailName[MAXLENGTH];
+    char mailName[STRLENLIMIT];
     printf("Please enter your mailname XXX@XXX.com:\n");
     printf("for example ILOVEBUPT@bupt.com (mail name must less than 15)\n");
-    while(scanf ("%s",&mailName)!= EOF)
+    while(scanf ("%s",mailName)!= EOF)
     {
-        user.clm.phnam[4] = mailName;
+        strcpy(user->clm.phnam[IDu][4],mailName);
     }
 }
 
