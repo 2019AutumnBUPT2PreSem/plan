@@ -11,8 +11,8 @@
 
 
 int loginType();//liuge
-void InputIDPW(char **ID,char **PW,int type);//shubin
-int InputIDPW_iter(char **ID, char **PW, int type);
+void InputIDPW(char *ID,char *PW,int type);//shubing
+int InputIDPW_iter(char *ID, char *PW, int type);
 int Check4User(tbl user,char* ID,char* PW);
 int Check4Admin(tbl admin,char* ID,char* PW);
 int userMainBody(tbl provider,tbl user,tbl billinfo,tbl telerecord,tbl netrecord,tbl admin,tbl set,tbl moneyrecord);
@@ -29,39 +29,39 @@ int loginType()
     return type;
 }
 
-void InputIDPW(char **ID, char **PW, int type)
+void InputIDPW(char *pID, char *pPW, int type)
 {
-	while(InputIDPW_iter(ID, PW, type));
+	while(InputIDPW_iter(pID, pPW, type));
 }
 
-int InputIDPW_iter(char **ID, char **PW, int type)
+int InputIDPW_iter(char *ID, char *PW, int type)
 {
-	 printf("\nPlease input your ID: ");
-	 int count1=0;
-	 int count2=0;
-	 int i=0;
-	 char id[10];
-	 gets(id);
+	printf("\nPlease input your ID: ");
+	int count1=0;
+	int count2=0;
+	int i=0;
 	
-	 for(i=0;i<strlen(id);i++)
-	 {
+	char id[10]={"\0"};
+	gets(id);
+	
+	for(i=0;i<strlen(id);i++)
+	{
 		  if(id[i]>='0'&&id[i]<='9')
 		   count1++;
 		  if(id[i]>='a'&&id[i]<='z')
 		   count2++;
-	 }
+	}
 	 if(count1==0||count2==0||count1+count2<6||count1+count2>10)
-	 {
+	{
 		  printf("Error.");
 		  return 1;
-	 }
+	}
  
 	 printf("\nPlease input your password: ");
-	 char password[16];
+	 char password[16]={"\0"};
 	 gets(password);
-	
-	 *ID=id;
-	 *PW=password;
+	 strcpy(ID,id);
+	 strcpy(PW,password);
 	 return 0;
 }
 
@@ -153,8 +153,6 @@ int userMainBody(tbl provider,tbl user,tbl billinfo,tbl telerecord,tbl netrecord
 int adminMainBody(tbl provider,tbl user,tbl billinfo,tbl telerecord,tbl netrecord,tbl admin,tbl set,tbl moneyrecord)
 {
 	int i,option,mid=37,smid=34,max=99,login=0;
-	while(option!=4)
-	{
 	    strailine(mid);
         printf("What do you want to do?");
         for(i=0;i<=37;i++)
@@ -191,7 +189,6 @@ int adminMainBody(tbl provider,tbl user,tbl billinfo,tbl telerecord,tbl netrecor
 	    	
 	    } 
 	    system("cls");
-	}
 }
 
 
@@ -199,9 +196,12 @@ int main()
 {
 	/*get all table*/
 	tbl provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord;
-	
-	
-	
+	setAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
+	if(existFirstTime(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord))
+	{
+		initAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
+	}
+	readAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
 	
 	/*we gonna read all table there*/
 	int quit_prog=0;
@@ -209,59 +209,60 @@ int main()
 	int IDu=-1;
 	int IDa=-1;
 	int type=0;
-	char IDarray[STRLENLIMIT]={"\0"};
-	char PWarray[STRLENLIMIT]={"\0"};
-	char *ID = IDarray;
-	char *PW = PWarray;
+	char ID[STRLENLIMIT]={"\0"};
+	char PW[STRLENLIMIT]={"\0"};
+//	char *ID = IDarray;
+//	char *PW = PWarray;
+	
+//	char **idpw = constructD2_char(2, STRLENLIMIT, '\0');
+//	idpw[1]={}
+	
 	while(quit_prog==0)
 	{
 		quit_menu=0;
 		IDu=-1;
 		IDa=-1;
 		type=loginType();
-		if(type!=0)
+		if(type==1||type==2)
 		{
-			InputIDPW(&ID,&PW,type);//check whether the ID and PW is legal
+			InputIDPW(ID,PW,type);//check whether the ID and PW is legal
+		}
+		if(type==1)
+		{
+			IDu=Check4User(user,ID,PW);
+			if(IDu!=-1)
+			{
+				while(quit_menu==0)
+				{
+					quit_menu=userMainBody(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord);
+				}
+			}
+				
+		}
+		else if(type==2)
+		{
+			IDa=Check4Admin(admin,ID,PW);
+			if(IDa!=-1)
+			{
+				while(quit_menu==0)
+				{
+					quit_menu=userMainBody(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord);
+				}
+			}
+		}
+		else if(type==0)
+		{
+			quit_prog=1;//quit the program
 		}
 		else
-		{
-			if(type==1)
-			{
-				IDu=Check4User(user,IDarray,PWarray);
-				if(IDu!=-1)
-				{
-					while(quit_menu==0)
-					{
-						quit_menu=userMainBody(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord);
-					}
-				}
-				
-			}
-			else if(type==2)
-			{
-				IDa=Check4Admin(admin,ID,PW);
-				if(IDa!=-1)
-				{
-					while(quit_menu==0)
-					{
-						quit_menu=userMainBody(provider,user,billinfo,telerecord,netrecord,admin,set,moneyrecord);
-					}
-				}
-			}
-			else if(type==0)
-			{
-				quit_prog=1;//quit the program
-			}
-			else
-			{
-				printf("You have input a wrong num,please retry!\n");
-				
-			}
+		{	
+			system("cls");
+			printf("You have input a wrong num,please retry!\n\n");
 		}
-		
-	
 	}
 	/*write table*/
+	writeAllTable(&provider, &user, &billinfo, &telerecord, &netrecord, &admin, &set, &moneyrecord);
 	printf("Thank you for using!\n");
+	
 	return 0;
 }
