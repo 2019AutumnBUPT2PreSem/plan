@@ -217,6 +217,7 @@ tblclmh assignTblChart(tblinfo info) //create space for chart
     displayDiagnos();
 
     tblclmh newclmh = giveBlankClmh();
+    
     newclmh.phint = constructD2_int(info.intNum, info.rowNum, 0);
     if(myxor(newclmh.phint == NULL, info.intNum > 0))
     {
