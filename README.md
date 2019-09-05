@@ -6,7 +6,7 @@ data in storage:
 
 (tblList[2])billInfo(*<u>user(IDu)(phint[0])</u>*, *set(IDs)*(phint[1]), validb(phint[2]), borUse(phint[3])//国内月的时长, forUse(phint[4])//国外月时长, netUse(phint[5])//网费月流量, borRem(phint[6)//国内剩余时长, forRem(phint[7])//国外剩余时长, netRem(phint[8])//网费剩余时长, sumFee(phint[9])//本月全部支出, moneyRem(phint[10])//剩余钱) [11 int]
 
-(tblList[3])teleRecord(<u>IDt(phint[0])</u>, validt(phint[1]), type(phint[2]), teleFee(phint[3]), *user(IDu)*(phint[4]), to(phnam[0]), startTime(phtim[0]), endTime(phtim[1])) borTotalTime(phtim[3]) ,forTotalTime(phtim[3])[5int, 1char*, 4 time]
+(tblList[3])teleRecord(<u>IDt(phint[0])</u>, validt(phint[1]), type(phint[2]), teleFee(phint[3]), *user(IDu)*(phint[4]), to(phnam[0]), startTime(phtim[0]), endTime(phtim[1])) borTotalTime(phtim[5]) ,forTotalTime(phtim[6])[5int, 1char*, 4 time]
 //type : 1, in board; 2, foreign.
 
 (tblList[4])netRecord(<u>IDn(phint[0])</u>, validn(phint[1]), comAmount(phint[2]), netFee(phint[3]), *user(IDU)*(phint[4]), time(phtim[0])) [5int, 0char*, 1 time]
