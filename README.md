@@ -13,7 +13,7 @@ data in storage:
 
 (tblList[5])admin(<u>IDa(phint[0])</u>, valida(phint[1]), *provider(IDp)*(phint[2]), adminID(phint[3]), adminName(phnam[0]), adminPW(phnam[1]), adminEmail(phnam[2])) [3 int, 4 char*]
 
-(tblList[6])set(<u>IDs(phint[0])</u>, valids(phint[1]), *provider(IDp)*(phint[2]), price(phint[3]), netAmount(phint[4]) ,borTime(phtim[0]), forTime(phtim[1]), setname(phnam[0]), description(phnam[1])) [6 int, 2 char*]
+(tblList[6])set(<u>IDs(phint[0])</u>, valids(phint[1]), *provider(IDp)*(phint[2]), price(phint[3]), netAmount(phint[4]) ,borTime(phint[5]), forTime(phint[6]), setname(phnam[0]), description(phnam[1])) [6 int, 2 char*]
 
 (tblList[7])moneyrecord(<u>IDd(phint[0])</u>, validd(phint[1]), *user(IDu)*(phint[2]), *set(IDs)*(phint[3]), fee(phint[4]), dealTime(phtim[0])) [5 int, 1 time]
 
