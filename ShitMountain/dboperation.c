@@ -288,19 +288,25 @@ void extendTblclm(tblinfo info, tblclmh *ptablecolumn, int *plocRowNum) // this 
         destroyD2_tim(ptablecolumn->phtim, info.timNum);
         *ptablecolumn = giveBlankClmh();
         *plocRowNum = 0;
+        sprintf(diagL, "[fail to extendTblclm ]\n");
+        displayDiagnos();
     }
     else
 	{
 		*plocRowNum += EXPPT;
+        sprintf(diagL, "[extendTblclm is done]\n");
+        displayDiagnos();
 	}
 }
 
 void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new blank row to chart
 {
     printf("[trying to add row to table %s]\n", ptable->info.name);
+    indent++;
     if(ptable->lrn <= ptable->info.rowNum + 1)
     {
         extendTblclm(ptable->info, &ptable->clm, &ptable->lrn);
+        
         if(ptable->lrn == 0)
         {
             printf("add row failed, stire all.\n");
@@ -308,6 +314,9 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
         else
         {
             addrow(ptable, introw, namrow, timrow);
+            sprintf(diagL, "[addrow is done]\n");
+            displayDiagnos();
+            
         }
     }
     else
@@ -316,16 +325,23 @@ void addrow(tbl *ptable, int *introw, char **namrow, tim *timrow) // add a new b
         {
             ptable->clm.phint[i][ptable->info.rowNum + 1] = introw[i];
         }
+        sprintf(diagL, "[add intArray is done]\n");
+        displayDiagnos();
         for(int i = 0; i < ptable->info.namNum; i++)
         {
             strncpy(ptable->clm.phnam[i][ptable->info.rowNum + 1], namrow[i], STRLENLIMIT);
         }
+        sprintf(diagL, "[add nameArray is done]\n");
+        displayDiagnos();
         for(int i = 0; i < ptable->info.intNum; i++)
         {
             ptable->clm.phtim[i][ptable->info.rowNum + 1] = timrow[i];
         }
+        sprintf(diagL, "[add timArray is done]\n");
+        displayDiagnos();
         ptable->info.rowNum = ptable->info.rowNum + 1;
     }
+    indent--;
 }
 
 #endif
